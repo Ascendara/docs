@@ -4,10 +4,7 @@
 Ascendara Xtra is a feature that enhances your game browsing experience by connecting to external game information providers. It allows you to access rich metadata for your games, including cover art, descriptions, release dates, developer information all when you scroll down to the new card in the games download page or new play-game page.
 
 ## Game Information Providers
-Ascendara Xtra supports multiple game information providers that you can configure in the preferences. Each provider offers different types of metadata and coverage for various games. By setting up one or more providers, you can significantly enhance the information available for your games.
-
-## Setting up Game Information Providers
-To get the most out of Ascendara Xtra, you'll need to set up at least one game information provider. Currently, the following providers are supported:
+Xtra supports multiple game information providers that you can configure in the preferences. Each provider offers different types of metadata and coverage for various games. You can only set up one provider to use for game information.
 
 ### Available Providers
 
