@@ -2,7 +2,7 @@
 
 Contributing to Ascendara is the best way to get your desired features, bug fixes, or improvements into the official build! When your contribution is accepted, your changes will be credited with your GitHub username in the [Ascendara changelogs](https://ascendara.app/changelog), recognizing your valuable input to the project.
 
-Check out all the amazing people who have already contributed to Ascendara on the Github [contributors page](https://github.com/Ascendara/ascendara/graphs/contributors)
+Check out all the amazing people who have already contributed to Ascendara in any way on the [contributors page!](https://ascendara.app/contributors)
 
 ## Getting Started
 
