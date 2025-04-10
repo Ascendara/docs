@@ -31,7 +31,7 @@ while in Development Mode, or while using a public build:
 These limitations exist to protect Ascendara's infrastructure from potential abuse. The reporting and analytics services are essential for monitoring health, detecting issues, and ensuring Ascendara stays secure. For these reasons, these features are restricted to official builds only. You can still run games off the public version of Ascendara you just have to be running the built version. Thank you for your understanding.
 
 ## Getting the Source Code
-   > **Note:** You may use any compatible package manager such as `npm`, `pnpm`, `deno`, or `bun`.
+   > **Note:** You may use any compatible package manager such as `npm`, `yarn`, `deno`, etc.
 
 1. Clone the repository:
 
@@ -82,7 +82,6 @@ To preview the application in development mode:
 1. Open the project directory in Visual Studio Code or a terminal.
 2. In `electron/app.js`, ensure the `isDev` variable is set to `true`.
 3. Start the development server:
-   > **Note:** You may use any package manager of your choice, not just `yarn`.
 
 ```bash
 npm run start
