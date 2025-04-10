@@ -6,7 +6,7 @@ Before building Ascendara, ensure you have the following installed:
 
 - **Node.js**
   - Version 18 or higher recommended
-  - Required for yarn and JavaScript runtime
+  - Required for JavaScript runtime
 - **Windows Build Tools**
   - Visual Studio Build Tools with Windows SDK
   - Required for native dependencies (diskusage and electron-related builds)
@@ -31,6 +31,7 @@ while in Development Mode, or while using a public build:
 These limitations exist to protect Ascendara's infrastructure from potential abuse. The reporting and analytics services are essential for monitoring health, detecting issues, and ensuring Ascendara stays secure. For these reasons, these features are restricted to official builds only. You can still run games off the public version of Ascendara you just have to be running the built version. Thank you for your understanding.
 
 ## Getting the Source Code
+   > **Note:** You may use any compatible package manager such as `npm`, `pnpm`, `deno`, or `bun`.
 
 1. Clone the repository:
 
@@ -39,15 +40,16 @@ git clone https://github.com/ascendara/Ascendara.git
 ```
 
 2. Install dependencies:
-   > **Note:** You are not restricted to using `yarn` as the package manager. You may use any compatible package manager such as `npm`, `pnpm`, `deno`, or `bun`.
 
 ```bash
+npm install
+# or
 yarn
 ```
 
 3. Set up Python environment and install dependencies:
 
-> **Important:** It is recommended to use Python's `venv` feature to isolate your development environment from the base Python installation. Ensure you have Python version 3.5 or higher installed.
+> **Note:** It is recommended to use Python's `venv` feature to isolate your development environment from the base Python installation. Ensure you have Python version 3.5 or higher installed.
 
 To create a virtual environment, run:
 
@@ -83,6 +85,8 @@ To preview the application in development mode:
    > **Note:** You may use any package manager of your choice, not just `yarn`.
 
 ```bash
+npm run start
+# or
 yarn start
 ```
 
@@ -96,6 +100,8 @@ The easiest way to build Ascendara into an executable is by using the distributi
 
 ```bash
 yarn dist
+# or
+npm run dist
 ```
 
 This process will package the application and generate the executable files.
@@ -115,6 +121,8 @@ If you need more control, you can build manually:
 
 ```bash
 yarn build
+# or
+npm run build
 ```
 
 2. After building, the React app will be in the "build" directory:
@@ -134,6 +142,8 @@ yarn build
 
 ```bash
 yarn buildwithelectron
+# or
+npm run buildwithelectron
 ```
 
 5. Clean up temporary files:
