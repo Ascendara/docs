@@ -16,13 +16,12 @@ While not required, the following tools can make the development experience easi
 - **Git**: Optional - You can either clone the repository or simply download the files directly from GitHub
 - **Python 3.x**: Optional - Provides automated build scripts to simplify the development process, but all steps can be performed manually
 
-
 ## Important Limitations
 
-When running from source, Ascendara will run in Development Mode. Please be aware of the following limitations 
+When running from source, Ascendara will run in Development Mode. Please be aware of the following limitations
 while in Development Mode, or while using a public build:
 
-- **API Features**: 
+- **API Features**:
   - Feature reporting
   - Game reporting
   - Download reporting
@@ -34,43 +33,75 @@ These limitations exist to protect Ascendara's infrastructure from potential abu
 ## Getting the Source Code
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/ascendara/Ascendara.git
 ```
 
 2. Install dependencies:
+   > **Note:** You are not restricted to using `yarn` as the package manager. You may use any compatible package manager such as `npm`, `pnpm`, `deno`, or `bun`.
+
 ```bash
 yarn
 ```
 
-3. Install Python requirements:
+3. Set up Python environment and install dependencies:
+
+> **Important:** It is recommended to use Python's `venv` feature to isolate your development environment from the base Python installation. Ensure you have Python version 3.5 or higher installed.
+
+To create a virtual environment, run:
+
+```bash
+python -m venv .venv
+```
+
+If you are using PowerShell, you may need to set the execution policy for the current user before activating the virtual environment. Use the following command:
+
+```ps1
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+Activate the virtual environment:
+
+```cmd
+.venv\Scripts\activate
+```
+
+Once activated, install the required Python dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ## Development Preview
 
-To run a live developer preview:
+To preview the application in development mode:
 
-1. Open the directory in VSCode or command prompt
-2. In "electron/app.js", set `isDev = true`
-3. Run the start script:
+1. Open the project directory in Visual Studio Code or a terminal.
+2. In `electron/app.js`, ensure the `isDev` variable is set to `true`.
+3. Start the development server:
+   > **Note:** You may use any package manager of your choice, not just `yarn`.
+
 ```bash
 yarn start
 ```
-This will concurrently run electron and Vite.
 
-## Building to EXE
+This command will concurrently run both Electron and Vite, providing a live development environment.
+
+## Building the Application
 
 ### Automatic Build (Recommended)
 
-The simplest way to build Ascendara is using the distribution command:
+The easiest way to build Ascendara into an executable is by using the distribution command:
 
 ```bash
 yarn dist
 ```
 
+This process will package the application and generate the executable files.
+
 This will:
+
 1. Execute the build process via execute.py
 2. Build the React app
 3. Build the Electron app
@@ -81,22 +112,26 @@ This will:
 If you need more control, you can build manually:
 
 1. Build the React app:
+
 ```bash
 yarn build
 ```
 
 2. After building, the React app will be in the "build" directory:
+
    - Modify "index.html" to use relative paths by replacing "/assets/" with "assets/"
    - Copy "index.html" to the "electron" directory
    - Copy the "assets" directory to the "electron" directory
    - Copy any other required assets (guide directory, icon.png, etc.) to the "electron" directory
 
 3. Modify "electron/app.js" to:
+
    - Make sure isDev = false at the top of the file
    - Ensure it's configured to load the index.html from the correct location:
-   `mainWindow.loadURL('file://' + path.join(__dirname, 'index.html'))`
+     `mainWindow.loadURL('file://' + path.join(__dirname, 'index.html'))`
 
 4. Build the Electron app:
+
 ```bash
 yarn buildwithelectron
 ```
