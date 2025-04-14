@@ -95,7 +95,14 @@ This command will concurrently run both Electron and Vite, providing a live deve
 
 ### Automatic Build (Recommended)
 
-The easiest way to build Ascendara into an executable is by using the distribution command:
+The automatic build script provided in the repository supports the following package managers:
+
+- npm
+- yarn
+- pnpm
+- bun
+
+If you are using a different package manager, you can use the [manual build process](#manual-build-process) below.
 
 ```bash
 yarn dist
@@ -103,14 +110,7 @@ yarn dist
 npm run dist
 ```
 
-This process will package the application and generate the executable files.
-
-This will:
-
-1. Execute the build process via execute.py
-2. Build the React app
-3. Build the Electron app
-4. Output files to the `dist/` directory
+This script will automatically build the react app, then electron app and then move all contents to the `dist/` directory before deleting the `build/` directory and other temporary files.
 
 ### Manual Build Process
 
