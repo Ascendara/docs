@@ -18,7 +18,7 @@ pyinstaller --noconsole --add-binary=.\src\UnRAR.dll:. --onefile --icon=.\src\as
 
 ### Downloader
 ```bash
-pyinstaller --noconsole --add-binary=.\src\UnRAR.dll:. --onefile --icon=.\src\ascendara.ico --hidden-import unrar .\src\AscendaraDownloader.py
+pyinstaller --noconsole --onefile --icon=.\src\ascendara.ico --hidden-import rarfile --hidden-import aiohttp --hidden-import aiofiles --add-data "src/UnRAR.dll;." .\src\AscendaraDownloader.py
 ```
 
 ### Game Handler
