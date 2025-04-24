@@ -1,116 +1,191 @@
 # Ascendara GoFile Helper
 
 ## Overview
-The GoFile Helper is a specialized tool for handling downloads from GoFile.io. It supports multi-threaded downloads, password-protected files, folder structures, and integrates with Ascendara's notification and crash reporting systems.
+The GoFile Helper is a specialized tool for handling downloads from GoFile.io. It provides robust download management with advanced features like speed limiting, smart retry mechanisms, and comprehensive logging. The tool seamlessly integrates with Ascendara's notification and crash reporting systems.
 
 ## Features
-- Multi-threaded downloads with progress tracking
-- Password-protected file support
-- Recursive folder downloading
-- Detailed progress tracking with speed and ETA
-- Resume capability for interrupted downloads
-- Automatic error handling with crash reporter integration
-- Desktop notifications with theme support
-- Detailed logging for troubleshooting
+- Smart download management with configurable speed limits
+- Adaptive multi-threaded downloads with progress tracking
+- Recursive folder structure handling
+- Real-time progress tracking with smooth speed calculations and ETA
+- Smart resume capability with exponential backoff retries
+- Cross-platform archive extraction with automatic tool management
+- Automatic CommonRedist cleanup
+- Enhanced error handling with detailed logging
+- Themed desktop notifications with error reporting
+- Memory-efficient file operations with batched verification
 
 ## Usage
 
 ### Command Line Arguments
 ```bash
-AscendaraGofileHelper.exe [url] [game] [online] [dlc] [isVr] [version] [size] [download_dir] [--password PASSWORD] [--withNotification THEME]
+AscendaraGofileHelper.exe [url] [game] [online] [dlc] [isVr] [updateFlow] [version] [size] [download_dir] [--password PASSWORD] [--withNotification THEME]
 ```
 
 ### Parameters
 - `url`
- GoFile.io URL
+ GoFile.io URL (supports both http and https)
 - `game`
- Game identifier
+ Game identifier/name
 - `online`
  Online-only flag (true/false)
 - `dlc`
  DLC identifier (true/false)
 - `isVr`
  VR game flag (true/false)
+- `updateFlow`
+ Update mode flag (true/false)
 - `version`
- Game version
+ Game version string
 - `size`
  Expected file size
 - `download_dir`
- Target directory
+ Target directory for downloads
 - `--password`
- Optional password for protected files
+ Optional password for protected files (will be hashed with SHA256)
 - `--withNotification`
  Optional theme for notifications (light, dark, blue)
 
 ### Example
 ```bash
-AscendaraGofileHelper.exe "https://gofile.io/d/abc123" "MyGame" false false false "1.0" "1000000" "C:/Games" --password "mypass" --withNotification dark
+AscendaraGofileHelper.exe "https://gofile.io/d/abc123" "MyGame" false false false false "1.0" "1000000" "C:/Games" --password "mypass" --withNotification dark
 ```
 
 ## Development
 
 ### GofileDownloader Class
-Main class for handling GoFile downloads:
+Main class for handling GoFile downloads with smart settings and progress tracking:
 ```python
 class GofileDownloader:
-    def __init__(self):
-        self.qbt_client = None
-        self.connect_thread = None
-        self.current_torrent_hash = None
+    def __init__(self, game, online, dlc, isVr, updateFlow, version, size, download_dir, max_workers=5):
+        self._max_retries = 3
+        self._download_timeout = 30
+        self._token = self._getToken()
+        self._lock = Lock()
+        self._rate_window = []  # For smooth speed calculations
+        self._rate_window_size = 5
+        self._current_file_progress = {}
+        self._total_downloaded = 0
+        self._total_size = 0
+        self._download_speed_limit = self._get_speed_limit()
+        self.updateFlow = updateFlow
+        # Other initialization...
 ```
 
-### Key Methods
+### Key Components
 
-#### Download from GoFile
+#### Progress Tracking
+Implements real-time progress tracking with smooth speed calculations:
 ```python
-def download_from_gofile(self, url, password=None, withNotification=None):
-    # Handle URL formatting
-    if url.startswith("//"):
-        url = "https:" + url
-    
-    content_id = url.split("/")[-1]
-    _password = sha256(password.encode()).hexdigest() if password else None
-    
-    # Get file information and download
-    files_info = self._parseLinksRecursively(content_id, _password)
-    
-    # Calculate total size for progress tracking
-    self._total_size = 0
-    self._total_downloaded = 0
-    for item in files_info.values():
-        # Check if file exists and get size from headers
-        
-    # Download each file
-    total_files = len(files_info)
-    current_file = 0
-    for item in files_info.values():
-        current_file += 1
-        self._downloadContent(item)
-        
-    # Extract downloaded archives
-    self._extract_files()
+def _update_progress(self, filename, progress, rate, eta_seconds=0, done=False):
+    # Thread-safe progress updates
+    # Smooth speed calculations using sliding window
+    # Smart ETA formatting with multiple time units
+    # Automatic JSON state persistence
 ```
 
-#### Parse Links Recursively
+#### Download Management
+Handles downloads with smart retry logic and speed control:
 ```python
-def _parseLinksRecursively(self, content_id, password, current_path=""):
-    url = f"https://api.gofile.io/contents/{content_id}?wt=4fd6sg89d7s6&cache=true"
-    if password:
-        url = f"{url}&password={password}"
-        
-    headers = {
-        "User-Agent": os.getenv("GF_USERAGENT", "Mozilla/5.0"),
-        "Authorization": f"Bearer {self._token}",
+def _downloadContent(self, file_info, chunk_size=None):
+    # Configurable speed limiting
+    # Exponential backoff for retries
+    # Resume support with range headers
+    # Memory-efficient chunk processing
+    # Real-time progress updates
+```
+
+#### Archive Extraction
+Cross-platform archive handling with automatic tool management:
+```python
+def _extract_files(self):
+    # Automatic extraction tool detection/installation
+    # Platform-specific optimizations (Windows/Linux/macOS)
+    # CommonRedist cleanup
+    # Efficient file verification
+```
+
+### Error Handling
+Comprehensive error handling with detailed logging:
+```python
+def handleerror(game_info, game_info_path, e):
+    # Reset game state
+    game_info['online'] = ""
+    game_info['dlc'] = ""
+    game_info['isRunning'] = False
+    game_info['version'] = ""
+    game_info['executable'] = ""
+    game_info['downloadingData'] = {
+        "error": True,
+        "message": str(e)
     }
-    
-    response = requests.get(url, headers=headers).json()
-    
-    # Handle folders and files recursively
-    if data["type"] == "folder":
-        # Process folder contents recursively
-    else:
-        # Process single file
+    # Persist error state
+    safe_write_json(game_info_path, game_info)
 ```
+
+### File Operations
+Thread-safe file operations with integrity checks:
+```python
+def safe_write_json(filepath, data):
+    # Atomic file writes using temporary files
+    # Multiple retry attempts with backoff
+    # Directory creation if needed
+    # Error handling for permissions
+```
+
+### Configuration
+Settings management with smart defaults:
+```python
+# Load settings from ascendarasettings.json
+settings_path = os.path.join(os.getenv('APPDATA'), 'ascendara', 'ascendarasettings.json')
+settings = {
+    "downloadLimit": 0,  # KB/s, 0 means unlimited
+    # Other settings...
+}
+```
+
+### Logging
+Comprehensive logging system with both file and console output:
+```python
+def setup_logging():
+    # Timestamp-based log files
+    # Both console and file logging
+    # Different log levels (DEBUG/INFO)
+    # Detailed error tracking
+```
+
+### Download Process
+1. Initialize downloader with smart settings and state management
+2. Parse and validate GoFile URL
+3. Authenticate and obtain session token
+4. Handle password protection with SHA256 hashing
+5. Parse folder structure recursively
+6. Calculate total download size
+7. Download files with speed limiting and progress tracking
+8. Extract archives with platform-specific optimizations
+9. Clean up CommonRedist directories
+10. Verify extracted files in batches
+11. Update game state and send notifications
+
+### Cross-Platform Support
+- **Windows**: Native support for .rar and .zip extraction
+- **macOS**: Automatic installation of 'unar' via Homebrew
+- **Linux**: Automatic installation of 'unrar' via package managers
+
+### Security Features
+- Password hashing with SHA256
+- Secure token management
+- Atomic file operations
+- Permissions handling
+
+### Performance Optimizations
+- Configurable download speed limits
+- Memory-efficient chunk processing
+- Batched file verification
+- Smart progress calculations
+- Exponential backoff for retries
+
+
 
 ### Progress Tracking
 The tool maintains a JSON file with detailed download progress:
