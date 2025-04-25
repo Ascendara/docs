@@ -62,6 +62,9 @@ The game handler script may experience issues launching certain games due to var
 - **Failed downloads**: Ensure enough disk space and try disabling antivirus temporarily.
 - **Extraction errors**: Make sure you have write permissions in the installation directory.
 
+#### Connection aborted when downloading
+This error is often caused by network restrictions or interference. Your internet service provider (ISP) may be blocking the download source, try using a VPN, a different network, or check your firewall/antivirus settings. If the issue persists, the source may be blocked in your region or by your provider.
+
 #### Content type error
 If you're experiencing this error, it's likely the download link from the provider has expired. Some providers do this
 to prevent download abuse. All you need to do is cancel the download and try again.
