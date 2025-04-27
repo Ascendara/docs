@@ -10,7 +10,7 @@ Finding your next favorite game has never been easier. Ascendara provides access
 
 At the heart of Ascendara lies a powerful download manager built for performance and reliability. Downloads are optimized for maximum speed while being gentle on your system resources. The smart resume feature ensures that interrupted downloads pick up right where they left off, and the built-in auto-extraction system handles compressed files automatically. You're always in control with the ability to manage multiple downloads simultaneously and choose exactly where your games are stored.
 
-## Import from Steam
+## Importing from Steam
 
 Importing your existing Steam library into Ascendara is quick and effortless. Simply select your `steamapps/common` directory, and Ascendara will automatically scan and add all eligible games it finds. Each imported game is matched with its folder name and cover art using IGDB, ensuring your library looks clean and consistent. Ascendara may get some images wrong for games or might not be able to find any at all, but you can always add your own cover art manually.
 
