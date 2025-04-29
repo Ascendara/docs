@@ -1,121 +1,124 @@
 # Ascendara Downloader
 
 ## Overview
-The Ascendara Downloader is a high-performance multi-threaded downloader responsible for downloading, verifying, and extracting game files. It features a robust download system with progress tracking, verification, and automatic error handling.
+The Ascendara Downloader is a robust, high-performance, multi-threaded tool for downloading, extracting, and verifying game files. It is designed for reliability, efficiency, and seamless integration with the Ascendara ecosystem, featuring advanced error handling, detailed logging, and smart file management.
 
-## Features
-- Smart multi-threaded downloads with configurable thread count and chunk size management
-- Adaptive download speed limiting with user-configurable settings
-- Real-time progress tracking with speed, ETA, and smooth updates
-- Comprehensive file verification and integrity checks
-- Content-Type validation and SSL security
-- Automatic error reporting with crash reporter integration
-- Smart resume capability with retry mechanisms
-- Archive extraction (.rar, .zip) with CommonRedist cleanup
-- Themed desktop notifications with customizable appearance
-- Memory-efficient file processing with batched operations
+## Key Features
+- **Multi-threaded downloads** with SmartDL for fast, reliable transfers
+- **Automatic resume** and smart retry logic for interrupted downloads
+- **Configurable speed limits and thread counts** (reads from Electron settings)
+- **Real-time progress tracking** (progress %, speed, ETA)
+- **Automatic archive extraction** (.zip, .rar) with CommonRedist cleanup
+- **File verification** after extraction (size checks, filemap)
+- **Comprehensive error handling** with crash reporter integration
+- **Safe, atomic JSON writes** for state tracking and error recovery
+- **Detailed logging** to a dedicated log file and console
+- **Automatic file flattening** (removes nested directories post-extraction)
+- **Memory-efficient file processing**
 
-## Usage
+## CLI Usage
 
-### Command Line Arguments
 ```bash
-AscendaraDownloader.exe [link] [game] [online] [dlc] [isVr] [updateFlow] [version] [size] [download_dir] [--withNotification theme]
+AscendaraDownloader.exe [url] [game] [online] [dlc] [isVr] [updateFlow] [version] [size] [download_dir] [--withNotification THEME]
 ```
 
-### Parameters
-- `link`
- Download URL for the game file
-- `game`
- Game identifier/name
-- `online`
- Online-only flag (true/false)
-- `dlc`
- DLC identifier (true/false)
-- `isVr`
- VR game flag (true/false)
-- `updateFlow`
- Update mode flag (true/false)
-- `version`
- Game version string
-- `size`
- Expected file size
-- `download_dir`
- Target download directory
-- `--withNotification`
- Optional theme for notifications (light, dark, blue)
+### Arguments
+- `url` - Download URL for the game file
+- `game` - Name of the game
+- `online` - Is the game online? (`true`/`false`)
+- `dlc` - Is DLC included? (`true`/`false`)
+- `isVr` - Is this a VR game? (`true`/`false`)
+- `updateFlow` - Is this an update? (`true`/`false`)
+- `version` - Game version string
+- `size` - Expected file size (e.g., `12 GB`, `439 MB`)
+- `download_dir` - Directory to save the downloaded files
+- `--withNotification` - Optional theme for notifications (light, dark, blue)
 
-### Example
-```bash
-AscendaraDownloader.exe "https://example.com/game.rar" "MyGame" false false false false "1.0" "1000000" "C:/Games" --withNotification dark
+## Workflow
+
+### 1. Initialization
+- Creates a dedicated download directory per game
+- Initializes or updates a `.ascendara.json` file for tracking download state
+- Sets up detailed logging to a persistent log file (`downloadmanager.log`)
+
+### 2. Download Process
+- Determines final file name from URL or HTTP headers
+- Reads user settings for speed/thread limits if available
+- Starts a SmartDL download with real-time progress updates:
+    - Progress %, speed, and ETA are written to the JSON state file
+    - Handles network errors, SSL issues, and provider blocks gracefully
+- On completion, detects file type (zip, rar, exe, etc.) and renames if needed
+
+### 3. Extraction & File Management
+- Automatically extracts `.zip` or `.rar` archives
+- Cleans up `_CommonRedist` folders and `.url` files
+- Flattens nested directories (moves files up one level if needed)
+- Builds a `filemap.ascendara.json` for verification
+
+### 4. Verification
+- Verifies all extracted files by size
+- Reports missing or mismatched files in the JSON state
+- Cleans up download state after verification
+
+## Error Handling & Logging
+- All errors are logged to `downloadmanager.log` and the console
+- On fatal errors, launches the Ascendara Crash Reporter with error details
+- Uses atomic, retry-safe JSON writes to prevent data loss or corruption
+- Handles permission errors and writes backups if necessary
+
+## Example State File (`.ascendara.json`)
+```json
+{
+  "game": "GameName",
+  "online": true,
+  "dlc": false,
+  "isVr": false,
+  "version": "1.0.0",
+  "size": "12 GB",
+  "executable": "C:/Games/GameName/GameName.exe",
+  "isRunning": false,
+  "downloadingData": {
+    "downloading": true,
+    "verifying": false,
+    "extracting": false,
+    "updating": false,
+    "progressCompleted": "37.50",
+    "progressDownloadSpeeds": "4.20 MB/s",
+    "timeUntilComplete": "2m 13s"
+  }
+}
 ```
 
-## Development
+## Settings
+- Reads download speed and thread count from `ascendarasettings.json` (if present in Electron's APPDATA)
+- Example settings:
+```json
+{
+  "downloadLimit": 5000,   // in KB/s
+  "threadCount": 8
+}
+```
 
-### Key Classes
+## Crash Reporter
+- On any unhandled error, the downloader launches `AscendaraCrashReporter.exe` with error details for user-friendly reporting
 
-#### DownloadManager
-Manages smart multi-threaded downloads with configurable settings and adaptive behavior:
+## References
+- [Download Manager Tool Documentation](https://ascendara.app/docs/binary-tool/downloader)
+
+---
+
+For developer details, see the full Python source in the Ascendara repository.
+
+## How It Works
+
+The Ascendara Downloader is designed for robust, high-performance downloads and seamless user experience. Below is a detailed breakdown of its internal architecture and advanced features, modeled after the clarity of the GoFile Helper documentation.
+
+### Key Components
+
+#### Progress Tracking
+Real-time progress updates are written to a dedicated JSON state file:
 ```python
-class DownloadManager:
-    def __init__(self, url, total_size, num_threads=None, max_chunk_size=64*1024*1024):
-        self.url = url
-        self.total_size = total_size
-        self.max_chunk_size = max_chunk_size
-        # Smart settings from ascendarasettings.json
-        # - Thread count (default: 8)
-        # - Chunk size (default: 8MB)
-        # - Download speed limit (KB/s, 0 = unlimited)
-        self.num_threads = self._get_thread_count()
-        self.chunks = []
-        self.downloaded_size = 0
-        self.lock = threading.Lock()
-        self.max_retries = 4  # Maximum number of retries per chunk
-        self.per_thread_speeds = {}
-        self.range_supported = True
-        self.current_speed = 0.0
-        self.download_speed_limit = self._get_speed_limit()
-
-    def split_chunks(self):
-        # Split download into equal chunks
-        chunk_size = self.total_size // self.num_threads
-        for i in range(self.num_threads):
-            start = i * chunk_size
-            end = start + chunk_size - 1 if i < self.num_threads - 1 else self.total_size - 1
-            self.chunks.append(DownloadChunk(start, end, self.url))
-
-    def download_chunk(self, chunk, session, callback=None):
-        # Download a specific chunk with range headers
-        headers = {'Range': f'bytes={chunk.start}-{chunk.end}'}
-        response = session.get(chunk.url, headers=headers, stream=True)
-        
-        for data in response.iter_content(chunk_size=1024*1024):
-            if not data:
-                break
-            chunk.data += data
-            chunk.downloaded += len(data)
-            with self.lock:
-                self.downloaded_size += len(data)
-                if callback:
-                    callback(len(data))
-```
-
-#### DownloadChunk
-Represents a chunk of the download with smart file handling:
-```python
-class DownloadChunk:
-    def __init__(self, start, end, url, chunk_id, temp_dir):
-        self.start = start
-        self.end = end
-        self.url = url
-        self.chunk_id = chunk_id
-        self.temp_file_path = os.path.join(temp_dir, f"chunk_{chunk_id}.tmp")
-        self.downloaded = 0
-```
-
-### Progress Tracking
-The downloader maintains a detailed JSON file with real-time progress information and thread-safe updates:
-```python
-game_info = {
+self.game_info = {
     "game": game,
     "online": online,
     "dlc": dlc,
@@ -126,94 +129,101 @@ game_info = {
     "isRunning": False,
     "downloadingData": {
         "downloading": True,
-        "extracting": False,
-        "updating": updateFlow,
         "verifying": False,
+        "extracting": False,
+        "updating": False,
         "progressCompleted": "0.00",
         "progressDownloadSpeeds": "0.00 KB/s",
         "timeUntilComplete": "calculating..."
     }
 }
 ```
+- Updates every 0.5 seconds with progress %, speed, and ETA
+- Atomic, retry-safe writes for data integrity
 
-### Download Process
-1. Validates content type, SSL security, and gets file size
-2. Pre-allocates file space for efficient writing
-3. Initializes DownloadManager with smart settings
-4. Splits download into optimized chunks based on size
-5. Downloads chunks in parallel with adaptive speed control
-6. Provides real-time progress updates with smooth speed calculations
-7. Implements smart retry logic for failed chunks
-8. Efficiently merges chunks with minimal memory usage
-9. Extracts archives with CommonRedist cleanup
-10. Performs batched file verification
-11. Sends themed completion notifications
+#### Download Management
+Handles robust, multi-threaded downloads with SmartDL:
+```python
+def download(self, url, ...):
+    # Determines filename and destination
+    # Reads user settings for speed/thread limits
+    # Starts SmartDL download with real-time progress callbacks
+    # Handles network errors, SSL issues, and provider blocks
+    # Updates state file throughout process
+```
+- Smart resume and retry logic for network issues
+- Detects file type and renames if needed for extraction
 
-### Error Handling
-Implements comprehensive error handling with smart retries and crash reporting:
+#### Archive Extraction & Verification
+Automates extraction and ensures file integrity:
+```python
+def _extract_files(self, ...):
+    # Extracts .zip/.rar files
+    # Cleans up CommonRedist and .url files
+    # Flattens nested directories
+    # Builds filemap for verification
+    self._verify_extracted_files(watching_path)
+```
+- Verifies all files by size and reports issues in the state file
+- Removes unnecessary files/folders for clean installs
+
+#### Error Handling & Logging
+Comprehensive error handling with crash reporting:
 ```python
 def handleerror(game_info, game_info_path, e):
-    game_info['online'] = ""
-    game_info['dlc'] = ""
-    game_info['isRunning'] = False
-    game_info['version'] = ""
-    game_info['executable'] = ""
-    game_info['downloadingData'] = {
-        "error": True,
-        "message": str(e)
-    }
+    # Updates state with error info and persists safely
     safe_write_json(game_info_path, game_info)
-
 def launch_crash_reporter(error_code, error_message):
-    # Register crash reporter to launch on exit if not already registered
-    if not hasattr(launch_crash_reporter, "_registered"):
-        atexit.register(_launch_crash_reporter_on_exit, error_code, error_message)
-        launch_crash_reporter._registered = True
+    # Registers crash reporter to run on exit
 ```
+- All actions and errors are logged to `downloadmanager.log` and the console
+- Crash reporter is triggered on fatal errors for diagnostics
 
-### Notifications
-Supports desktop notifications with theme customization and error handling:
-```python
-def _launch_notification(theme, title, message):
-    try:
-        exe_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
-        notification_helper_path = os.path.join(exe_dir, 'AscendaraNotificationHelper.exe')
-        logging.debug(f"Looking for notification helper at: {notification_helper_path}")
-        
-        if os.path.exists(notification_helper_path):
-            subprocess.Popen(
-                [notification_helper_path, "--theme", theme, "--title", title, "--message", message],
-                creationflags=subprocess.CREATE_NO_WINDOW
-            )
-        else:
-            logging.error(f"Notification helper not found at: {notification_helper_path}")
-    except Exception as e:
-        logging.error(f"Failed to launch notification helper: {e}")
-```
-
-### Configuration
-Settings are managed through a JSON configuration file:
-```python
-settings_path = os.path.join(os.getenv('APPDATA'), 'Electron', 'ascendarasettings.json')
-settings = {
-    "threadCount": 8,  # Default thread count
-    "downloadLimit": 0  # Default download speed limit (KB/s, 0 = unlimited)
+#### Settings & Configuration
+Reads user preferences for download speed and threads:
+```json
+{
+  "downloadLimit": 5000,   // in KB/s
+  "threadCount": 8
 }
 ```
+- Reads from `ascendarasettings.json` in Electron APPDATA
+- Defaults to unlimited speed and 8 threads if not set
 
-### File Handling
-Implements efficient file operations with thread-safe JSON writes:
+#### Logging
+Detailed logging for transparency and troubleshooting:
 ```python
-def safe_write_json(filepath, data, max_retries=5):
-    # Thread-safe JSON file writing with retries and error handling
-    # Uses file locking and atomic operations
-    # Supports exponential backoff for retries
-    # Ensures data integrity with temporary files
-    pass
-
-def _verify_extracted_files(watching_path, download_path, game_info, game_info_path, game, archive_file_path):
-    # Batch verification of extracted files
-    # Automatic cleanup of CommonRedist directories
-    # Detailed error reporting for failed verifications
-    pass
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s",
+    handlers=[logging.FileHandler(LOG_PATH), logging.StreamHandler(sys.stdout)]
+)
 ```
+- Logs both to file and console with timestamps and error details
+
+### Download Process
+1. **Initialize** downloader, read user settings, and prepare state file
+2. **Start Download** with SmartDL, updating progress in real time
+3. **Detect and Extract** archives after download completes
+4. **Clean Up** unnecessary files/folders and flatten directories
+5. **Verify** all extracted files by size and update state
+6. **Update State** and send notifications as needed
+
+### Advanced Features
+- **Automatic resume** and smart retry logic for reliability
+- **Safe, atomic JSON writes** for all state and progress
+- **Crash reporter** integration for diagnostics and user support
+- **Adaptive performance** based on user settings
+
+### Security & Performance
+- Atomic file operations and permission handling
+- Memory-efficient extraction and verification
+- Batched file verification and smart progress calculations
+
+
+- **Automatic Extraction**: Upon download completion, the tool detects and extracts supported archives (`.zip`, `.rar`), cleans up unnecessary files (like `_CommonRedist` and `.url`), and flattens nested folders for easy access.
+- **Verification**: After extraction, the downloader checks all files against the expected sizes (from a generated `filemap.ascendara.json`), reporting any discrepancies directly in the state file.
+
+### Extending or Debugging
+- **Extend**: To add new features (e.g., support for more archive formats or notification types), start with the `SmartDLDownloader` class and its helper functions.
+- **Debug**: Review the log file and state JSONs for step-by-step diagnostics. Error handling is centralized, making it easy to trace issues.
