@@ -80,8 +80,7 @@ pip install -r requirements.txt
 To preview the application in development mode:
 
 1. Open the project directory in Visual Studio Code or a terminal.
-2. In `electron/app.js`, ensure the `isDev` variable is set to `true`.
-3. Start the development server:
+2. Start the development server:
 
 ```bash
 npm run start
@@ -131,13 +130,7 @@ npm run build
    - Copy the "assets" directory to the "electron" directory
    - Copy any other required assets (guide directory, icon.png, etc.) to the "electron" directory
 
-3. Modify "electron/app.js" to:
-
-   - Make sure isDev = false at the top of the file
-   - Ensure it's configured to load the index.html from the correct location:
-     `mainWindow.loadURL('file://' + path.join(__dirname, 'index.html'))`
-
-4. Build the Electron app:
+3. Build the Electron app:
 
 ```bash
 yarn buildwithelectron
