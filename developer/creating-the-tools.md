@@ -36,6 +36,12 @@ pyinstaller --noconsole --onefile --icon=.\src\ascendara.ico --hidden-import req
 pyinstaller --noconsole --onefile --icon=.\src\ascendara.ico --add-data "src/ascendara.ico;." --hidden-import PyQt6 .\src\AscendaraNotificationHelper.py
 ```
 
+### Achievement Watcher
+> NOTE: This tool is written in JavaScript and is not a Python tool. It will require the `pkg` tool to be built into the executable for production.
+```bash
+pkg ./src/watchdog.js --targets node18-win-x64 --output ./dist/AscendaraAchievementWatcher.exe
+```
+
 ### Torrent Handler
 ```bash
 pyinstaller --noconsole --onefile --icon=.\src\ascendara.ico --hidden-import qbittorrentapi .\src\AscendaraTorrentHandler.py
