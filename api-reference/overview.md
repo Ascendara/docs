@@ -1,20 +1,19 @@
 # Ascendara API Overview
 
 ## Introduction
-The Ascendara API is a custom-developed RESTful interface that powers the Ascendara game discovery application. It provides access to game information, download statistics, system health data, and image assets. This API is designed to be lightweight, efficient, and focuses on managing game testing listings without storing any actual game files.
+The Ascendara API is a RESTful interface for game discovery, download tracking, system health, and image assets. It is designed for non-commercial use and does not serve actual game files.
 
 ## API Basics
 
 ### Base URL
-All API requests should be made to:
 ```
 https://api.ascendara.app
 ```
 
 ### Response Format
-All responses are returned in JSON format. The structure varies by endpoint type:
+All responses are JSON. Success and error response structures depend on the endpoint.
 
-#### Success Responses
+#### Example Success Responses
 Health check:
 ```json
 {
@@ -23,14 +22,12 @@ Health check:
   "endpoint": "ascendara-api"
 }
 ```
-
-Download tracking:
+Download tracked:
 ```json
 {
   "message": "Download tracked successfully"
 }
 ```
-
 Version info:
 ```json
 {
@@ -38,8 +35,7 @@ Version info:
 }
 ```
 
-#### Error Responses
-Error responses follow a consistent format:
+#### Example Error Response
 ```json
 {
   "error": "error_message"
@@ -47,36 +43,46 @@ Error responses follow a consistent format:
 ```
 
 ### Rate Limiting
-The API implements rate limiting to ensure fair usage and system stability:
 - Image endpoints: 30 requests per 60 seconds
 - General endpoints: 3 requests per hour
-- Rate limits are tracked per IP address
-- Custom rate limits may apply for specific endpoints
+- Rate limits are per IP
+- Some endpoints have custom limits (see endpoint reference)
 
-## Core Features
+## Core Public Endpoints
 
-### Game Discovery
-- List all available games with metadata
-- Sort games by popularity weight
-- Access game preview images
-- Track download statistics
+### Health & Status
+- `GET /health` — Returns API health and version
+- `GET /` — Returns running version and status
 
-### System Integration
-- Health check endpoint for system status
-- Version tracking and changelog access
-- Download statistics and metrics
+### Game Data
+- [`GET /json/games` — List all games with metadata](https://ascendara.app/docs/api-reference/games-list)
+- [`GET /v2/image/{imageid}` — Get image for a specific game](https://ascendara.app/docs/api-reference/endpoints#get-game-image)
+- [`GET /v2/image?place={position}` — Get game image by popularity weight](https://ascendara.app/docs/api-reference/endpoints#get-game-image-by-weight)
 
-### Image Service
-- Secure image delivery system
-- Support for multiple image formats (PNG, JPG, JPEG)
-- Rate-limited access to prevent abuse
+### Statistics
+- [`GET /stats/downloads` — Download counts for all games](https://ascendara.app/docs/api-reference/endpoints#get-download-statistics)
+- [`POST /stats/download` — Track a download event](https://ascendara.app/docs/api-reference/endpoints#track-download)
+
+### Information
+- [`GET /json/changelog` — Changelog information](https://ascendara.app/docs/api-reference/endpoints#get-changelog)
+- [`GET /public/json/current` — Current data version](https://ascendara.app/docs/api-reference/endpoints#get-current-app-version)
+- [`GET /json/roadmap` — Roadmap information](https://ascendara.app/docs/api-reference/endpoints#get-roadmap)
+
+### Language
+- [`GET /language/version` — Current language file version](https://ascendara.app/docs/api-reference/endpoints#get-language-version)
+- [`GET /language/en` — English translation file](https://ascendara.app/docs/api-reference/endpoints#get-language-translation)
+
+### Other
+- [`GET /virustotal/latest` — Latest VirusTotal results](https://ascendara.app/docs/api-reference/endpoints#get-virustotal-results)
+- [`GET /average-app-rating` — App average rating](https://ascendara.app/docs/api-reference/endpoints#get-average-app-rating)
+- [`GET /opencritic/game?name={game}` — OpenCritic info for a game](endpoints.md#get-opencritic-game-info)
+- [`POST /site/feedback` — Submit feedback (rate limited)](endpoints.md#submit-feedback)
 
 ### Error Handling
-All endpoints follow a consistent error reporting format:
+All endpoints return errors in the format:
 ```json
 {
-  "error": "error_message",
-  "status": error_code
+  "error": "error_message"
 }
 ```
 
