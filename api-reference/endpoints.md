@@ -23,12 +23,12 @@ Returns API health, version, and index status.
 
 **Rate Limit:** 3/hour per IP
 
-#### About Ascendara Status
+### About Ascendara Status
 
 This endpoint also returns the status of Ascendara's index, which can be either "healthy" or "updatingIndex".
 When "updatingIndex", this indicates that the index of games is being updated, and the app may experience 
 slight delays in its functionality. Things like images, game fetching, and downloads may not be available.
----
+
 
 The game index is updated once a month and only take 5-10 minutes to update. It is rare you will experience 
 the "updatingIndex" status but if you do you will see a message when searching for games.
@@ -58,7 +58,7 @@ Returns the running version of Ascendara.
 
 Returns a list of all available games with metadata.
 
-See [Game List Endpoint Schema](games-list.md) for full response details, object keys, and examples.
+See [Game List Endpoint Schema](https://ascendara.app/docs/api-reference/games-list#game-object-keys) for full response details, object keys, and examples.
 
 ---
 
@@ -72,7 +72,7 @@ Returns the image file for a game by its imageid.
 
 **Response:**
 - Image file (PNG/JPG/JPEG)
-- `404` if not found
+- Error key if not found
 
 **Rate Limit:** 30/min per IP
 
@@ -88,7 +88,7 @@ Returns the image for the game ranked at the given weight position.
 
 **Response:**
 - Image file (PNG/JPG/JPEG)
-- `400` if invalid place, `404` if not found
+- Error key if invalid place, not found
 
 **Rate Limit:** 30/min per IP
 
