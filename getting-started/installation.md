@@ -7,10 +7,23 @@
 - Sufficient storage space
 
 ## Download
+
 1. Visit [ascendara.app](https://ascendara.app)
 2. Click the download button
 3. Run the installer
 4. Follow the setup wizard
+
+### About the Installer
+
+The Ascendara installer is a lightweight download (under 35MB) with a clean, modern interface. Once launched, it fetches the latest full setup package and walks you through each step. If you need a specific version, you can grab it from the [GitHub releases page](https://github.com/Ascendara/Ascendara/releases).
+
+### Optional Opera Offer
+
+You may encounter an offer to install Opera browser during setup. This partnership with work.ink helps fund Ascendara's ongoing development. Feel free to skip this if you're not interested—it won't affect your installation.
+
+### SmartScreen Warning
+
+Windows Defender SmartScreen may flag the installer since Ascendara is open-source and doesn't use a paid code signing certificate. You can safely proceed by clicking "More info" → "Run anyway".
 
 ## Browser Extension
 The Ascendara Download Handler is a crucial part of Ascendara that simplifies the download process:
