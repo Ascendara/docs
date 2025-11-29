@@ -24,9 +24,9 @@ If a game fails to start, verify that your system meets the minimum requirements
 6. Try running the game in compatibility mode if issues persist
 
 ### Executable Not Found Launch Error
-This error occurs when Ascendara cannot locate the game's executable file. By default, Ascendara looks for an executable with the same name as the game in the download directory.
+This error occurs when Ascendara cannot locate the game's executable file. By default, Ascendara looks for an executable with the same name as the game in the root download directory. However, many games place their executable in subfolders such as `bin`, `x64`, `Binaries`, or similar directories.
 
-To resolve this, update the executable path to its correct location. Once set, Ascendara will remember this path for future launches.
+To resolve this, you can change or set the game's executable path in the games launch screen. Once set, Ascendara will remember this path for future launches.
 
 ## GameX Launch Issues
 The game handler script may experience issues launching certain games due to various factors:
