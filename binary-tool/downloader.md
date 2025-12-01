@@ -7,19 +7,24 @@ The Ascendara Downloader is a robust, high-performance, multi-threaded tool for 
 - **Multi-threaded downloads** with SmartDL for fast, reliable transfers
 - **Automatic resume** and smart retry logic for interrupted downloads
 - **Configurable speed limits and thread counts** (reads from Electron settings)
+- **Single stream mode** option for stability
 - **Real-time progress tracking** (progress %, speed, ETA)
-- **Automatic archive extraction** (.zip, .rar) with CommonRedist cleanup
+- **Automatic archive extraction** (.zip, .rar) with CommonRedist and .url cleanup
 - **File verification** after extraction (size checks, filemap)
 - **Comprehensive error handling** with crash reporter integration
 - **Safe, atomic JSON writes** for state tracking and error recovery
 - **Detailed logging** to a dedicated log file and console
 - **Automatic file flattening** (removes nested directories post-extraction)
 - **Memory-efficient file processing**
+- **Post-download behaviors** (lock, sleep, shutdown)
+- **Game ID tracking** for SteamRIP integration
+- **Buzzheavier support** with multiple domain aliases
+- **File type detection** via magic bytes
 
 ## CLI Usage
 
 ```bash
-AscendaraDownloader.exe [url] [game] [online] [dlc] [isVr] [updateFlow] [version] [size] [download_dir] [--withNotification THEME]
+AscendaraDownloader.exe [url] [game] [online] [dlc] [isVr] [updateFlow] [version] [size] [download_dir] [gameID] [--withNotification THEME]
 ```
 
 ### Arguments
@@ -32,6 +37,7 @@ AscendaraDownloader.exe [url] [game] [online] [dlc] [isVr] [updateFlow] [version
 - `version` - Game version string
 - `size` - Expected file size (e.g., `12 GB`, `439 MB`)
 - `download_dir` - Directory to save the downloaded files
+- `gameID` - (optional) Game ID from SteamRIP (6-character encoded identifier)
 - `--withNotification` - Optional theme for notifications (light, dark, blue)
 
 ## Workflow
@@ -75,6 +81,7 @@ AscendaraDownloader.exe [url] [game] [online] [dlc] [isVr] [updateFlow] [version
   "isVr": false,
   "version": "1.0.0",
   "size": "12 GB",
+  "gameID": "AbCdEf",
   "executable": "C:/Games/GameName/GameName.exe",
   "isRunning": false,
   "downloadingData": {
@@ -90,12 +97,16 @@ AscendaraDownloader.exe [url] [game] [online] [dlc] [isVr] [updateFlow] [version
 ```
 
 ## Settings
-- Reads download speed and thread count from `ascendarasettings.json` (if present in Electron's APPDATA)
+- Reads settings from `ascendarasettings.json`:
+  - **Windows**: `%APPDATA%/Electron/ascendarasettings.json`
+  - **macOS**: `~/Library/Application Support/ascendara/ascendarasettings.json`
 - Example settings:
 ```json
 {
   "downloadLimit": 5000,   // in KB/s
-  "threadCount": 8
+  "threadCount": 8,
+  "singleStream": true,    // Use single stream for stability
+  "behaviorAfterDownload": "none"  // Options: none, lock, sleep, shutdown
 }
 ```
 
@@ -125,6 +136,7 @@ self.game_info = {
     "isVr": isVr,
     "version": version,
     "size": size,
+    "gameID": gameID,
     "executable": executable_path,
     "isRunning": False,
     "downloadingData": {
@@ -180,15 +192,18 @@ def launch_crash_reporter(error_code, error_message):
 - Crash reporter is triggered on fatal errors for diagnostics
 
 #### Settings & Configuration
-Reads user preferences for download speed and threads:
+Reads user preferences for download speed, threads, and behavior:
 ```json
 {
   "downloadLimit": 5000,   // in KB/s
-  "threadCount": 8
+  "threadCount": 8,
+  "singleStream": true,    // Use single stream for stability
+  "behaviorAfterDownload": "none"  // Options: none, lock, sleep, shutdown
 }
 ```
-- Reads from `ascendarasettings.json` in Electron APPDATA
-- Defaults to unlimited speed and 8 threads if not set
+- **Windows**: `%APPDATA%/Electron/ascendarasettings.json`
+- **macOS**: `~/Library/Application Support/ascendara/ascendarasettings.json`
+- Defaults to unlimited speed and single stream if not set
 
 #### Logging
 Detailed logging for transparency and troubleshooting:
@@ -200,20 +215,50 @@ logging.basicConfig(
 )
 ```
 - Logs both to file and console with timestamps and error details
+- **Windows**: `%APPDATA%/Ascendara by tagoWorks/downloadmanager.log`
+- **Other**: `~/.config/Ascendara by tagoWorks/downloadmanager.log`
 
 ### Download Process
 1. **Initialize** downloader, read user settings, and prepare state file
-2. **Start Download** with SmartDL, updating progress in real time
-3. **Detect and Extract** archives after download completes
-4. **Clean Up** unnecessary files/folders and flatten directories
-5. **Verify** all extracted files by size and update state
-6. **Update State** and send notifications as needed
+2. **Start Download** with SmartDL (or Buzzheavier handler), updating progress in real time
+3. **Detect File Type** via magic bytes and rename if needed
+4. **Extract** archives after download completes
+5. **Clean Up** unnecessary files/folders (.url, _CommonRedist) and flatten directories
+6. **Verify** all extracted files by size and update state
+7. **Execute Post-Download Behavior** (lock, sleep, shutdown if configured)
+8. **Update State** and send notifications as needed
+
+### Post-Download Behaviors
+Executes configurable actions after successful download and verification:
+```python
+def _handle_post_download_behavior(self):
+    behavior = settings.get('behaviorAfterDownload', 'none')
+    # Options:
+    # - 'none': No action
+    # - 'lock': Lock the computer
+    # - 'sleep': Put computer to sleep
+    # - 'shutdown': Shutdown with 60 second warning
+```
+
+### Buzzheavier Support
+Supports downloads from Buzzheavier and its domain aliases:
+```python
+VALID_BUZZHEAVIER_DOMAINS = [
+    'buzzheavier.com',
+    'bzzhr.co',
+    'fuckingfast.net',
+    'fuckingfast.co'
+]
+```
 
 ### Advanced Features
 - **Automatic resume** and smart retry logic for reliability
 - **Safe, atomic JSON writes** for all state and progress
 - **Crash reporter** integration for diagnostics and user support
 - **Adaptive performance** based on user settings
+- **File type detection** via magic bytes (zip, rar, 7z, exe)
+- **Nested archive extraction** - handles archives within archives
+- **Smart directory flattening** - moves files up from nested folders
 
 ### Security & Performance
 - Atomic file operations and permission handling

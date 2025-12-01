@@ -5,21 +5,23 @@ The GoFile Helper is a specialized tool for handling downloads from GoFile.io. I
 
 ## Features
 - Smart download management with configurable speed limits
-- Adaptive multi-threaded downloads with progress tracking
+- Single stream mode option for stability
 - Recursive folder structure handling
 - Real-time progress tracking with smooth speed calculations and ETA
 - Smart resume capability with exponential backoff retries
 - Cross-platform archive extraction with automatic tool management
-- Automatic CommonRedist cleanup
+- Automatic CommonRedist and .url file cleanup
 - Enhanced error handling with detailed logging
 - Themed desktop notifications with error reporting
 - Memory-efficient file operations with batched verification
+- Post-download behaviors (lock, sleep, shutdown)
+- Game ID tracking for SteamRIP integration
 
 ## Usage
 
 ### Command Line Arguments
 ```bash
-AscendaraGofileHelper.exe [url] [game] [online] [dlc] [isVr] [updateFlow] [version] [size] [download_dir] [--password PASSWORD] [--withNotification THEME]
+AscendaraGofileHelper.exe [url] [game] [online] [dlc] [isVr] [updateFlow] [version] [size] [download_dir] [gameID] [--password PASSWORD] [--withNotification THEME]
 ```
 
 ### Parameters
@@ -41,6 +43,8 @@ AscendaraGofileHelper.exe [url] [game] [online] [dlc] [isVr] [updateFlow] [versi
  Expected file size
 - `download_dir`
  Target directory for downloads
+- `gameID` (optional)
+ Game ID from SteamRIP (6-character encoded identifier)
 - `--password`
  Optional password for protected files (will be hashed with SHA256)
 - `--withNotification`
@@ -48,7 +52,7 @@ AscendaraGofileHelper.exe [url] [game] [online] [dlc] [isVr] [updateFlow] [versi
 
 ### Example
 ```bash
-AscendaraGofileHelper.exe "https://gofile.io/d/abc123" "MyGame" false false false false "1.0" "1000000" "C:/Games" --password "mypass" --withNotification dark
+AscendaraGofileHelper.exe "https://gofile.io/d/abc123" "MyGame" false false false false "1.0" "1000000" "C:/Games" "AbCdEf" --password "mypass" --withNotification dark
 ```
 
 ## Development
@@ -57,7 +61,7 @@ AscendaraGofileHelper.exe "https://gofile.io/d/abc123" "MyGame" false false fals
 Main class for handling GoFile downloads with smart settings and progress tracking:
 ```python
 class GofileDownloader:
-    def __init__(self, game, online, dlc, isVr, updateFlow, version, size, download_dir, max_workers=5):
+    def __init__(self, game, online, dlc, isVr, updateFlow, version, size, download_dir, gameID="", max_workers=5):
         self._max_retries = 3
         self._download_timeout = 30
         self._token = self._getToken()
@@ -67,8 +71,11 @@ class GofileDownloader:
         self._current_file_progress = {}
         self._total_downloaded = 0
         self._total_size = 0
-        self._download_speed_limit = self._get_speed_limit()
+        self._download_speed_limit = 0  # KB/s, 0 means unlimited
+        self._single_stream = True  # Default to single stream for stability
         self.updateFlow = updateFlow
+        self.gameID = gameID
+        # Load settings from ascendarasettings.json
         # Other initialization...
 ```
 
@@ -137,10 +144,12 @@ def safe_write_json(filepath, data):
 Settings management with smart defaults:
 ```python
 # Load settings from ascendarasettings.json
-settings_path = os.path.join(os.getenv('APPDATA'), 'ascendara', 'ascendarasettings.json')
+# Windows: %APPDATA%/Electron/ascendarasettings.json
+# macOS: ~/Library/Application Support/ascendara/ascendarasettings.json
 settings = {
     "downloadLimit": 0,  # KB/s, 0 means unlimited
-    # Other settings...
+    "singleStream": True,  # Use single stream for stability
+    "behaviorAfterDownload": "none"  # Options: none, lock, sleep, shutdown
 }
 ```
 
@@ -197,6 +206,7 @@ self.game_info = {
     "isVr": isVr,
     "version": version,
     "size": size,
+    "gameID": gameID,
     "executable": executable_path,
     "isRunning": False,
     "downloadingData": {
@@ -269,4 +279,23 @@ def setup_logging():
 def launch_crash_reporter(error_code, error_message):
     # Register crash reporter to launch on exit
     atexit.register(_launch_crash_reporter_on_exit, error_code, error_message)
+```
+
+### Post-Download Behaviors
+Executes configurable actions after successful download and verification:
+```python
+def _handle_post_download_behavior(self):
+    behavior = settings.get('behaviorAfterDownload', 'none')
+    # Options:
+    # - 'none': No action
+    # - 'lock': Lock the computer
+    # - 'sleep': Put computer to sleep
+    # - 'shutdown': Shutdown with 60 second warning
+```
+
+### Logging
+Logs are written to the Ascendara application directory:
+```python
+# Windows: %APPDATA%/Ascendara by tagoWorks/downloadmanager.log
+# Other: ~/.config/Ascendara by tagoWorks/downloadmanager.log
 ```
