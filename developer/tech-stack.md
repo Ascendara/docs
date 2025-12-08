@@ -1,36 +1,203 @@
 # Technology Stack
 
-Get a simple list of the tech stack used to built Ascendara [here](http://ascendara.app/learn-more?feature=6)
+A comprehensive breakdown of the technologies powering Ascendara.
 
-## Modern Frontend Architecture
+## Core Framework
 
-At the heart of Ascendara's frontend lies a powerful combination of Next.js and React, providing a robust foundation for the production environment. This core framework enables the creation of dynamic, responsive user interfaces while maintaining optimal performance. React DOM handles the rendering pipeline, ensuring smooth updates and transitions throughout the application.
+### Electron (v28+)
+The desktop application shell providing:
+- **Main Process**: Node.js runtime for system operations
+- **Renderer Process**: Chromium for the React UI
+- **IPC**: Secure communication between processes
+- **Native APIs**: File system, shell, notifications, tray
 
-The user interface is crafted with precision using TailwindCSS, a utility-first framework that allows for creating beautiful, responsive designs efficiently. The user experience is enhanced through Framer Motion's fluid animations, while Lucide React provides a consistent and scalable icon system. Accessibility is never an afterthought - Radix UI components ensure that Ascendara is usable by everyone, regardless of their needs.
+### React 18
+Modern React with:
+- **Functional Components**: Hooks-based architecture
+- **Context API**: Global state management
+- **Suspense**: Lazy loading and code splitting
+- **Concurrent Features**: Improved rendering performance
 
-Ascendara has carefully selected utilities that elevate the user experience. React Intersection Observer powers smart viewport detection, enabling dynamic content loading and animations. For documentation and content, React Markdown renders formatted text beautifully, while React Syntax Highlighter makes code examples clear and readable. The powerful search functionality is powered by Fuse.js, providing intuitive fuzzy search capabilities. Next Themes handles the theming system, ensuring a consistent look across light and dark modes.
+### Vite
+Build tooling providing:
+- **Dev Server**: Hot Module Replacement (HMR)
+- **Build**: Optimized production bundles
+- **ESBuild**: Fast TypeScript/JSX transformation
 
-The desktop version of Ascendara is built on Electron, creating a seamless bridge between web technologies and native desktop capabilities. Node.js powers the backend operations, handling everything from file system operations to process management. Discord RPC has been integrated to keep your friends updated on your gaming activities, creating a more social gaming experience.
+---
 
-The development environment is optimized for productivity and code quality. ESLint ensures consistent code style and catches potential issues early, while PostCSS and TailwindCSS work together to process and optimize the styling system. Developers benefit from hot module replacement for rapid iteration, a powerful development server for testing, and comprehensive build optimization tools for production releases.
-## Download Infrastructure
+## Frontend Dependencies
 
-The download system is engineered for reliability and performance. It provides real-time visibility into your downloads with detailed progress tracking and statistics. When downloads complete, the system handles file extraction automatically, organizing everything into a clean directory structure. This intelligent system ensures your games are downloaded efficiently and stored logically.
+### UI Framework
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `tailwindcss` | ^3.x | Utility-first CSS framework |
+| `framer-motion` | ^10.x | Animation library |
+| `lucide-react` | ^0.x | Icon system |
+| `@radix-ui/*` | ^1.x | Accessible UI primitives |
 
-## Update Framework
+### State & Data
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `react-router-dom` | ^6.x | Client-side routing |
+| `fuse.js` | ^7.x | Fuzzy search |
+| `axios` | ^1.x | HTTP client |
 
-The update system works quietly in the background to keep Ascendara current. It periodically checks for new versions, downloads updates efficiently, and verifies their integrity before installation. This process is designed to be seamless, with background downloads that don't interrupt your gaming experience.
+### Utilities
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `clsx` | ^2.x | Conditional classNames |
+| `date-fns` | ^2.x | Date formatting |
+| `react-markdown` | ^9.x | Markdown rendering |
+| `react-syntax-highlighter` | ^15.x | Code highlighting |
 
-## Data Flow Architecture
+---
 
-### Game Launch Sequence
+## Backend Dependencies (Electron Main)
 
-When you launch a game through Ascendara, a sophisticated sequence of events unfolds. First, the system validates the launch request and verifies all necessary files. It then prepares the gaming environment, configuring any required settings or dependencies. Once everything is ready, the game executes while Ascendara monitors its performance, ready to handle any issues that might arise.
+### Core
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `electron` | ^28.x | Desktop framework |
+| `fs-extra` | ^11.x | Enhanced file operations |
+| `axios` | ^1.x | HTTP requests |
+| `dotenv` | ^16.x | Environment variables |
 
-### Download Orchestration
+### Integrations
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `discord-rpc` | ^4.x | Discord Rich Presence |
+| `node-machine-id` | ^1.x | Unique machine identification |
+| `diskusage` | ^1.x | Drive space information |
 
-The download process is a carefully choreographed sequence of operations. It begins with initialization, where the system prepares for the download and allocates resources. Throughout the download, you'll see real-time progress updates and speed statistics. Once complete, the system verifies the downloaded files for integrity, extracts any compressed content, and finalizes the installation, ensuring everything is ready for play.
+### Security
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `crypto` | (built-in) | AES-256-CBC encryption |
 
-### Update Lifecycle
+---
 
-Ascendara's update process is designed to be both efficient and unobtrusive. The system periodically checks for new versions in the background. When an update is available, it's downloaded automatically and verified for security. The installation process is optimized to minimize disruption, with automatic restarts only when absolutely necessary to apply critical updates.
+## Python Tools
+
+### Runtime
+- **Python**: 3.8+ required
+- **PyInstaller**: Bundling to standalone executables
+
+### Common Dependencies
+| Package | Purpose |
+|---------|---------|
+| `requests` | HTTP client |
+| `psutil` | Process management |
+| `aiohttp` | Async HTTP |
+| `aiofiles` | Async file I/O |
+
+### Tool-Specific
+| Tool | Key Dependencies |
+|------|------------------|
+| Downloader | `pySmartDL`, `patool`, `rarfile` |
+| GoFile Helper | `aiohttp`, `unrar` |
+| Torrent Handler | `qbittorrentapi` |
+| Game Handler | `psutil`, `pypresence` |
+| Notification Helper | `PyQt6` |
+| Translator | `requests`, `json` |
+
+---
+
+## Build & Development
+
+### Build Tools
+| Tool | Purpose |
+|------|---------|
+| `electron-builder` | Package Electron apps |
+| `vite` | Frontend bundling |
+| `pyinstaller` | Python to executable |
+| `pkg` | Node.js to executable |
+
+### Development
+| Tool | Purpose |
+|------|---------|
+| `concurrently` | Run multiple processes |
+| `wait-on` | Wait for resources |
+| `eslint` | Code linting |
+| `prettier` | Code formatting |
+
+### Package Managers
+Supported: `npm`, `yarn`, `pnpm`, `bun`
+
+---
+
+## Platform Support
+
+### Windows
+- **Target**: Windows 10/11 (x64)
+- **Installer**: NSIS
+- **Native**: Full feature support
+
+### macOS
+- **Target**: macOS 10.15+ (Intel & Apple Silicon)
+- **Installer**: DMG
+- **Limitations**: Wine required for Windows games
+
+### Linux
+- **Target**: Ubuntu 20.04+, Fedora 35+
+- **Installer**: AppImage
+- **Limitations**: Wine required for Windows games
+
+---
+
+## API & Services
+
+### Ascendara API
+- **Base URL**: `https://api.ascendara.app`
+- **Format**: JSON
+- **Auth**: API key + HMAC signatures for images
+
+### External Services
+| Service | Purpose |
+|---------|---------|
+| GoFile.io | File hosting downloads |
+| IGDB/Twitch | Game metadata & covers |
+| Discord | Rich Presence |
+| qBittorrent | Torrent downloads |
+
+---
+
+## File Formats
+
+### Configuration
+| File | Format | Purpose |
+|------|--------|---------|
+| `ascendarasettings.json` | JSON | User settings |
+| `timestamp.ascendara.json` | JSON | App state & history |
+| `games.json` | JSON | Custom games list |
+
+### Game Data
+| File | Format | Purpose |
+|------|--------|---------|
+| `{game}.ascendara.json` | JSON | Game metadata |
+| `filemap.ascendara.json` | JSON | File verification |
+| `achievements.ascendara.json` | JSON | Achievement data |
+
+### Themes
+| File | Format | Purpose |
+|------|--------|---------|
+| `ascendaratheme.json` | JSON | Custom theme export |
+
+---
+
+## Security Considerations
+
+### Encryption
+- **Algorithm**: AES-256-CBC
+- **Key Derivation**: Machine ID + salt
+- **Usage**: Sensitive settings storage
+
+### IPC Security
+- **Context Isolation**: Enabled
+- **Node Integration**: Disabled in renderer
+- **Preload Scripts**: Whitelist-based API exposure
+
+### API Security
+- **Rate Limiting**: Per-endpoint limits
+- **Image Signing**: HMAC-SHA256 signatures
+- **HTTPS**: All API communication encrypted
