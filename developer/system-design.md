@@ -8,31 +8,31 @@ Ascendara uses Electron's multi-process architecture:
 
 ```
 ┌────────────────────────────────────────────────────────────────┐
-│                         Main Process                            │
+│                         Main Process                           │
 │  ┌──────────────────────────────────────────────────────────┐  │
-│  │                      electron/app.js                      │  │
-│  │  • Window management    • IPC handling    • App lifecycle │  │
+│  │                      electron/app.js                     │  │
+│  │  • Window management    • IPC handling    • App lifecycle│  │
 │  └──────────────────────────────────────────────────────────┘  │
-│                              │                                  │
+│                              │                                 │
 │  ┌──────────────────────────────────────────────────────────┐  │
-│  │                   electron/modules/                       │  │
+│  │                   electron/modules/                      │  │
 │  │  • Settings     • Downloads    • Games      • Updates    │  │
 │  │  • System       • Themes       • Discord    • Protocol   │  │
 │  └──────────────────────────────────────────────────────────┘  │
-│                              │                                  │
-│                    Child Processes (spawn)                      │
-│  ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐  │
-│  │ Downloader │ │GameHandler │ │ GofileHelper│ │ Ludusavi   │  │
-│  └────────────┘ └────────────┘ └────────────┘ └────────────┘  │
+│                              │                                 │
+│                    Child Processes (spawn)                     │
+│  ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐   │
+│  │ Downloader │ │GameHandler │ │GofileHelper│ │ Ludusavi   │   │
+│  └────────────┘ └────────────┘ └────────────┘ └────────────┘   │
 └────────────────────────────────────────────────────────────────┘
                                │
                           preload.js
                         (contextBridge)
                                │
 ┌────────────────────────────────────────────────────────────────┐
-│                       Renderer Process                          │
+│                       Renderer Process                         │
 │  ┌──────────────────────────────────────────────────────────┐  │
-│  │                     React Application                     │  │
+│  │                     React Application                    │  │
 │  │  • Pages        • Components    • Context    • Hooks     │  │
 │  └──────────────────────────────────────────────────────────┘  │
 └────────────────────────────────────────────────────────────────┘
@@ -63,16 +63,16 @@ app.js (entry)
 ### Module Dependencies
 ```
 config.js ◄─────────────────────────────────────┐
-    │                                            │
-    ▼                                            │
+    │                                           │
+    ▼                                           │
 settings.js ◄───────────────────────────┐       │
-    │                                    │       │
-    ▼                                    │       │
+    │                                   │       │
+    ▼                                   │       │
 ┌─────────────────────────────────────────────────┐
-│  downloads.js  │  games.js  │  updates.js  │ ... │
-│      │              │             │              │
-│      └──────────────┴─────────────┴──────────────┤
-│                 All use settings & config        │
+│  downloads.js  │  games.js  │  updates.js │ ... │
+│      │              │             │             │
+│      └──────────────┴─────────────┴─────────────┤
+│                 All use settings & config       │
 └─────────────────────────────────────────────────┘
 ```
 
@@ -86,7 +86,7 @@ Renderer                    Main Process
    │ ──────────────────────────► │
    │                             │  settingsManager.getSettings()
    │                             │
-   │  ◄─────────────────────────  │
+   │  ◄───────────────────────── │
    │      { settings object }    │
 ```
 
@@ -107,22 +107,22 @@ Main Process                Renderer
 ### Architecture
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     Download Manager                         │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │                  downloads.js                        │   │
-│  │  • Spawns Python downloader                         │   │
-│  │  • Monitors progress file                           │   │
-│  │  • Broadcasts progress to renderer                  │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                           │                                  │
-│                     spawn process                            │
-│                           ▼                                  │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │              AscendaraDownloader.py                  │   │
-│  │  • Multi-threaded downloads (pySmartDL)             │   │
-│  │  • Archive extraction (patool/rarfile)              │   │
-│  │  • Progress JSON updates                            │   │
-│  └─────────────────────────────────────────────────────┘   │
+│                     Download Manager                        │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │                  downloads.js                       │    │
+│  │  • Spawns Python downloader                         │    │
+│  │  • Monitors progress file                           │    │
+│  │  • Broadcasts progress to renderer                  │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                           │                                 │
+│                     spawn process                           │
+│                           ▼                                 │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │              AscendaraDownloader.py                 │    │
+│  │  • Multi-threaded downloads (pySmartDL)             │    │
+│  │  • Archive extraction (patool/rarfile)              │    │
+│  │  • Progress JSON updates                            │    │
+│  └─────────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────────┘
 ```
 

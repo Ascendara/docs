@@ -68,7 +68,7 @@ Returns a list of all available games with metadata and system requirements.
 | minReqs        | object              | Minimum system requirements (see minReqs table below)                       |
 | online         | boolean             | Whether the game has online/multiplayer features                            |
 | rating         | number              | Average user rating (0–5, or 0 if no ratings)                               |
-| size           | string              | Download size (e.g. "21.1 GB")                                             |
+| size           | string              | Download size (e.g. "21.1 GB")                                              |
 | version        | string/number       | Internal version identifier                                                 |
 | weight         | string/number       | Popularity weight (higher = more popular)                                   |
 
