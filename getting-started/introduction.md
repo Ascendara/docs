@@ -3,7 +3,7 @@
 ## What is Ascendara?
 Ascendara is a user-friendly game discovery and download management application created by [tago](https://tago.works/). It organizes game links from trusted sources through a custom-developed public API, connecting to a database of verified game testing links. The application serves as both a game discovery tool and a download manager, allowing users to try games before purchasing.
 
-The project, which began about 10 months ago, remains actively maintained with regular updates and improvements. Recently, it underwent a [complete UI overhaul](https://ascendara.app/v7) to provide a more modern and user-friendly experience. You can find Ascendara at [ascendara.app](https://ascendara.app/), where everything from the website to the application's source code is openly available and developed with dedication by tago.
+The project, which become open source in May of 2024, remains actively maintained with regular updates and improvements. Recently, it underwent a [complete UI overhaul](https://ascendara.app/v7) to provide a more modern and user-friendly experience. You can find Ascendara at [ascendara.app](https://ascendara.app/), where everything from the website to the application's source code is openly available and developed with dedication by tago.
 
 ## Outsourced Links
 Game files are never stored on Ascendara's servers. Ascendara operates as a game testing intermediary application, focusing on providing users with the ability to evaluate games before purchase. Games are downloaded from providers like MegaDB, GoFile, buzzheavier, and others. Read the Digital Millennium Copyright Act (DMCA) Notice [here](https://ascendara.app/dmca) to learn more and understand how to make a claim of copyright infringement.
