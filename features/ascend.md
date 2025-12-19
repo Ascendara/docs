@@ -10,15 +10,21 @@ Subscription revenue goes directly toward keeping the servers running 24/7, main
 
 ## Premium Features
 
-Ascend unlocks a suite of premium features designed to enhance every aspect of your Ascendara experience.
+Ascend unlocks a suite of premium features designed to enhance every aspect of your Ascendara experience:
 
-**Friends & Status** lets you connect with other Ascendara users and see their online status in real-time. Build your gaming community within the app and always know when your friends are playing. It's a simple way to stay connected and discover what others in your network are enjoying.
-
-**Stats & Game Viewing** gives you insight into your own gaming habits and lets you see what others are playing. You can make your profile public to share your achievements and game history with friends, or keep it private if you prefer. This feature also helps you discover new games through your network—see what's popular among people you know and find your next favorite title.
-
-**Cloud Syncing** automatically saves your achievements and playtime to the cloud. Your complete gaming history is accessible from anywhere, on any device. No more worrying about losing progress when switching computers or reinstalling—your data follows you wherever you go.
-
-**Game Updating** keeps your library current with minimal effort. Ascend notifies you when updates are available for your games and lets you install them with a single click. No more manually checking for patches or hunting down update files—Ascend handles it all seamlessly in the background.
+- **Friends System**: Send and accept friend requests, build your gaming network, and see when your friends are online. Connect with other Ascendara users and grow your community.
+- **Real-Time Chat**: Chat directly with your friends within Ascendara. Share game recommendations, coordinate play sessions, and stay connected with your gaming circle.
+- **Profile & Bio**: Set up your personalized profile with a custom bio, showcase your gaming preferences, and let others know what you're all about. Make your profile uniquely yours.
+- **Cloud Sync**: Your profile, achievements, and game data are automatically synced to the cloud. Access your complete gaming history from anywhere, on any device.
+- **Public Leaderboard**: Compete with the community on the public leaderboard. See how your stats stack up against other players and climb the ranks.
+- **Auto Game Update Checking**: Automatically check for game updates in the background. Get notified when updates are available and install them with a single click.
+- **Upcoming Updates Peek**: Get an exclusive preview of what's coming in the next Ascendara update. Stay ahead of the curve and know what new features are on the horizon.
+- **Nexus Mod Managing**: Seamlessly manage your Nexus mods for supported games. Browse, install, and organize mods directly within Ascendara.
+- **Unlimited Downloads**: Download as many games as you want with no restrictions. Ascend removes all download limits so you can build your library freely.
+- **FLiNG Trainer**: Automatically downloads the correct FLiNG trainer for your game and handles installation, no manual searching or setup required.
+- **Download Queue**: Queue multiple downloads and let Ascendara handle them automatically. Start downloads and come back when they're all ready.
+- **Game Communities** _(PLANNED)_: Find others to play with in game-specific communities. Connect with players who share your interests and coordinate multiplayer sessions.
+- **Cloud Backups** _(PLANNED)_: Automatically back up your game saves to the cloud. Never lose your progress and restore your saves on any device.
 
 ## Getting Started with Ascend
 
