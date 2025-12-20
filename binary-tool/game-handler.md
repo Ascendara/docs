@@ -17,7 +17,7 @@ The Game Handler manages game execution, process monitoring, and Discord Rich Pr
 
 ### Command Line Arguments
 ```bash
-AscendaraGameHandler.exe [game_path] [is_custom_game] [--shortcut] [--ludusavi]
+AscendaraGameHandler.exe [game_path] [is_custom_game] [admin] [--shortcut] [--ludusavi] [--trainer] [--gameLaunchCmd "command"]
 ```
 
 ### Parameters
@@ -25,14 +25,30 @@ AscendaraGameHandler.exe [game_path] [is_custom_game] [--shortcut] [--ludusavi]
  Path to game executable
 - `is_custom_game`
  Custom game flag (true/false or 1/0)
+- `admin`
+ Launch with admin privileges flag (true/false or 1/0)
 - `--shortcut`
  Optional shortcut flag for Discord integration
 - `--ludusavi`
  Optional flag to enable Ludusavi backup after game closes
+- `--trainer`
+ Optional flag to launch FLiNG trainer (ascendaraFlingTrainer.exe) alongside the game
+- `--gameLaunchCmd "command"`
+ Optional custom launch command for the game
 
 ### Example
 ```bash
-AscendaraGameHandler.exe "C:/Games/MyGame/game.exe" false --shortcut --ludusavi
+# Basic launch
+AscendaraGameHandler.exe "C:/Games/MyGame/game.exe" false false
+
+# With shortcut and backup
+AscendaraGameHandler.exe "C:/Games/MyGame/game.exe" false false --shortcut --ludusavi
+
+# With trainer
+AscendaraGameHandler.exe "C:/Games/MyGame/game.exe" false false --trainer
+
+# With admin and trainer
+AscendaraGameHandler.exe "C:/Games/MyGame/game.exe" false true --trainer
 ```
 
 ## Development
@@ -42,7 +58,7 @@ AscendaraGameHandler.exe "C:/Games/MyGame/game.exe" false --shortcut --ludusavi
 #### Execute Game
 Main function for game execution and monitoring:
 ```python
-def execute(game_path, is_custom_game, is_shortcut=False, use_ludusavi=False):
+def execute(game_path, is_custom_game, admin, is_shortcut=False, use_ludusavi=False, game_launch_cmd=None, launch_trainer=False):
     # Setup Discord RPC if shortcut mode
     rpc = setup_discord_rpc() if is_shortcut else None
     
@@ -82,6 +98,53 @@ def execute(game_path, is_custom_game, is_shortcut=False, use_ludusavi=False):
     # Launch game process
     process = subprocess.Popen(exe_path)
     
+    # Launch trainer if requested
+    trainer_process = None
+    if launch_trainer:
+        # For non-custom games, use the game root directory (where .ascendara.json is)
+        # For custom games, use the executable's directory
+        if not is_custom_game and json_file_path:
+            trainer_dir = os.path.dirname(json_file_path)
+        else:
+            trainer_dir = os.path.dirname(exe_path)
+        
+        trainer_path = os.path.join(trainer_dir, "ascendaraFlingTrainer.exe")
+        if os.path.exists(trainer_path):
+            try:
+                logging.info(f"Launching trainer: {trainer_path}")
+                # Try to launch trainer normally first
+                try:
+                    trainer_process = subprocess.Popen(trainer_path)
+                    logging.info("Trainer launched successfully")
+                except OSError as trainer_error:
+                    # If elevation is required (error 740), launch with admin privileges
+                    if getattr(trainer_error, "winerror", None) == 740:
+                        logging.info("Trainer requires elevation, launching with admin privileges")
+                        if platform.system().lower() == 'windows':
+                            try:
+                                # Use ShellExecute with 'runas' to launch trainer with admin
+                                ctypes.windll.shell32.ShellExecuteW(
+                                    None,
+                                    "runas",
+                                    trainer_path,
+                                    None,
+                                    trainer_dir,
+                                    1  # SW_SHOWNORMAL
+                                )
+                                logging.info("Trainer launched with admin privileges")
+                                # Note: We don't have a process handle when using ShellExecuteW
+                                trainer_process = None
+                            except Exception as elev_err:
+                                logging.error(f"Failed to launch trainer with elevation: {elev_err}")
+                        else:
+                            raise
+                    else:
+                        raise
+            except Exception as e:
+                logging.error(f"Failed to launch trainer: {e}")
+        else:
+            logging.warning(f"Trainer not found at: {trainer_path}")
+    
     # Monitor process and track play time
     start_time = time.time()
     last_update = start_time
@@ -96,6 +159,16 @@ def execute(game_path, is_custom_game, is_shortcut=False, use_ludusavi=False):
             # ...
             last_update = current_time
         time.sleep(0.1)
+    
+    # Close trainer if it was launched
+    if trainer_process and trainer_process.poll() is None:
+        try:
+            logging.info("Terminating trainer process")
+            trainer_process.terminate()
+            trainer_process.wait(timeout=5)
+            logging.info("Trainer process terminated")
+        except Exception as e:
+            logging.error(f"Error terminating trainer: {e}")
     
     # Cleanup on exit
     # ...
