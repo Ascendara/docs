@@ -16,7 +16,7 @@ Ascendara has a feature that allows you to protect directories from Windows Defe
 
 ## Importing from Steam
 
-Importing your existing Steam library into Ascendara is quick and effortless. Simply select your `steamapps/common` directory, and Ascendara will automatically scan and add all eligible games it finds. Each imported game is matched with its folder name and cover art using IGDB, ensuring your library looks clean and consistent. Ascendara may get some images wrong for games or might not be able to find any at all, but you can always add your own cover art manually.
+Importing your existing Steam library into Ascendara is quick and effortless. Simply select your `steamapps/common` directory, and Ascendara will automatically scan and add all eligible games it finds. Each imported game is matched with its folder name and cover art using the Steam API, ensuring your library looks clean and consistent. Ascendara may get some images wrong for games or might not be able to find any at all, but you can always add your own cover art manually.
 
 ## Download Games in 2 Clicks
 

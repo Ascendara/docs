@@ -156,7 +156,6 @@ Supported: `npm`, `yarn`, `pnpm`, `bun`
 | Service | Purpose |
 |---------|---------|
 | GoFile.io | File hosting downloads |
-| IGDB/Twitch | Game metadata & covers |
 | Discord | Rich Presence |
 | qBittorrent | Torrent downloads |
 
