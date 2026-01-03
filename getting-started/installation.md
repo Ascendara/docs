@@ -21,6 +21,12 @@ The Ascendara installer is a lightweight download (under 35MB) with a clean, mod
 
 Windows Defender SmartScreen may flag the installer since Ascendara is open-source and doesn't use a paid code signing certificate. You can safely proceed by clicking "More info" → "Run anyway".
 
+#### Why Does This Happen?
+
+Windows shows this warning because Ascendara's installer isn't signed with a Microsoft certificate, which costs over $300 per year. Like many open-source projects, we've chosen not to purchase this certificate to keep Ascendara completely free.
+
+Instead, we ensure transparency by making Ascendara's code public and regularly scanning releases. You can verify both of these above on our [GitHub repository](https://github.com/Ascendara/Ascendara) and view security scan results in each release.
+
 ## Browser Extension
 The Ascendara Download Handler is a crucial part of Ascendara that simplifies the download process:
 
