@@ -25,7 +25,7 @@ The Torrent Handler is a command-line tool for managing game downloads through t
 
 ### Command Line Arguments
 ```bash
-AscendaraTorrentHandler.exe <magnet> <game> <online> <dlc> <version> <size> <dir> [--withNotification theme]
+AscendaraTorrentHandler.exe <magnet> <game> <online> <dlc> <version> <size> <dir> [--withNotification theme] [--qbitHost host] [--qbitPort port] [--qbitUsername user] [--qbitPassword pass]
 ```
 
 ### Parameters
@@ -37,10 +37,14 @@ AscendaraTorrentHandler.exe <magnet> <game> <online> <dlc> <version> <size> <dir
 - `size`: Download size
 - `dir`: Download directory
 - `--withNotification`: (Optional) Theme name for notifications (e.g., light, dark, blue)
+- `--qbitHost`: (Optional) qBittorrent WebUI host (default: localhost)
+- `--qbitPort`: (Optional) qBittorrent WebUI port (default: 8080)
+- `--qbitUsername`: (Optional) qBittorrent WebUI username (default: admin)
+- `--qbitPassword`: (Optional) qBittorrent WebUI password (default: adminadmin)
 
 ### Example
 ```bash
-AscendaraTorrentHandler.exe "magnet:?xt=urn:btih:..." "MyGame" true false "1.0.0" "50GB" "C:/Games" --withNotification emerald
+AscendaraTorrentHandler.exe "magnet:?xt=urn:btih:..." "MyGame" true false "1.0.0" "50GB" "C:/Games" --withNotification emerald --qbitHost 192.168.1.100 --qbitPort 8080
 ```
 
 ## Implementation
@@ -51,11 +55,15 @@ AscendaraTorrentHandler.exe "magnet:?xt=urn:btih:..." "MyGame" true false "1.0.0
 Manages torrent downloads, installation, and cleanup:
 ```python
 class TorrentManager:
-    def __init__(self):
+    def __init__(self, qbit_host='localhost', qbit_port=8080, qbit_username='admin', qbit_password='adminadmin'):
         self.qbt_client = None
         self.connect_thread = None
         self.current_torrent_hash = None
         self.notification_theme = None
+        self.qbit_host = qbit_host
+        self.qbit_port = qbit_port
+        self.qbit_username = qbit_username
+        self.qbit_password = qbit_password
         
     def cleanup(self):
         if self.qbt_client and self.current_torrent_hash:
@@ -67,6 +75,11 @@ class TorrentManager:
                     self.qbt_client.torrents_delete(delete_files=True, torrent_hashes=self.current_torrent_hash)
             except:
                 pass  # Ignore any errors during cleanup
+                
+    def ensure_connected(self):
+        if self.qbt_client is None:
+            self.connect_thread = threading.Thread(target=self._connect_qbittorrent)
+            self.connect_thread.start()
 ```
 
 #### Game State Management
@@ -137,13 +150,25 @@ for file in os.listdir(torrent_folder):
         setup_file = os.path.join(torrent_folder, file)
         break
 
+if not setup_file:
+    raise Exception("Could not find setup executable")
+
 # Run setup silently with target directory
 install_dir = os.path.join(game_dir, game)
 os.makedirs(install_dir, exist_ok=True)
 
+# Run setup and wait for completion
 process = subprocess.Popen([setup_file, '/VERYSILENT', f'/DIR="{install_dir}"'], 
                         stdout=subprocess.PIPE, 
                         stderr=subprocess.PIPE)
+
+while process.poll() is None:
+    time.sleep(1)
+    game_info["downloadingData"]["extracting"] = True
+    safe_write_json(game_info_path, game_info)
+
+if process.returncode != 0:
+    raise Exception(f"Setup failed with code {process.returncode}")
 ```
 
 ## Development
@@ -155,11 +180,13 @@ process = subprocess.Popen([setup_file, '/VERYSILENT', f'/DIR="{install_dir}"'],
 4. Test with various game scenarios
 
 ### Best Practices
-- Use safe_write_json for file operations
-- Implement proper cleanup on exit
-- Handle qBittorrent connection failures
-- Validate all command line arguments
+- Use safe_write_json for file operations with atomic writes
+- Implement proper cleanup on exit using atexit handlers
+- Handle qBittorrent connection failures with detailed error messages
+- Validate all command line arguments with proper type checking
 - Provide user feedback through notifications
+- Use threading for parallel operations (directory setup, connection)
+- Monitor download progress and update game state in real-time
 
 ## Troubleshooting
 
@@ -177,20 +204,34 @@ process = subprocess.Popen([setup_file, '/VERYSILENT', f'/DIR="{install_dir}"'],
 
 ### Error Codes
 Error codes are passed to the crash reporter:
-- Connection errors (1500-1503)
-- Download failures (1501-1502)
-- Installation failures (1506)
-- State management errors (1504-1505)
+- Error code 1: General errors (connection, download, installation, argument parsing)
 
 ### Logging
 The tool creates detailed logs in the temp directory:
 ```python
 def setup_logging():
+    log_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    
     # Create temp log file with timestamp
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     temp_log_path = os.path.join(gettempdir(), f'ascendara_torrent_{timestamp}.log')
     
+    # File handler for temp file
+    file_handler = logging.FileHandler(temp_log_path)
+    file_handler.setFormatter(log_formatter)
+    file_handler.setLevel(logging.DEBUG)
+    
+    # Console handler
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(log_formatter)
+    console_handler.setLevel(logging.INFO)
+    
     # Configure root logger
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.DEBUG)
+    root_logger.addHandler(file_handler)
+    root_logger.addHandler(console_handler)
+    
+    logging.info(f"Detailed logs will be saved to: {temp_log_path}")
+    return temp_log_path
 ```
