@@ -23,8 +23,7 @@ Ascend unlocks a suite of premium features designed to enhance every aspect of y
 - **Unlimited Downloads**: Download as many games as you want with no restrictions. Ascend removes all download limits so you can build your library freely.
 - **FLiNG Trainer**: Automatically downloads the correct FLiNG trainer for your game and handles installation, no manual searching or setup required.
 - **Download Queue**: Queue multiple downloads and let Ascendara handle them automatically. Start downloads and come back when they're all ready.
-- **Game Communities** _(PLANNED)_: Find others to play with in game-specific communities. Connect with players who share your interests and coordinate multiplayer sessions.
-- **Cloud Backups** _(PLANNED)_: Automatically back up your game saves to the cloud. Never lose your progress and restore your saves on any device.
+- **Cloud Backups**: Automatically back up your game saves to the cloud. Never lose your progress and restore your saves on any device.
 
 ## Getting Started with Ascend
 
