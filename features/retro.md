@@ -4,7 +4,7 @@ Ascendara Retro is a separate library for organizing and launching games from su
 
 ## Supported consoles
 
-The current console profiles are:
+The base console profiles, available to everyone:
 
 - PlayStation 1: DuckStation
 - PlayStation 2: PCSX2
@@ -14,6 +14,26 @@ The current console profiles are:
 - NES, SNES, Nintendo 64, Game Boy, Game Boy Color, and Game Boy Advance: RetroArch
 
 The suggested emulator is a launch preset. You may choose a custom emulator and custom arguments when a preset does not fit your setup.
+
+## Expanded consoles (Ascend)
+
+An active Ascend subscription or verified access unlocks additional console profiles and alternate emulator presets:
+
+- Xbox: xemu
+- Xbox 360: Xenia
+- Sega Dreamcast, Sega Naomi / Naomi 2, and Atomiswave: Flycast
+- Sega Genesis / Mega Drive, Sega CD, and Sega 32X: Gens
+- Sega Saturn and PC Engine / TurboGrafx-16: Mednafen
+- Nintendo DS / DSi: melonDS
+- Nintendo 3DS: Azahar
+- Nintendo Wii U: Cemu
+- Nintendo Switch: Eden
+
+Ascend access also unlocks alternate launch presets for consoles that are otherwise free, such as FCEUX for NES and DolphinXR for GameCube and Wii.
+
+These consoles and presets are configured from **All emulators** on the Retro page. Without an active Ascend subscription or verified access, the section shows a prompt to sign in or subscribe instead of the console and emulator list; the locked consoles also show a lock icon in the console list and open the same prompt when selected.
+
+**All emulators** also lists setup resources that are not console profiles themselves, such as PS3 system-software links, BIOS/setup guides for Azahar, Cemu, Eden, melonDS, and Mednafen, and ShadPKG for PS3. It additionally lists experimental, guide-only entries for PS4 and PS5 emulators (fpPS4, KytyPS5, RPCSX); these are not yet launchable consoles in Retro and only link to the emulator's own project pages.
 
 ## First-time setup
 
@@ -98,3 +118,5 @@ The ROMs, emulator installation, save folder, and cloud backup data remain separ
 **A restore changed the wrong files.** Open **Recovery copies** in Save management. Ascendara keeps the previous local files before a restore so they can be recovered.
 
 **A task is still running after leaving Retro.** Scans and catalogue imports run in the main process and continue while you navigate elsewhere. Return to Retro to see progress and warnings.
+
+**A console is locked or missing from the list.** Consoles under Expanded consoles (Ascend), and alternate presets such as FCEUX or DolphinXR, require an active Ascend subscription or verified access. Select the locked console, or open **All emulators**, to sign in or subscribe.
