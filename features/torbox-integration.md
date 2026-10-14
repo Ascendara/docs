@@ -1,72 +1,81 @@
 # TorBox Debrid Service
 
-> **Important:** Ascendara requires at least the Essential plan ($3/month) to function properly, as it needs the unlimited hoster downloads feature.
+> **Important:** Ascendara needs a TorBox plan that includes hoster (web) downloads. The free plan isn't enough; use at least the Essential plan.
 
-TorBox is a premium seedbox service that rivals even the best servers on the market. It provides users with a range of features for downloading and seeding content, with various plan options to suit different needs. TorBox allows you to download content from various sources including torrents, hosters, and Usenet, all while maintaining high speeds and reliability.
+TorBox is a debrid and seedbox service. A debrid service converts file-host links into premium direct download links, so downloads skip host speed limits, wait times, and CAPTCHAs. TorBox can also download torrents on its servers so you download the finished files directly instead of connecting to peers.
+
+## What TorBox Does in Ascendara
+
+When a TorBox API key is set:
+
+- **Hoster downloads**: Downloads from **1Fichier** and **MegaDB** go through TorBox automatically. Ascendara sends the link to TorBox and downloads the premium direct link it returns.
+- **All providers (optional)**: Turn on **Prioritize Torbox over Seamless** to use TorBox for every provider, including GoFile and PixelDrain, whenever TorBox supports the link.
+- **Torrents**: With **Use TorBox for torrents** on (the default), magnet links are sent to TorBox instead of being downloaded through qBittorrent. You don't need qBittorrent for torrent downloads when TorBox handles them.
+- **TorBox Downloads page**: A **Torbox Downloads** page appears in the navigation bar, showing your TorBox account, plan, downloads in progress, and completed downloads ready to download to your PC.
+
+On a game's download page, you can disable TorBox for a single download, for example if TorBox doesn't support that provider's link.
 
 ## TorBox Plans
 
-TorBox offers several subscription tiers to accommodate different usage patterns:
+TorBox offers several plans (Free, Essential, Standard, and Pro). For current features, limits, and prices, see the [TorBox pricing page](https://torbox.app/pricing). Plans have limits on download size and on the number of concurrent downloads.
 
-- **Free Plan** ($0/month) - Basic features for trying out the service
-- **Essential Plan** ($3/month) - **Minimum Required for Ascendara**
-- **Standard Plan** ($5/month) - For moderate usage with more features
-- **Pro Plan** ($10/month) - For power users with maximum capabilities
-
-
-For detailed information about each plan's features and limitations, visit the [TorBox Pricing Page](https://torbox.app/pricing).
-
-## How to Get Your TorBox API Link for Ascendara
+## How to Get Your TorBox API Key
 
 ### Step 1: Create a TorBox Account
 
-1. Visit the [TorBox website](https://torbox.app)
-2. Click on "Get Started For Free Now"
-3. Complete the registration process with your email and password
-4. Verify your email address
+1. Visit the [TorBox website](https://torbox.app).
+2. Sign up and verify your email address.
 
 ### Step 2: Subscribe to a Compatible Plan
 
-1. Log in to your TorBox account
-2. Navigate to the [pricing page](https://torbox.app/pricing)
-3. Select at least the **Essential Plan** ($3/month) or higher
-4. Complete the payment process
+1. Log in to your TorBox account.
+2. Open the [pricing page](https://torbox.app/pricing).
+3. Choose the Essential plan or higher and complete the payment.
 
 ### Step 3: Generate Your API Key
 
-1. After logging in to your TorBox account, click on your profile icon in the top right corner
-2. Select the settings page from the dropdown menu
-3. Scroll down to the "API" section
-4. Generate your API key and copy it
+1. In your TorBox account, open your settings.
+2. Find the **API** section.
+3. Generate an API key and copy it.
 
-### Step 4: Configure Ascendara with Your API Key
+### Step 4: Add the Key to Ascendara
 
-1. Open Ascendara's preferences page
-2. Scroll down to the Download Manager section
-3. Paste your API key into the TorBox API Key field
-4. Click "Set"
+1. Open **Settings** and scroll to the **Download Manager** section.
+2. Paste your key into **Torbox API Key**.
+3. Click **Set**.
 
-## Troubleshooting TorBox API Connection
+The key is stored encrypted in your Ascendara settings.
 
-### API Key Not Working?
+## TorBox Settings
 
-- Ensure you've subscribed to at least the Essential plan
-- Try regenerating your API key from the TorBox dashboard and setting it again in Ascendara
-- Check for any spaces or extra characters that might have been copied with your API key
+These options appear in the **Download Manager** section of **Settings**:
 
-### Connection Issues?
+| Setting | Default | What it does |
+| --- | --- | --- |
+| **Torbox API Key** | Empty | Enables TorBox. |
+| **Prioritize Torbox over Seamless** | Off | Uses TorBox even for providers that support seamless downloads. |
+| **Use TorBox for torrents** | On | Sends magnet links to TorBox instead of qBittorrent. |
+| **Fall back to qBittorrent** | Off | If TorBox can't add a magnet, retries it through your qBittorrent WebUI. This may send torrent traffic outside TorBox, so make sure your VPN is active. |
 
-- Verify your internet connection
-- Check if TorBox's servers are experiencing downtime
-- Ensure your firewall isn't blocking the connection
-- Try enabling a VPN
+## Troubleshooting TorBox
 
-### Download Limits
+### API Key Not Working
+- Make sure your plan includes hoster downloads.
+- Regenerate the API key in TorBox and set it again in Ascendara.
+- Check that no spaces or extra characters were copied with the key.
 
-- Remember that even with paid plans, there are still some limitations:
-  - Essential and Standard plans have a 200GB maximum download size
-  - The number of concurrent downloads is limited based on your plan
+### "This provider is offline on Torbox"
+TorBox can't currently download from that provider. Choose another provider for the game.
+
+### "TorBox does not support this download link"
+Choose another provider, or disable TorBox for this download on the game's download page.
+
+### Connection Issues
+- Verify your internet connection.
+- Check whether TorBox is experiencing downtime.
+- Make sure your firewall isn't blocking the connection.
+- Try enabling a VPN.
 
 ## Acknowledgement
 
-A special thank you to Wamy, the owner of TorBox, for making this integration possible. They provided me with a plan to work on this integration, and we are going to partner closely with them to ensure the best experience for Ascendara users.
+A special thank you to Wamy, the owner of TorBox, for making this integration possible and for working closely with Ascendara to give its users the best experience.
