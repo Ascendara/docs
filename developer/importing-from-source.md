@@ -66,10 +66,13 @@ This step is necessary because each browser has different manifest requirements 
 
 ## Usage Guide
 
-1. Once installed, the extension will automatically detect compatible downloads
-2. When a download starts, you'll see a prompt to open Ascendara
-3. Click "Open in Ascendara" to redirect the download
-4. A new tab will open and the download will start automatically
+1. Click the extension icon and enable the handler.
+2. Choose what the extension captures: **My sites and providers**, **Any website** (forwards all HTTP(S) downloads while enabled), or **Capture next download**.
+3. Start a download in your browser. The extension stops the browser download and asks your browser to open Ascendara.
+4. Allow the browser to open Ascendara. Ascendara receives the link through an `ascendara://download` URL.
+5. Review the game name in Ascendara (games outside the index are supported), then continue to download.
+
+See [Downloading Games](/docs/features/downloading#browser-extension) for the full flow in Ascendara.
 
 ## Troubleshooting
 
