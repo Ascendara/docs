@@ -1,7 +1,7 @@
 # Ascendara API Overview
 
 ## Introduction
-The Ascendara API is a RESTful interface for game discovery, download tracking, system health, and image assets. It is designed for non-commercial use and does not serve actual game files.
+The Ascendara API is a RESTful interface for game discovery, the game index, download statistics, app versions, and image assets. It's designed for non-commercial use and never serves game files.
 
 ## API Basics
 
@@ -11,7 +11,7 @@ https://api.ascendara.app
 ```
 
 ### Response Format
-All responses are JSON. Success and error response structures depend on the endpoint.
+All responses are JSON, except image endpoints. Success and error response structures depend on the endpoint.
 
 #### Example Success Responses
 Health check:
@@ -22,16 +22,13 @@ Health check:
   "endpoint": "ascendara-api"
 }
 ```
-Download tracked:
+App version:
 ```json
 {
-  "message": "Download tracked successfully"
-}
-```
-Version info:
-```json
-{
-  "version": "x.x.x"
+  "appVer": "11.4.0",
+  "status": "OK",
+  "readme": "This is the public API for Ascendara. Only available for non-commercial use",
+  "documentation": "https://ascendara.app/docs/api-reference/overview"
 }
 ```
 
@@ -42,44 +39,50 @@ Version info:
 }
 ```
 
+### Authentication
+The public endpoints below don't need authentication. Other endpoints used by the app (reports, ratings, Ascend, the index relay) require signed requests from official Ascendara builds and aren't documented here.
+
 ### Rate Limiting
 - Image endpoints: 30 requests per 60 seconds
-- General endpoints: 3 requests per hour
+- Some endpoints have their own limits (see the endpoint reference)
 - Rate limits are per IP
-- Some endpoints have custom limits (see endpoint reference)
 
 ## Core Public Endpoints
 
 ### Health & Status
-- `GET /health` — Returns API health and version
-- `GET /` — Returns running version and status
+- [`GET /health` — API health and version](/docs/api-reference/endpoints#get-health-status)
+- [`GET /` — Latest Ascendara version](/docs/api-reference/endpoints#get-current-app-version)
+- [`GET /branch-versions` — Latest version on each release branch](/docs/api-reference/endpoints#get-branch-versions)
+- [`GET /app/brokenversions` — Versions with known critical issues](/docs/api-reference/endpoints#get-broken-versions)
 
-### Game Data
-- [`GET /json/games` — List all games with metadata](https://ascendara.app/docs/api-reference/games-list)
-- [`GET /v2/image/{imageid}` — Get image for a specific game](https://ascendara.app/docs/api-reference/endpoints#get-game-image)
-- [`GET /v2/image?place={position}` — Get game image by popularity weight](https://ascendara.app/docs/api-reference/endpoints#get-game-image-by-weight)
+### Game Index
+- [`GET /json/v2/games` — The official game list](/docs/api-reference/games-list)
+- [`GET /localindex/status` — Whether the index is refreshing normally](/docs/api-reference/endpoints#get-index-status)
+- [`GET /localindex/info` — Index date and game count](/docs/api-reference/endpoints#get-index-info)
+- [`GET /v3/verifiedgames` — Verified game IDs](/docs/api-reference/endpoints#get-verified-games)
+- [`GET /v2/image/{imageid}` — Image for a specific game](/docs/api-reference/endpoints#get-game-image)
+- [`GET /v2/image?place={position}` — Image by popularity rank](/docs/api-reference/endpoints#get-game-image-by-weight)
+- [`GET /json/games` — Legacy game list (deprecated)](/docs/api-reference/games-list#legacy-endpoint)
 
 ### Statistics
-- [`GET /stats/downloads` — Download counts for all games](https://ascendara.app/docs/api-reference/endpoints#get-download-statistics)
-- [`POST /stats/download` — Track a download event](https://ascendara.app/docs/api-reference/endpoints#track-download)
+- [`GET /stats/downloads` — Download counts for all games](/docs/api-reference/endpoints#get-download-statistics)
+- [`GET /average-app-rating` — Average app rating](/docs/api-reference/endpoints#get-average-app-rating)
 
 ### Information
-- [`GET /json/changelog` — Changelog information](https://ascendara.app/docs/api-reference/endpoints#get-changelog)
-- [`GET /public/json/current` — Current data version](https://ascendara.app/docs/api-reference/endpoints#get-current-app-version)
-- [`GET /json/roadmap` — Roadmap information](https://ascendara.app/docs/api-reference/endpoints#get-roadmap)
+- [`GET /json/changelog/v2` — Changelog](/docs/api-reference/endpoints#get-changelog)
+- [`GET /json/roadmap` — Roadmap](/docs/api-reference/endpoints#get-roadmap)
+- [`GET /json/publicthemes` — Community themes](/docs/api-reference/endpoints#get-community-themes)
+- [`GET /virustotal/latest` — Latest VirusTotal results](/docs/api-reference/endpoints#get-virustotal-results)
 
 ### Language
-- [`GET /language/version` — Current language file version](https://ascendara.app/docs/api-reference/endpoints#get-language-version)
-- [`GET /language/en` — English translation file](https://ascendara.app/docs/api-reference/endpoints#get-language-translation)
+- [`GET /language/version` — Current language file version](/docs/api-reference/endpoints#get-language-version)
+- [`GET /language/en` — English language file](/docs/api-reference/endpoints#get-language-translation)
 
-### Other
-- [`GET /virustotal/latest` — Latest VirusTotal results](https://ascendara.app/docs/api-reference/endpoints#get-virustotal-results)
-- [`GET /average-app-rating` — App average rating](https://ascendara.app/docs/api-reference/endpoints#get-average-app-rating)
-- [`GET /opencritic/game?name={game}` — OpenCritic info for a game](endpoints.md#get-opencritic-game-info)
-- [`POST /site/feedback` — Submit feedback (rate limited)](endpoints.md#submit-feedback)
+### Feedback
+- [`POST /site/feedback` — Submit feedback](/docs/api-reference/endpoints#submit-feedback)
 
 ### Error Handling
-All endpoints return errors in the format:
+All endpoints return errors in this format:
 ```json
 {
   "error": "error_message"
@@ -92,3 +95,5 @@ Common HTTP status codes:
 - 404: Not Found
 - 429: Rate Limit Exceeded
 - 500: Server Error
+
+See [Error Handling](/docs/api-reference/error-handling).
