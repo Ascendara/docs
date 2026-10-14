@@ -18,10 +18,11 @@ The webview operates as a standalone Next.js application that communicates with 
 ### Connection Flow
 
 ```
-User generates 6-digit code in desktop app
+User generates a connection code in the desktop app (Ascend → Companion)
     │
     ▼
-User enters code in webview
+User scans the QR code (webview.ascendara.app/?code=CODE)
+or enters the code in the webview
     │
     ▼
 Backend verifies code and creates session
@@ -32,6 +33,22 @@ Webview receives session token
     ▼
 Dashboard polls for download updates
 ```
+
+### Desktop App Integration
+
+The desktop side of Companion lives in the main Ascendara repository and talks to the backend at `monitor.ascendara.app`, authenticated with the user's Firebase ID token:
+
+| Step | Endpoint | Where |
+| --- | --- | --- |
+| Generate a connection code | `POST /generate-code` | `src/pages/ascend/useAscendPage.js` |
+| Wait for the device to connect | `GET /connection-status/{code}` | `src/pages/ascend/useAscendPage.js` |
+| List or disconnect devices | `GET /connected-devices/{uid}`, `POST /disconnect-device` | `src/pages/ascend/useAscendPage.js` |
+| Push download progress | `POST /downloads/sync` (every 5 seconds while downloads are active) | `src/services/downloadSyncService.js` |
+| Notify that a download started | `POST /downloads/notify-start` | `src/services/downloadSyncService.js` |
+| Fetch remote commands | `GET /downloads/commands/{uid}` | `src/services/downloadSyncService.js` |
+| Acknowledge a command | `POST /downloads/commands/acknowledge` | `src/services/downloadSyncService.js` |
+
+The connection code's lifetime comes from the backend (`expiresIn`, 300 seconds by default). The QR code is generated in the main process by `electron/modules/qrcode.js`. The Downloads page executes `pause`, `resume`, and `stop`/`cancel`/`kill` commands and acknowledges each one as `completed` or `failed`.
 
 ---
 
