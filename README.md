@@ -10,7 +10,18 @@ This repository contains the documentation for Ascendara, serving as a collabora
 
 Here's how to contribute:
 
-1. **Find the Right File**: Navigate to the appropriate category folder and locate the markdown file you want to edit.
+1. **Find the Right File**: Navigate to the appropriate category folder and locate the markdown file you want to edit. Each file is published at `ascendara.app/docs/<folder>/<file>`, for example `features/retro.md` → `/docs/features/retro`.
+
+   | Folder | Contents |
+   | --- | --- |
+   | `getting-started/` | Introduction, installation, usage, safety, and contributing |
+   | `features/` | User guides for each feature |
+   | `troubleshooting/` | Common issues, error codes, VR games, and emulators |
+   | `developer/` | Architecture, building from source, IPC, and tools |
+   | `binary-tool/` | The helper tools bundled with Ascendara |
+   | `api-reference/` | The public Ascendara API |
+
+   Some headings are linked directly from the Ascendara app (for example, `features/overview.md#protecting-directories-from-windows-defender`). Don't rename a heading without checking the app source for links to it.
 
 2. **Make Your Changes**: Edit the markdown file directly. The documentation uses standard GitHub-flavored markdown.
 
