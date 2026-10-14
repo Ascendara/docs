@@ -1,7 +1,13 @@
 # Ascendara Language Translator
 
 ## Overview
-The Language Translator is a command-line tool for translating Ascendara language files. It uses Google Translate's web API to automatically translate English language files into other languages while maintaining the JSON structure and implementing rate limiting for reliable translations.
+The Language Translator is a command-line tool that translates Ascendara's interface into the 93 extra languages that don't ship with the app. It downloads the English language file from the Ascendara API, translates every string with Google Translate's web API while keeping the JSON structure, and saves the result on your computer. Ascendara runs it when you choose an extra language in **Settings** → **Language Settings**.
+
+The 12 built-in languages (English, Spanish, French, German, Italian, Chinese, Arabic, Hindi, Bengali, Portuguese, Russian, and Japanese) ship with the app. They're generated from `src/translations/en.json` with machine translation, so translation fixes made directly to those files are overwritten when new text is added.
+
+Source: `binaries/AscendaraLanguageTranslation/src/AscendaraLanguageTranslation.py`
+
+On Windows, the translator is a sidecar that Ascendara downloads the first time you choose an extra language. On Linux and macOS, it's bundled with Ascendara.
 
 ## Features
 - Automated translation of JSON language files
@@ -25,18 +31,27 @@ AscendaraLanguageTranslation.exe [lang] [--output path] [--updateKeys] [--newKey
 ```
 
 ### Parameters
-- `lang`: Target language code (e.g., fr, de, es)
-- `--output`, `-o`: Optional output file path (default: ../languages/{lang}.json)
-- `--updateKeys`: Update specific keys in the language file
-- `--newKey`: New key to translate (can be specified multiple times)
+- `lang`: Target language code (for example, `ko`, `nl`, `pl`)
+- `--updateKeys`: Translate only specific keys and merge them into the existing language file
+- `--newKey`: A key to translate with `--updateKeys` (can be specified multiple times)
+- `--output`, `-o`: Accepted, but currently ignored. The language file is always written to the languages folder below.
+
+### Output
+Translated files are saved as `{lang}.json` in:
+
+| Platform | Path |
+| --- | --- |
+| Windows | `%LOCALAPPDATA%\Ascendara\languages\` |
+| macOS | `~/Library/Application Support/ascendara/languages/` |
+| Linux | `~/.ascendara/languages/` |
 
 ### Examples
 ```bash
-# Translate entire language file to French
-AscendaraLanguageTranslation.exe fr --output ../languages/fr.json
+# Translate the entire interface to Korean
+AscendaraLanguageTranslation.exe ko
 
-# Update specific keys in Spanish translation
-AscendaraLanguageTranslation.exe es --updateKeys --newKey "menu.settings" --newKey "errors.notFound"
+# Translate only specific keys in the Dutch language file
+AscendaraLanguageTranslation.exe nl --updateKeys --newKey "menu.settings" --newKey "errors.notFound"
 ```
 
 ## Implementation Details
@@ -125,11 +140,11 @@ def translate_text(text, target_lang):
 ### Configuration
 Progress and version data are stored in the user's home directory:
 ```python
-progress_file = os.path.join(os.path.expanduser("~"), 
-                           "translation_progress.ascendara.json")
-timestamp_file = os.path.join(os.environ['USERPROFILE'], 
-                            "timestamp.ascendara.json")
+progress_file = os.path.join(os.path.expanduser("~"), "translation_progress.ascendara.json")
+timestamp_path = os.path.join(os.path.expanduser("~"), "timestamp.ascendara.json")
 ```
+
+After a successful translation, the tool saves the current language version (from `GET /language/version`) as `extraLangVer` in the timestamp file. Ascendara compares it with the API to know when extra languages need updating.
 
 ### Error Handling
 Comprehensive error handling with crash reporter integration:
