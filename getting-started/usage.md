@@ -1,90 +1,93 @@
 # Using Ascendara
 
-## Installation
-Ascendara is designed to run on Windows 10/11. Download the installer from the [website](https://ascendara.app/).
+This guide walks through first-time setup and the everyday flow of finding, downloading, and playing games. To install the app, see [Installing Ascendara](/docs/getting-started/installation).
 
-Simply run the installer and wait for Ascendara to be installed to your computer. You may get a blue window popup warning you that you're running a unsafe file. This is just because the exe is not signed by Microsoft. Click "More info" then "Run anyway".
+## First-Time Setup
+When you first launch Ascendara, the welcome setup guides you through:
 
-## First Time Setup
-When first launching Ascendara, you'll experience:
+1. **Language**: Choose one of the built-in languages, or see the full list of 105 languages.
+2. **Terms**: Read and accept the Terms of Service and Privacy Policy.
+3. **Free app notice**: Downloading, installing, and playing is free. [Ascend](/docs/features/ascend) is optional.
+4. **Browser extension**: Install the [Ascendara Download Handler](https://ascendara.app/extension) (recommended).
+5. **How you found Ascendara**: An optional question.
+6. **Download location**: The folder where games are installed. You can add more folders later in **Settings**.
+7. **Protect your directories** (Windows): Exclude your download folder from Windows Defender so false positives aren't deleted mid-download. Windows asks for administrator permission. This only works with Windows Defender.
+8. **Theme**: Choose a light or dark theme.
+9. **Import your games**: Optionally [import installed games](/docs/features/importing) from Steam, Epic Games, GOG Galaxy, Ubisoft Connect, or Battle.net.
+10. **Updates**: Choose automatic or manual Ascendara updates.
+11. **Compatibility tools** (Linux and macOS): Install Proton CachyOS and UMU-Launcher (Linux) or Wine (macOS).
+12. **Game dependencies** (Windows): Install common runtime libraries:
+    * .NET Framework
+    * DirectX
+    * OpenAL
+    * Visual C++ Redistributable
+    * XNA Framework
 
-1. **Welcome Popup**: Initial welcome message
-2. **Extension Installation**: Prompt to install the [Ascendara Download Handler](https://ascendara.app/extension) chrome extension (highly recommended)
-3. **Game Dependencies**: Option to install common game runtime libraries:
-   * .NET Framework
-   * DirectX
-   * OpenAL
-   * Visual C++ Redistributable
-   * XNA Framework Redistributable
+Ascendara downloads the official game index in the background during setup. If you're offline, you can continue and the games will appear once Ascendara can connect. After setup, an optional tour shows you around the app.
 
-These dependencies are basic game runtime libraries that most games need. If you've played games before, you can skip this step, though installing them won't cause any issues.
+The game dependencies are runtime libraries that most games need. If you've played games on this PC before, you can skip this step. You can reinstall them at any time from **Settings** → **Application Components**.
 
-## Game Search
-The game search is your starting point in Ascendara, offering access to over 2,000 games.
+## Finding Games
+Use **Search** to browse the game index. You can filter by category, size, online support, and DLC, and sort by popularity, name, or recent updates. Press **Ctrl+K** (**Cmd+K** on macOS) anywhere to search games, settings, and commands.
 
-### Understanding Game Indicators
+The game list comes from [your game index](/docs/features/refreshing-index), which updates automatically in the background.
 
-#### Badges & Icons
-* **ONLINE Badge**: Indicates online-fix multiplayer capabilities
-* **ALL-DLC Badge**: Shows that all DLC is included
-* **Light Blue Checkmark**: Indicates verified working downloads
-  - Hover to see trust count
-  - Add trust via library game options
+### Game Badges and Icons
+* **ONLINE**: Online multiplayer is enabled through Online-Fix. Online-Fix games require Steam to be running.
+* **ALL-DLCs**: All available DLC is included.
+* **Verified Game**: The Ascendara community verified the game works with all of Ascendara's features.
+* **Star rating**: The average rating from people who downloaded and played the game on Ascendara. Open the game to read their reviews.
+* **Seamless download**: The game can be downloaded inside the app without a browser.
 
-#### Seamless Downloads
-Games with the fast forward icon support seamless downloads when enabled in settings:
-* No CAPTCHA required
-* Automatic download initiation
+## Downloading a Game
+Open a game to see its details, system requirements, and download options. Choose a provider, then start the download. See [Downloading Games](/docs/features/downloading) for every method in detail.
 
-### Download Methods
+### Seamless Downloads
+Supported providers (GoFile and PixelDrain) download directly in Ascendara with no browser and no CAPTCHA.
 
-#### Using Download Handler Extension (Recommended)
-1. Open Download Link
-2. Enable download handler
-3. Complete CAPTCHA
-4. Start download
+### Using the Download Handler Extension (Recommended)
+1. Open the download link in your browser and enable the extension.
+2. Complete the CAPTCHA and start the download.
+3. The extension sends the file link to Ascendara. Review the game name, then continue to download.
 
-#### Manual Method
-1. Open Download Link
-2. Complete CAPTCHA
-3. Start download
-4. Stop browser download
-5. Open downloads (CTRL+J)
-6. Copy download link
-7. Paste link in Ascendara
+### Manual Method
+1. Copy and paste the link into your browser.
+2. Complete the CAPTCHA and start the download.
+3. Stop the download once it starts in your browser.
+4. Press **Ctrl+J** to open your browser's downloads.
+5. Copy the link the browser started downloading.
+6. Paste the direct download link (DDL) into Ascendara and click **Download Now**.
 
-## Game Library Management
+Follow progress on the **Downloads** page. Downloading, extracting, and verifying are separate stages, so wait for the game to finish installing before you play.
 
-### Installed Games
-Access your installed games through the library (controller icon):
-* Launch games with PLAY button
-* Access additional options via three dots menu:
-  - Uninstall game
-  - Change executable file
-  - Open game directory
+## Your Library
+All downloaded, custom, and imported games appear in your **Library**. Click a game to open its page, where you can:
+* **Play** the game
+* Manage executables, launch options, and desktop or Start Menu shortcuts
+* Back up and restore saves
+* Verify game files, open the game folder, or delete the game
 
-### Adding Custom Games
-1. Click plus icon next to "Your Library"
-2. Enter game information
-3. Select game executable
-4. Game appears in library
-* Use "Remove from Library" to remove (doesn't delete files)
+You can also organize games into folders, mark Favorites, and use Play Later. See [Your Library](/docs/features/library).
 
-## Maintenance
+### Adding Your Own Games
+1. In the Library, select **Add to Library**.
+2. Choose **Single game** to pick one executable, or **Scan folder** to add every game in a folder's subfolders.
+3. Enter the game's details and save.
 
-### Reporting Issues
-* **Game Issues**: Click red flag next to game name
-* **App Bugs**: Use "Report a Bug" in settings
+You can also drag and drop a game's `.exe` file onto the Library. Adding a game never modifies its files, and **Remove from Library** doesn't delete them.
 
-### Game Updates
-* Ascendara doesn't auto-update games
-* To update:
-  1. Delete existing installation
-  2. Download new version
-* Save data (usually in AppData/Documents) remains intact
+## Updating Games
+Ascendara shows an **Update** badge when a newer version of a game is available in the index. With [Ascend](/docs/features/ascend), updates can be handled automatically. Without Ascend, refresh your index and reinstall the game to get the latest version.
+
+Updating reinstalls the game into the same folder. Most games store saves elsewhere (usually in AppData or Documents), but back up important saves first. See [Game Backups](/docs/features/game-backups).
+
+## Reporting Issues
+* **Game issues**: Click **Report** next to the game name on its download page.
+* **App bugs**: Right-click anywhere in the app and select **Report Issue**.
+* **Getting support**: Join the [Discord](https://ascendara.app/discord). If you're given a support code, enter it in **Settings** to upload your logs.
 
 ## Tips
-* Use the Download Handler extension for easier downloads
-* Check game badges for additional features
-* Trust working games to help the community
-* Keep dependencies updated for best compatibility
+* Use the Download Handler extension for easier downloads.
+* Rate and review games you've played to help others.
+* Keep your game dependencies installed and up to date.
+* Press **Ctrl+1** through **Ctrl+6** to switch between Home, Search, Library, Downloads, Profile, and Settings.
