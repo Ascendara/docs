@@ -1,65 +1,71 @@
 # Ascendara (asend-era)
 
 ## What is Ascendara?
-Ascendara is a user-friendly game discovery and download management application created by [tago](https://tago.works/). It organizes game links from trusted sources through a custom-developed public API, connecting to a database of verified game testing links. The application serves as both a game discovery tool and a download manager, allowing users to try games before purchasing.
+Ascendara is a game discovery, download, and library app created by [tago](https://tago.works/). It browses a game index built from trusted sources, downloads and installs games for you (no manual extracting or setup), and keeps everything you play in one library. Ascendara is meant as a way to try games before you buy them, and it encourages you to support the developers of games you enjoy.
 
-The project, which become open source in May of 2024, remains actively maintained with regular updates and improvements. Recently, it underwent a [complete UI overhaul](https://ascendara.app/v7) to provide a more modern and user-friendly experience. You can find Ascendara at [ascendara.app](https://ascendara.app/), where everything from the website to the application's source code is openly available and developed with dedication by tago.
+Ascendara became open source in May 2024 and is actively maintained by a solo developer. Everything from the website to the application source code is available at [ascendara.app](https://ascendara.app/) and on [GitHub](https://github.com/Ascendara/ascendara).
+
+## Supported Platforms
+- **Windows 10 and 11** (64-bit): the primary platform with full feature support.
+- **Linux** (x64 AppImage): Windows games run through Proton, UMU-Launcher, or Wine. See [Linux and macOS](/docs/features/linux-and-macos).
+- **macOS** (Apple Silicon and Intel): available from the GitHub releases. Windows games require Wine, and some features are Windows-only.
+
+On Linux and macOS, Ascendara shows a compatibility notice on first launch. Windows is recommended for the best experience.
 
 ## Outsourced Links
-Game files are never stored on Ascendara's servers. Ascendara operates as a game testing intermediary application, focusing on providing users with the ability to evaluate games before purchase. Games are downloaded from providers like MegaDB, GoFile, buzzheavier, and others. Read the Digital Millennium Copyright Act (DMCA) Notice [here](https://ascendara.app/dmca) to learn more and understand how to make a claim of copyright infringement.
+Game files are never stored on Ascendara's servers. The game index contains links to third-party file hosts such as GoFile, Buzzheavier, PixelDrain, MegaDB, and others. Ascendara only organizes those links and handles the download and installation on your computer. Read the Digital Millennium Copyright Act (DMCA) notice [here](https://ascendara.app/dmca) to learn how to make a claim of copyright infringement.
 
 ## Core Principles
 
-### Safety and Privacy First
-Ascendara is built with user safety and privacy as core foundations. The application implements a robust trust system for game verification, while never storing any game files on its servers - only managing verified testing links. This approach ensures both content integrity and user privacy, operating with minimal data collection and maximum transparency.
+### Free to Use
+Downloading, installing, and playing games is completely free and does not require an account. [Ascend](/docs/features/ascend) is an optional subscription that adds social, cloud, and automation features and funds development.
 
-### Public API Infrastructure
-Ascendara's infrastructure is powered by a public API that primarily manages game testing listings and version information. This open approach allows developers to integrate with Ascendara's game testing database while maintaining a lightweight and efficient system. The API is publicly accessible, with documentation available [here](https://ascendara.app/docs/api-reference/overview), excluding only essential security features like app reporting.
+### Safety and Privacy
+Ascendara does not require personal details or an account to download or play games. Your library, playtime, and profile level are stored on your computer unless you choose to sync them with Ascend.
+
+### Public API
+The game index is served by a public API at `api.ascendara.app` that is free for non-commercial use. See the [API Reference](/docs/api-reference/overview).
 
 ## Key Features
 
-### Game Management
-- **Custom Game Integration**: Add and manage your own games with custom executable paths
-- **Game Directory Control**: Flexible game installation directory management
-- **Desktop Shortcuts**: Create shortcuts for quick game access
-- **Smart Executable Handling**: Change game executables when needed for compatibility
-- **Game Version Control**: Track and manage different game versions
+### Discover and Download
+- **Game Index**: A local copy of the game list is kept up to date automatically so browsing is instant and works offline. See [Your Game Index](/docs/features/refreshing-index).
+- **Seamless Downloads**: Supported providers download inside the app with no browser or CAPTCHA.
+- **Browser Downloads**: The Ascendara Download Handler extension sends downloads from your browser to Ascendara, including games that aren't in the index.
+- **Download Manager**: Downloads, extracts, verifies, and installs games, with a download queue, speed limits, and resumable transfers. See [Downloading Games](/docs/features/downloading).
+- **TorBox and Torrents**: Optional debrid and qBittorrent support. See [TorBox](/docs/features/torbox-integration).
+- **External Sources**: Load games from a community source bucket instead of the official index. See [External Sources](/docs/features/external-sources).
 
-### Download System
-- **Browser Extension**: Streamlined download process with Ascendara's Download Handler
-- **Download Directory Management**: Choose and organize your game storage location
-- **Automatic Image Handling**: Game cover images are automatically managed
-- **Game Information Tracking**: Keeps track of game status, version, and DLC information
+### Library and Play
+- **One Library**: Downloaded games, custom games, and games [imported](/docs/features/importing) from Steam, Epic Games, GOG Galaxy, Ubisoft Connect, and Battle.net.
+- **Organization**: Folders, Favorites, Play Later, History, and Smart Collections. See [Your Library](/docs/features/library).
+- **Game Details**: Steam details and screenshots, time to beat, soundtracks, achievements, and community reviews. See [Game Information](/docs/features/ascendara-xtra).
+- **Save Backups**: Back up and restore saves with [Ludusavi](/docs/features/game-backups).
+- **Big Picture Mode**: A controller-first interface for the couch. See [Big Picture Mode](/docs/features/big-picture).
+- **Ascendara Retro**: A separate library for classic console games launched through your own emulators. See [Ascendara Retro](/docs/features/retro).
 
-### User Experience
-- **Discord Integration**: Rich presence showing your current gaming activity
-- **Auto-Updates**: Built-in update system for Ascendara
-- **Error Recovery**: Crash reporting and automatic recovery systems
-- **Custom Settings**: Personalized configuration options
-- **Multi-Browser Support**: Works with both Chrome-based browsers and Firefox
-
-### Game Library Features
-- **Game Status Badges**: Clear indicators for online features and DLC availability
-- **Library Organization**: Manage both downloaded and custom-added games
-- **Game Verification**: Community-driven trust system for game reliability
-- **Quick Access**: Fast game launching and management tools
+### Personalization and Tools
+- **Themes**: Built-in light and dark themes, custom colors, and community themes.
+- **105 Languages**: 12 built-in languages plus 93 more translated on your computer.
+- **Discord Rich Presence**: Show what you're playing.
+- **System Center**: Health checks, storage overview, settings recovery points, and version rollback. See [System Center](/docs/features/system-center).
 
 ## Getting Started
 
 ### Quick Setup
-1. Download from [ascendara.app](https://ascendara.app)
-2. Install the application
-3. Install recommended dependencies
-4. Start discovering games
+1. [Install Ascendara](/docs/getting-started/installation).
+2. Follow the welcome setup: choose a download folder, theme, and your game index.
+3. Install the game dependencies when prompted (Windows).
+4. Start browsing games.
 
-### For Best Experience
-- Install the Chrome extension
-- Configure your download directory
-- Review the usage guide
-- Join the Ascendara [Discord](https://ascendara.app/discord) community
+### For the Best Experience
+- Install the [browser extension](https://ascendara.app/extension).
+- On Windows, enable **Protect Directories from Defender** so antivirus false positives don't remove game files.
+- Read [Staying Safe](/docs/getting-started/protect-yourself) and the [usage guide](/docs/getting-started/usage).
+- Join the Ascendara [Discord](https://ascendara.app/discord) community.
 
-## Community & Support
-- Active Discord community
-- Regular updates and improvements
-- Open-source development
-- Responsive support team
+## Community and Support
+- [Discord community](https://ascendara.app/discord) for help and discussion
+- [Feedback](https://ascendara.app/feedback) and [roadmap](https://ascendara.app/roadmap)
+- [Changelog](https://ascendara.app/changelog)
+- [GitHub issues](https://github.com/Ascendara/ascendara/issues) for bug reports
