@@ -14,6 +14,11 @@ Emulators are software programs that simulate the hardware and software environm
 - Testing and development purposes
 - Preserving gaming history
 
+## Emulators in Ascendara
+Some games in the Ascendara index are console games that need an emulator. Their download page shows **This requires an emulator to run.** Ascendara doesn't include emulators, so set up the right emulator for the game yourself.
+
+To keep your classic console games in one place, use [Ascendara Retro](/docs/features/retro). Retro scans your ROM folders, matches game artwork and details, and launches each game with the emulator you configured. With Ascend, its **All emulators** list adds more consoles along with emulator download links and setup guides.
+
 ## Finding Help and Resources
 - Many online communities provide setup guides and support
 - Video tutorials are available for most popular emulators
