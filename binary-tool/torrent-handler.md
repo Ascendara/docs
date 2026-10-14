@@ -1,237 +1,116 @@
 # Ascendara Torrent Handler
 
 ## Overview
-The Torrent Handler is a command-line tool for managing game downloads through torrent files in Ascendara. It integrates with qBittorrent for reliable downloads, provides real-time progress tracking, and handles automated game installation with silent setup execution.
+The Torrent Handler downloads games from magnet links through qBittorrent and installs them. It adds the torrent to qBittorrent through the Web UI API, reports progress to Ascendara, extracts the downloaded archives, and verifies the installed files. If the torrent contains an installer instead of archives, it hands off to a manual installation step.
+
+Source: `binaries/AscendaraTorrentHandler/src/AscendaraTorrentHandler.py`
+
+> **Note:** If you use [TorBox](/docs/features/torbox-integration) with **Use TorBox for torrents** on, magnet links are sent to TorBox instead and this tool isn't used (unless TorBox fails and **Fall back to qBittorrent** is on).
 
 ## Features
-- Automated torrent download management
-- Real-time download progress tracking
-- Silent game installation with automatic setup detection
-- qBittorrent integration with sequential downloading
-- Comprehensive error handling and crash reporting
-- JSON-based game state management
-- Desktop notifications with theme support
-- Automatic cleanup for incomplete downloads
-- Detailed logging system
+- Adds magnet links to qBittorrent with sequential downloading
+- Real-time progress, speed, and ETA in the game's JSON file
+- Disk space checks before downloading and extracting
+- Archive extraction (ZIP, RAR, 7z) with progress, using 7-Zip when available
+- Falls back to a manual installer flow when the torrent contains a setup program
+- Executable detection, file map creation, and installed-file verification
+- Desktop notifications through the [Notification Helper](/docs/binary-tool/notification-helper)
+- Removes incomplete torrents and their data if the handler exits early
+- Crash Reporter integration
 
 ## Prerequisites
-- qBittorrent installed with Web UI enabled (default port: 8080)
-- Default qBittorrent credentials (admin/adminadmin)
-- Python with required packages:
-  - qbittorrentapi
-  - argparse
+- **qBittorrent** installed and running with the **Web UI** enabled (default port `8080`)
+- Web UI credentials that match Ascendara's **qBittorrent Configuration** in Settings (default `admin` / `adminadmin`)
+- Torrenting enabled in Ascendara (**Settings** → **Torrent on Ascendara**)
+- A VPN is strongly recommended, because peers can see your IP address
+
+The Torrent Handler is included with Ascendara. On Windows, if it's missing, Ascendara offers to install it as a sidecar when you enable torrenting.
 
 ## Usage
 
 ### Command Line Arguments
 ```bash
-AscendaraTorrentHandler.exe <magnet> <game> <online> <dlc> <version> <size> <dir> [--withNotification theme] [--qbitHost host] [--qbitPort port] [--qbitUsername user] [--qbitPassword pass]
+AscendaraTorrentHandler <magnet> <game> <online> <dlc> <isVr> <updateFlow> <version> <size> <dir> [--withNotification <theme>] [--qbitHost <host>] [--qbitPort <port>] [--qbitUsername <user>] [--qbitPassword <pass>]
 ```
 
 ### Parameters
-- `magnet`: Magnet link for the torrent
-- `game`: Game name
-- `online`: Boolean flag for online games
-- `dlc`: Boolean flag for DLC content
-- `version`: Game version
-- `size`: Download size
-- `dir`: Download directory
-- `--withNotification`: (Optional) Theme name for notifications (e.g., light, dark, blue)
-- `--qbitHost`: (Optional) qBittorrent WebUI host (default: localhost)
-- `--qbitPort`: (Optional) qBittorrent WebUI port (default: 8080)
-- `--qbitUsername`: (Optional) qBittorrent WebUI username (default: admin)
-- `--qbitPassword`: (Optional) qBittorrent WebUI password (default: adminadmin)
+| Argument | Description |
+| --- | --- |
+| `magnet` | Magnet link for the torrent |
+| `game` | Game name; used for the game folder and metadata file |
+| `online`, `dlc`, `isVr` | Metadata flags (`true`/`false`) |
+| `updateFlow` | Whether this updates an existing installation (`true`/`false`) |
+| `version` | Version string to record |
+| `size` | Human-readable size, such as `"50 GB"`; used for metadata and disk space checks |
+| `dir` | Parent download directory. The handler creates the game folder itself. |
+| `--withNotification` | Show notifications with the given theme (`light`, `dark`, `blue`, …) |
+| `--qbitHost` | qBittorrent Web UI host (default `localhost`) |
+| `--qbitPort` | qBittorrent Web UI port (default `8080`) |
+| `--qbitUsername` | qBittorrent Web UI username (default `admin`) |
+| `--qbitPassword` | qBittorrent Web UI password (default `adminadmin`) |
 
 ### Example
 ```bash
-AscendaraTorrentHandler.exe "magnet:?xt=urn:btih:..." "MyGame" true false "1.0.0" "50GB" "C:/Games" --withNotification emerald --qbitHost 192.168.1.100 --qbitPort 8080
+AscendaraTorrentHandler.exe "magnet:?xt=urn:btih:..." "MyGame" true false false false "1.0.0" "50 GB" "C:/Games" --withNotification emerald --qbitHost 127.0.0.1 --qbitPort 8080
 ```
 
-## Implementation
+## How It Works
 
-### Core Components
+1. **Prepare**: Creates the game folder and `{game}.ascendara.json`, and checks that there's enough free space for the download plus extraction.
+2. **Add the torrent**: Connects to qBittorrent and adds the magnet with the game folder as the save path and sequential downloading enabled.
+3. **Download**: Writes progress to `downloadingData`. While qBittorrent is still looking for peers, `waiting` is `true`, and Ascendara shows **Waiting for Peers**.
+4. **Install**:
+   - If the download contains archives, the handler extracts them into the game folder (largest first, skipping continuation parts of multi-volume RAR sets), deletes each archive after it's extracted, and flattens a single wrapper folder.
+   - If there are no archives, it looks for an installer (an `.exe` starting with `setup` or the game's name). It then sets `pendingManualInstall` with the installer path, and Ascendara asks the user to run the installer as administrator and confirm when it's done.
+5. **Finish**: Detects the game's executable, creates `filemap.ascendara.json`, removes junk files, verifies the installed files, and removes `downloadingData` on success. Verification errors are kept in `verifyError` so Ascendara can show them.
 
-#### TorrentManager Class
-Manages torrent downloads, installation, and cleanup:
-```python
-class TorrentManager:
-    def __init__(self, qbit_host='localhost', qbit_port=8080, qbit_username='admin', qbit_password='adminadmin'):
-        self.qbt_client = None
-        self.connect_thread = None
-        self.current_torrent_hash = None
-        self.notification_theme = None
-        self.qbit_host = qbit_host
-        self.qbit_port = qbit_port
-        self.qbit_username = qbit_username
-        self.qbit_password = qbit_password
-        
-    def cleanup(self):
-        if self.qbt_client and self.current_torrent_hash:
-            try:
-                # Get torrent info to check if it's complete
-                torrents = self.qbt_client.torrents_info(torrent_hashes=self.current_torrent_hash)
-                if torrents and not torrents[0].state_enum.is_complete:
-                    # Delete the torrent and its data if download is incomplete
-                    self.qbt_client.torrents_delete(delete_files=True, torrent_hashes=self.current_torrent_hash)
-            except:
-                pass  # Ignore any errors during cleanup
-                
-    def ensure_connected(self):
-        if self.qbt_client is None:
-            self.connect_thread = threading.Thread(target=self._connect_qbittorrent)
-            self.connect_thread.start()
-```
-
-#### Game State Management
-Game state is tracked in a JSON file (`<game>.ascendara.json`):
+### Game State
 ```json
 {
-    "game": "GameName",
-    "online": true,
-    "dlc": false,
-    "version": "1.0.0",
-    "size": "50GB",
-    "executable": "path/to/game.exe",
-    "isRunning": false,
-    "downloadingData": {
-        "downloading": true,
-        "waiting": true,
-        "extracting": false,
-        "updating": false,
-        "progressCompleted": "0.00",
-        "progressDownloadSpeeds": "0.00 KB/s",
-        "timeUntilComplete": "0s"
+  "game": "MyGame",
+  "online": true,
+  "dlc": false,
+  "isVr": false,
+  "version": "1.0.0",
+  "size": "50 GB",
+  "executable": "C:/Games/MyGame/MyGame/game.exe",
+  "downloadingData": {
+    "downloading": true,
+    "waiting": false,
+    "extracting": false,
+    "verifying": false,
+    "updating": false,
+    "progressCompleted": "42.10",
+    "progressDownloadSpeeds": "12.40 MB/s",
+    "timeUntilComplete": "8m 12s",
+    "extractionProgress": {
+      "currentFile": "",
+      "filesExtracted": 0,
+      "totalFiles": 0,
+      "percentComplete": 0,
+      "extractionSpeed": "0 files/s"
     }
+  }
 }
 ```
 
-#### Notification Integration
-Integrates with Ascendara's notification system for status updates:
-```python
-def _launch_notification(theme, title, message):
-    try:
-        # Get the directory where the current executable is located
-        exe_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
-        notification_helper_path = os.path.join(exe_dir, 'AscendaraNotificationHelper.exe')
-        
-        if os.path.exists(notification_helper_path):
-            subprocess.Popen(
-                [notification_helper_path, "--theme", theme, "--title", title, "--message", message],
-                creationflags=subprocess.CREATE_NO_WINDOW
-            )
-    except Exception as e:
-        logging.error(f"Failed to launch notification helper: {e}")
-```
+On failure, `downloadingData` contains `error: true` and a `message`, and keeps the progress reached so far.
 
-### Error Handling
-Integrates with Ascendara's crash reporting system:
-```python
-def handleerror(game_info, game_info_path, e):
-    game_info['online'] = ""
-    game_info['dlc'] = ""
-    game_info['isRunning'] = False
-    game_info['version'] = ""
-    game_info['executable'] = ""
-    game_info['downloadingData'] = {
-        "error": True,
-        "message": str(e)
-    }
-    safe_write_json(game_info_path, game_info)
-```
-
-### Installation Process
-The tool automatically detects and runs setup executables:
-```python
-# Find setup executable
-setup_file = None
-torrent_folder = os.path.join(game_dir, torrent.name)
-for file in os.listdir(torrent_folder):
-    if file.lower().startswith(('setup', game.lower())) and file.lower().endswith('.exe'):
-        setup_file = os.path.join(torrent_folder, file)
-        break
-
-if not setup_file:
-    raise Exception("Could not find setup executable")
-
-# Run setup silently with target directory
-install_dir = os.path.join(game_dir, game)
-os.makedirs(install_dir, exist_ok=True)
-
-# Run setup and wait for completion
-process = subprocess.Popen([setup_file, '/VERYSILENT', f'/DIR="{install_dir}"'], 
-                        stdout=subprocess.PIPE, 
-                        stderr=subprocess.PIPE)
-
-while process.poll() is None:
-    time.sleep(1)
-    game_info["downloadingData"]["extracting"] = True
-    safe_write_json(game_info_path, game_info)
-
-if process.returncode != 0:
-    raise Exception(f"Setup failed with code {process.returncode}")
-```
-
-## Development
-
-### Adding New Features
-1. Extend the TorrentManager class
-2. Update game state management
-3. Implement error handling
-4. Test with various game scenarios
-
-### Best Practices
-- Use safe_write_json for file operations with atomic writes
-- Implement proper cleanup on exit using atexit handlers
-- Handle qBittorrent connection failures with detailed error messages
-- Validate all command line arguments with proper type checking
-- Provide user feedback through notifications
-- Use threading for parallel operations (directory setup, connection)
-- Monitor download progress and update game state in real-time
+## Logging
+The handler logs to the shared download log, `downloadmanager.log` (see [Common Issues](/docs/troubleshooting/common-issues#log-files) for its location), and writes a detailed log to the system temp folder as `ascendara_torrent_<timestamp>.log`.
 
 ## Troubleshooting
 
-### Common Issues
-1. qBittorrent Connection Failed
-   - Ensure qBittorrent is running
-   - Check Web UI credentials
-   - Verify port settings (default: 8080)
+### qBittorrent Connection Failed
+1. Make sure qBittorrent is running and the Web UI is enabled.
+2. Check that the host, port, username, and password in Ascendara's settings match qBittorrent.
+3. If the credentials are correct, enable **Bypass authentication for clients on localhost** in qBittorrent's Web UI settings, and add `127.0.0.1/32` to the whitelisted subnets.
+4. Make sure a VPN, proxy, or network tool isn't rerouting localhost traffic.
 
-2. Installation Errors
-   - Check write permissions
-   - Verify setup executable exists
-   - Ensure sufficient disk space
-   - Check setup executable naming (should start with 'setup' or game name)
+### Installation Errors
+- Check that you have write permissions in the download directory.
+- Make sure there's enough free space for the download and extraction.
+- If the torrent contains an installer, run it as administrator and set its destination to the folder Ascendara shows.
 
 ### Error Codes
-Error codes are passed to the crash reporter:
-- Error code 1: General errors (connection, download, installation, argument parsing)
-
-### Logging
-The tool creates detailed logs in the temp directory:
-```python
-def setup_logging():
-    log_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    
-    # Create temp log file with timestamp
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    temp_log_path = os.path.join(gettempdir(), f'ascendara_torrent_{timestamp}.log')
-    
-    # File handler for temp file
-    file_handler = logging.FileHandler(temp_log_path)
-    file_handler.setFormatter(log_formatter)
-    file_handler.setLevel(logging.DEBUG)
-    
-    # Console handler
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setFormatter(log_formatter)
-    console_handler.setLevel(logging.INFO)
-    
-    # Configure root logger
-    root_logger = logging.getLogger()
-    root_logger.setLevel(logging.DEBUG)
-    root_logger.addHandler(file_handler)
-    root_logger.addHandler(console_handler)
-    
-    logging.info(f"Detailed logs will be saved to: {temp_log_path}")
-    return temp_log_path
-```
+The handler passes the generic code `1` with the error message to the [Crash Reporter](/docs/binary-tool/crash-reporter) for unhandled errors (connection, download, installation, or argument errors).
