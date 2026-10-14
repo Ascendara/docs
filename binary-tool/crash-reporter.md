@@ -1,179 +1,105 @@
 # Ascendara Crash Reporter
 
 ## Overview
-The Crash Reporter provides error reporting and diagnostic capabilities across all Ascendara components. It features a modern, user-friendly interface with different display modes depending on the severity and source of the error.
+The Crash Reporter is a small window that shows which Ascendara component failed, an error code, and the error message. Helper tools open it when they hit an unhandled error. It's written in Rust with the [FLTK](https://www.fltk.org/) GUI toolkit (through the `fltk` and `fltk-theme` crates), replacing the earlier Python and tkinter version.
+
+Source: `binaries/AscendaraCrashReporter/src/main.rs`
+
+For what users see and what the codes mean, see [Error Codes](/docs/troubleshooting/error-codes).
 
 ## Features
-- Comprehensive error code system organized by component
-- User-friendly interface with modern styling
-- Technical detail collection and display
-- Report uploading capability
-- Recovery suggestions and troubleshooting guidance
-- Different UI modes for critical vs. utility errors
-- Support for opening Discord community help
-- Responsive window sizing based on error type
+- Two layouts: a **critical** layout for errors in Ascendara itself, and a **utility** layout for helper tools
+- Component names and descriptions for known error codes
+- Technical details from the caller
+- A **Get Support** button that opens the Ascendara Discord
+- Loads `ascendara.ico` from its own folder as the window icon
 
 ## Usage
 
 ### Command Line Arguments
 ```bash
-AscendaraCrashReporter.exe [tool_id] [error_code] [error_message]
+AscendaraCrashReporter <tool_id> <error_code> <error_message>
 ```
 
+All three arguments are required. If any is missing, or the code isn't a number, the reporter exits without showing a window.
+
 ### Parameters
-- `tool_id`
- Identifier of the affected tool
-- `error_code`
- Numeric error code
-- `error_message`
- Error description
+| Argument | Description |
+| --- | --- |
+| `tool_id` | The component that failed (case-insensitive). See [Tool Identifiers](#tool-identifiers). |
+| `error_code` | A numeric error code. Unknown codes are shown as **Unrecognized error code**. |
+| `error_message` | The error message, shown as the technical details |
 
 ### Example
 ```bash
-AscendaraCrashReporter.exe "maindownloader" 1400 "Failed to initialize download"
+AscendaraCrashReporter.exe maindownloader 1404 "Failed to extract archive: CRC error"
 ```
 
 ## Development
 
 ### Tool Identifiers
-```python
-class AscendaraTool:
-    GOFILE_HELPER = "gofilehelper"
-    MAIN_DOWNLOADER = "maindownloader"
-    GAME_HANDLER = "gamehandler"
-    TOP_LEVEL = "toplevel"
-    LANGUAGE_TRANSLATION = "languagetranslation"
-    TORRENT_HANDLER = "torrenthandler"
-    NOTIFICATION_HELPER = "notificationhelper"
-```
+| ID | Shown as | Layout |
+| --- | --- | --- |
+| `toplevel` | Ascendara | Critical |
+| `maindownloader` | Ascendara Downloader | Utility |
+| `gamehandler` | Ascendara Game Handler | Utility |
+| `languagetranslation` | Ascendara Language Translation | Utility |
+| `torrenthandler` | Ascendara Torrent Handler | Utility |
+| `notificationhelper` | Ascendara Notification Helper | Utility |
+| `gofilehelper` | Ascendara GoFile Helper (legacy) | Utility |
 
-### Error Code System
+Any other ID is shown as **Unknown Ascendara Tool**.
 
-#### General Errors (1000-1004)
-```python
-class ErrorCodes:
-    UNKNOWN_ERROR = 1000
-    UNHANDLED_EXCEPTION = 1001
-    UNHANDLED_REJECT = 1002
-    NETWORK_ERROR = 1003
-    INVALID_DATA = 1004
-```
+### Error Code Ranges
+| Range | Component |
+| --- | --- |
+| 1000–1004 | General |
+| 1100–1105 | Game Handler |
+| 1200–1202 | Language Translation |
+| 1300–1305 | GoFile Helper (legacy) |
+| 1400–1408 | Downloader |
+| 1500–1506 | Torrent Handler |
+| 1600–1604 | Notification Helper |
 
-#### Game Handler Errors (1100-1199)
-```python
-    GAME_NOT_FOUND = 1100
-    GAME_LAUNCH_ERROR = 1101
-    GAME_CONFIG_ERROR = 1102
-    GAME_PROCESS_ERROR = 1103
-    SETTINGS_ERROR = 1104
-    DOWNLOAD_DIR_ERROR = 1105
-```
+The individual codes are listed in [Error Codes](/docs/troubleshooting/error-codes#error-code-categories) and defined in `ErrorCodes::get_error_description` in `main.rs`.
 
-#### Language Translation Errors (1200-1299)
-```python
-    TRANSLATION_API_ERROR = 1200
-    TRANSLATION_RATE_LIMIT = 1201
-    TRANSLATION_FILE_ERROR = 1202
-```
+> **Note:** The Python helpers currently pass the generic code `1`, which is shown as **Unrecognized error code**, so the message argument carries the useful information. Pass a specific code from the table when you add new error handling.
 
-#### GoFile Helper Errors (1300-1399)
-```python
-    GOFILE_API_ERROR = 1300
-    GOFILE_UPLOAD_ERROR = 1301
-    GOFILE_DOWNLOAD_ERROR = 1302
-    GOFILE_AUTH_ERROR = 1303
-    GOFILE_RATE_LIMIT = 1304
-    GOFILE_FILE_ERROR = 1305
-```
+### Layouts
 
-#### Main Downloader Errors (1400-1499)
-```python
-    DOWNLOAD_INIT_ERROR = 1400
-    DOWNLOAD_PROGRESS_ERROR = 1401
-    DOWNLOAD_CANCEL_ERROR = 1402
-    DOWNLOAD_VERIFY_ERROR = 1403
-    DOWNLOAD_EXTRACT_ERROR = 1404
-    DOWNLOAD_CLEANUP_ERROR = 1405
-    SETTINGS_FILE_ERROR = 1406
-    GAMES_FILE_ERROR = 1407
-    HELPER_LAUNCH_ERROR = 1408
-```
+#### Critical (`toplevel`)
+An 800×600 window with a light red background, titled **⚠ Critical Error: Ascendara Has Stopped Working**. It shows the code, its description, recovery suggestions, and technical information, with **Report Problem**, **Restart Ascendara**, and **Exit** buttons.
 
-#### Torrent Handler Errors (1500-1599)
-```python
-    TORRENT_API_ERROR = 1500
-    TORRENT_ADD_ERROR = 1501
-    TORRENT_REMOVE_ERROR = 1502
-    TORRENT_STATUS_ERROR = 1503
-    TORRENT_CONFIG_ERROR = 1504
-    TORRENT_FILE_ERROR = 1505
-    TORRENT_INSTALL_ERROR = 1506
-```
+#### Utility (all other tools)
+A 600×550 window titled **⚠️ Ascendara Core Utility Crash**. It shows the **Affected Component**, **Diagnostic Code**, **What Happened**, and **Technical Details**, with **Get Support**, **Upload Crash Report**, and **Close** buttons.
 
-#### Notification Helper Errors (1600-1699)
-```python
-    NOTIFICATION_INIT_ERROR = 1600
-    NOTIFICATION_DISPLAY_ERROR = 1601
-    NOTIFICATION_THEME_ERROR = 1602
-    NOTIFICATION_RESOURCE_ERROR = 1603
-    NOTIFICATION_ANIMATION_ERROR = 1604
-```
-
-### UI Components
-The crash reporter uses tkinter with modern styling for its UI, featuring two distinct modes:
-
-#### Critical Error UI
-```python
-def create_critical_error_widgets(self):
-    # Critical error header with warning icon
-    error_header = ttk.Label(
-        header_frame,
-        text="⚠️ Critical Error: Ascendara Has Stopped Working",
-        style='Critical.Header.TLabel'
-    )
-    
-    # Error information in styled card
-    error_card = ttk.Frame(self.critical_frame, style='Critical.Card.TFrame', padding=15)
-    
-    # Recovery suggestions with bullet points
-    recovery_header = ttk.Label(
-        recovery_frame,
-        text="What You Can Try:",
-        style='Critical.TLabel',
-        font=('Segoe UI', 11, 'bold')
-    )
-```
-
-#### Normal Error UI
-```python
-def create_normal_error_widgets(self):
-    # Error header with warning icon
-    error_header = ttk.Label(
-        header_frame,
-        text="⚠️ Ascendara Core Utility Crash",
-        style='Header.TLabel'
-    )
-    
-    # Tool identifier with context
-    tool_prefix = ttk.Label(
-        tool_frame,
-        text="Affected Component: ",
-        style='TLabel'
-    )
-    
-    # Error information in styled card
-    error_card = ttk.Frame(self.normal_frame, style='Card.TFrame', padding=12)
-```
+### Current Limitations
+- **Upload Crash Report** and **Report Problem** only show a confirmation dialog. No data is sent anywhere. Users who need help should use **Upload Logs** with a support code in Ascendara's Settings.
+- **Restart Ascendara** asks the user to restart Ascendara manually.
+- Ascendara's main process calls the reporter with only two arguments (an error type and a message) for uncaught exceptions, so the reporter exits without showing the critical layout.
 
 ### Integration
-To integrate crash reporting in your tool:
+Python helpers register the reporter to open when the process exits, so the error is shown after the tool has cleaned up:
+
 ```python
+def _launch_crash_reporter_on_exit(error_code, error_message):
+    binary_name = 'AscendaraCrashReporter.exe' if sys.platform == 'win32' else 'AscendaraCrashReporter'
+    # Packaged: next to the helper. Source: binaries/AscendaraCrashReporter/target/release
+    crash_reporter_path = os.path.join(os.path.dirname(sys.executable), binary_name)
+    if os.path.exists(crash_reporter_path):
+        kwargs = {"creationflags": subprocess.CREATE_NO_WINDOW} if sys.platform == "win32" else {}
+        subprocess.Popen([crash_reporter_path, "your_tool_id", str(error_code), error_message], **kwargs)
+
 def launch_crash_reporter(error_code, error_message):
-    crash_reporter_path = os.path.join('./AscendaraCrashReporter.exe')
-    subprocess.Popen([
-        crash_reporter_path,
-        "your_tool_id",
-        str(error_code),
-        error_message
-    ], creationflags=subprocess.CREATE_NO_WINDOW)
+    if not hasattr(launch_crash_reporter, "_registered"):
+        atexit.register(_launch_crash_reporter_on_exit, error_code, error_message)
+        launch_crash_reporter._registered = True
 ```
+
+## Building
+```bash
+cd binaries/AscendaraCrashReporter
+cargo build --release --locked
+```
+
+The executable is written to `target/release/AscendaraCrashReporter(.exe)`, which is where `package.json` expects it. On Windows, `build.rs` uses `winres` to embed the icon. On macOS, the build script passes an explicit Rust target for each architecture. See [Creating the Tools](/docs/developer/creating-the-tools).
