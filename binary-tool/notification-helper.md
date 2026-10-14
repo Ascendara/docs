@@ -1,59 +1,69 @@
 # Ascendara Notification Helper
+
 ## Overview
-The Notification Helper is a PyQt6-based tool that displays modern, animated notifications with customizable themes, titles, and messages. It features smooth fade animations, theme support, and automatic cleanup.
+The Notification Helper is a PyQt6 tool that shows Ascendara's desktop notifications: download and index updates from the app and helper tools, and achievement pop-ups from the [Achievement Watcher](/docs/binary-tool/achievement-watcher). Notifications match your Ascendara theme, animate in and out, and close themselves after a few seconds.
+
+Source: `binaries/AscendaraNotificationHelper/src/AscendaraNotificationHelper.py`
 
 ## Features
-- Smooth fade in/out animations with cubic easing curves
-- Automatic cleanup after display (4 second display time)
-- Crash reporter integration via atexit
-- High DPI support with proper scaling
-- Customizable titles and messages
-- Always-on-top display with frameless window
-- Elegant rounded corners and borders
-- Comprehensive logging system
-- Multiple theme options (12 different color schemes)
-- Cached icon loading for performance
+- Two layouts: standard notifications and achievement notifications
+- 12 color themes
+- Fade and slide animations
+- Always on top, frameless, and doesn't take focus from your game
+- **Open** and **Dismiss** buttons on standard notifications
+- Closes automatically after about 4–5 seconds
+- High-DPI support
+- Crash Reporter integration
 
 ## Usage
 ```bash
-AscendaraNotificationHelper.exe --theme <theme> --title <title> --message <message>
+AscendaraNotificationHelper --theme <theme> --title "<title>" --message "<message>"
+AscendaraNotificationHelper --is-achievement --theme <theme> --game "<game>" --message "<achievement>" [--icon <url>] [--appid <id>]
 ```
 
 ### Parameters
-- `--theme`: (Optional) The visual theme to use. Options include: light, dark, blue, purple, emerald, rose, cyberpunk, sunset, forest, midnight, amber, ocean. Default is 'dark'
-- `--title`: (Optional) The notification title. Default is 'Notification'
-- `--message`: (Optional) The notification message. Default is 'This is a notification'
+| Argument | Default | Description |
+| --- | --- | --- |
+| `--theme` | `dark` | `light`, `dark`, `blue`, `purple`, `emerald`, `rose`, `cyberpunk`, `sunset`, `forest`, `midnight`, `amber`, or `ocean`. Unknown themes fall back to `dark`. |
+| `--title` | `Notification` | The title of a standard notification |
+| `--message` | `This is a notification` | The message, or the achievement name in achievement mode |
+| `--is-achievement` | Off | Show the achievement layout |
+| `--game` | — | The game name shown on an achievement notification |
+| `--icon` | — | URL of the achievement icon |
+| `--appid` | — | The game's Steam App ID |
+| `--achievement`, `--description` | — | Accepted for compatibility; the achievement name comes from `--message` |
 
-### Example
+### Examples
 ```bash
-AscendaraNotificationHelper.exe --theme emerald --title "Update Available" --message "A new version of Ascendara is ready to install"
+AscendaraNotificationHelper.exe --theme emerald --title "Download Complete" --message "Your game is ready to play"
+
+AscendaraNotificationHelper.exe --is-achievement --theme dark --game "Example Game" --message "First Steps" --icon "https://example.com/icon.jpg"
 ```
 
-## Technical Details
-- Built with PyQt6 for modern UI components
-- Uses hardware acceleration for smooth animations
-- Implements automatic garbage collection
-- Integrates with Ascendara's crash reporting system
-- Supports high DPI displays and scaling
-- Loads and caches application icon for performance
-- Responsive design with proper padding and spacing
-- Fallback icon mechanism when icon file is unavailable
-- Optimized animation durations (200ms) for snappy performance
+## Who Calls It
+- **Ascendara** (main process) for desktop notifications, when **Desktop Notifications** is on in Settings
+- **Downloader** and **Torrent Handler**, when started with `--withNotification <theme>`
+- **Achievement Watcher**, for unlocked achievements, using the theme from your settings
+
+## Logs
+The helper logs to `notificationhelper.log`:
+
+| Platform | Path |
+| --- | --- |
+| Windows | `%APPDATA%\Ascendara by tagoWorks\notificationhelper.log` |
+| macOS / Linux | `~/.config/Ascendara by tagoWorks/notificationhelper.log` |
 
 ## Error Handling
-The tool integrates with Ascendara's crash reporting system. If an error occurs, it will automatically launch the crash reporter with relevant error details via the atexit module.
+If the helper fails to show a notification, it registers the [Crash Reporter](/docs/binary-tool/crash-reporter) to open on exit with the `notificationhelper` tool ID.
 
 ## Integration
-To integrate the Notification Helper into your Ascendara application:
-
 ```python
-import subprocess
+import subprocess, sys
 
-def show_notification(theme, title, message):
-    subprocess.Popen([
-        "AscendaraNotificationHelper.exe",
-        "--theme", theme,
-        "--title", title,
-        "--message", message
-    ], creationflags=subprocess.CREATE_NO_WINDOW)
+def show_notification(helper_path, theme, title, message):
+    kwargs = {"creationflags": subprocess.CREATE_NO_WINDOW} if sys.platform == "win32" else {}
+    subprocess.Popen(
+        [helper_path, "--theme", theme, "--title", title, "--message", message],
+        **kwargs,
+    )
 ```
