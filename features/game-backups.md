@@ -1,78 +1,102 @@
 # Game Backups
-Ascendara integrates [Ludusavi](https://github.com/mtkennerly/ludusavi), a specialized tool written in Rust specifically designed for backing up PC video game save data. Ludusavi provides robust CLI functionality that Ascendara leverages to protect your game progress and save files.
+Ascendara integrates [Ludusavi](https://github.com/mtkennerly/ludusavi), a tool written in Rust for backing up PC game save data. Ludusavi knows where thousands of games store their saves, and Ascendara uses its command-line interface to back up and restore your progress.
+
+For classic console saves, see [Ascendara Retro](/docs/features/retro#local-save-backups), which has its own save management.
 
 ## How It Works
 
-Ascendara interfaces with Ludusavi's powerful CLI capabilities to provide comprehensive backup functionality:
+1. **Backup creation**: Ascendara runs Ludusavi to find and back up the save files and configuration for a game.
+2. **Restoration**: Ascendara runs Ludusavi to restore a backup to the game's save location.
+3. **Automatic backups**: The [Game Handler](/docs/binary-tool/game-handler) runs a backup when you close a game that has auto-backup enabled.
 
-1. **Backup Creation**: When triggered, Ascendara calls Ludusavi's CLI commands to create thorough backups of game saves, configurations, and other critical game data.
-2. **Restoration**: Users can restore game save data using Ascendara's interface, which invokes Ludusavi's restoration commands.
-3. **Automatic Backups**: Ascendara can be configured to automatically run Ludusavi's backup command when exiting a game.
+For details on Ludusavi's CLI, see the [official Ludusavi documentation](https://github.com/mtkennerly/ludusavi/blob/master/docs/cli.md).
 
-For detailed information on Ludusavi's CLI usage and capabilities, refer to the [official Ludusavi documentation](https://github.com/mtkennerly/ludusavi/blob/master/docs/cli.md).
+## Setting Up Backups
 
-## Using Game Backups in Ascendara
+1. Open **Settings** and find **Game Backups**.
+2. Choose a **Backup Location**. Backups are disabled until a location is selected.
+3. Adjust the backup options if you want (see [Backup Settings](#backup-settings)).
 
-### Library Integration
+Ludusavi is installed as a sidecar the first time you need it. If it isn't installed, Ascendara asks to install it automatically. On Windows it's stored with Ascendara's resources, and on Linux and macOS in `~/.ascendara/ludusavi`. On macOS, Ascendara also uses a `ludusavi` binary found on your `PATH`.
 
-Game backup functionality is seamlessly integrated into Ascendara's library interface:
+## Backing Up a Game
 
-1. **Enable Backups**: First, ensure that backups are enabled in Ascendara's settings.
-3. **Backup Options**: Clicking the backup icon on a game in your library shows a menu with three options:
-   - **Backup Now**: Creates an immediate backup of the game's save data
-   - **Restore Backup**: Allows you to select and restore a previous backup
-   - **Auto-Backup**: Toggle automatic backups that run when you exit the game
+Open a game's page from your Library and select **Save Backups**. The backup dialog lets you:
 
-> ⚠️ **Warning**: Restoring a backup will overwrite your game save with the latest backup.
+- **Back up now**: Create a backup of the game's saves immediately.
+- **Restore Latest Backup**: Restore the most recent backup.
+- **Choose Backup to Restore**: Pick a specific backup by date.
+- **Restore from cloud**: Restore a backup stored in your Ascend account, including on a new PC.
+- **Open Backup Folder**: Browse the backups stored on this PC.
+- **Auto-backup on Game Close**: Back up automatically every time the game closes.
 
-## Key Features
+> ⚠️ **Warning**: Restoring a backup overwrites the game's current save files. Make sure the game is closed before restoring.
 
-### Backup Creation
+### Custom Save Paths
 
-Create detailed backups of your game saves and configurations with a single click, powered by Ludusavi's efficient scanning and backup processes.
+If Ludusavi doesn't find a game's saves, open **Backup settings** in the backup dialog and add the exact folders the game uses under **Custom Save Paths**. Leave the list empty to use Ludusavi's automatic detection. You can also manage custom save paths, auto-backup, and launch options together in [Game Profiles](/docs/features/library#game-profiles).
 
-### Data Restoration
+On Linux, if a game has no custom save paths, Ascendara tells Ludusavi to look inside the game's Wine or Proton prefix.
 
-Easily restore your game save data from previous backups using Ludusavi's restoration capabilities, ensuring you never lose progress.
+## Cloud Backups
 
-### Auto-Backup on Close
+With an active [Ascend](/docs/features/ascend) subscription, you can upload backups to your Ascend account and restore them on another PC:
 
-Automatically trigger Ludusavi backups when you exit a game, providing constant protection for your game save data.
+1. Back up the game on your first PC.
+2. Turn on **Always back up to cloud** in the game's backup settings. Each backup you create with **Back up now** is then also uploaded. Enable this on each PC you use.
+3. On your other PC, open the same game's backup dialog and select **Restore from cloud**.
 
-### Customizable Backup Settings
+If cloud backup is off for a game, Ascendara asks whether to upload when you back up. You can choose to always back up that game locally. Your uploaded save files are also listed in **Ascend** → **Save Backups**, where you can download or delete them.
 
-Ascendara provides extensive customization options for your game backups:
+## Library Backups
 
-#### Backup Format
-Choose between two backup formats:
-- **ZIP Archive**: Creates a compressed ZIP file containing all backup data, ideal for saving space and creating portable backups.
-- **Simple Directory**: Stores backups as plain files in a directory structure, offering faster backups and easier manual access to individual files.
+Select **Library Backups** in the Library sidebar to work with your whole library at once:
 
-#### Compression Level
-When using ZIP format, select from multiple compression levels to balance between backup speed and storage efficiency:
-- **None (Fastest, largest files)**: No compression, resulting in the fastest backup process but largest file sizes.
-- **Deflate (Balanced, recommended)**: The default option providing a good balance between compression ratio and speed.
-- **BZip2 (Better compression, slower)**: Higher compression ratio than Deflate but requires more processing time.
-- **Zstd (Best compression, slowest)**: Maximum compression resulting in the smallest backup files but taking the longest to process.
+- **Back up library**: Back up saves for every game in your library, including games in folders. Games with no detected saves are skipped. You can upload each new backup to the cloud automatically.
+- **Restore library**: Restore the latest local backup for each game. Games without a local backup are skipped.
+- **Import from cloud**: Download selected cloud backups into your local Ludusavi backup folder. Then use **Restore library** to apply them.
 
-#### Backup Retention
-Control how many backups are kept per game:
-- Set a specific number of backups to retain (e.g., 3, 5, 10)
-- Older backups are automatically removed when the limit is reached
-- Configure different retention policies for different games based on importance
+Viewing a game's local backups is available to everyone. Backing up or restoring the whole library and managing cloud backups require an Ascend membership. Long operations can run in the background.
+
+## Backup Settings
+
+Configure these in **Settings** → **Game Backups**.
+
+### Backup Format
+- **ZIP (Recommended)**: Creates a compressed ZIP archive, ideal for saving space and creating portable backups.
+- **Simple (Directory structure)**: Stores backups as plain files, which is faster and makes individual files easier to access.
+
+### Compression Level
+When using ZIP format, choose a balance between speed and size:
+- **None (Fastest, largest files)**
+- **Deflate (Balanced, recommended)**: The default
+- **BZip2 (Better compression, slower)**
+- **Zstd (Best compression, slowest)**
+
+### Backups to Keep per Game
+Choose **3**, **5** (default), **10**, or a custom number. When the limit is reached, Ludusavi removes the oldest full backup. This limit applies to every game.
+
+### Skip Manifest Check
+Runs Ludusavi with `--no-manifest-update`, so it doesn't download the latest version of its game database before backing up. Only enable this if backups are failing because of the manifest update and you know what you're doing.
 
 ## Benefits
 
-- **Comprehensive Coverage**: Ludusavi's extensive game database ensures wide-ranging support for various PC game titles across different platforms and launchers.
-- **Efficient Storage**: Ludusavi's intelligent backup system minimizes storage usage while maintaining data integrity.
-- **Cross-Platform Support**: Ludusavi's Rust-based architecture provides reliable performance across different operating systems.
-- **Customization**: Leverage Ludusavi's flexible configuration options through Ascendara's interface for tailored backup solutions.
-- **Storage Optimization**: Fine-tune compression settings to balance between backup speed and disk space usage.
-- **Automated Management**: Set-and-forget backup retention policies prevent your storage from being overwhelmed with old backups.
-- **One-Click Access**: Manage all your game backups directly from Ascendara's library without switching to external tools.
+- **Wide coverage**: Ludusavi's game database covers a large number of PC games across launchers.
+- **Storage control**: Choose the format, compression, and how many backups to keep.
+- **Automation**: Back up automatically when a game closes.
+- **Portability**: Move saves between PCs with Ascend cloud backups.
+- **One place**: Manage backups from Ascendara without switching to external tools.
 
-## Development Status
+## Troubleshooting
 
-The game backup functionality in Ascendara is currently under active development. While the core features are already implemented and available for use, additional enhancements and refinements are planned for future releases.
+### Save Backups Is Disabled
+Select a backup location in **Settings** → **Game Backups**.
 
-Interested users are encouraged to provide feedback or contribute to the development of this feature. For information on how to contribute to Ascendara, please refer to the [Contributing Guide](/docs/getting-started/contributing).
+### No Save Data Found
+Ludusavi didn't find saves for the game. Play the game until it creates a save, then try again, or add the save folder under **Custom Save Paths**.
+
+### Cloud Backup Is Unavailable
+Cloud backups require a signed-in Ascend account with an active subscription.
+
+### Restore Didn't Change My Save
+Make sure the game was closed during the restore and that the backup is from the expected date. Some games also sync saves with their own cloud service, which can overwrite a restored save when the game starts.
