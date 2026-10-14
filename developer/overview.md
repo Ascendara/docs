@@ -4,115 +4,101 @@ Welcome to Ascendara's developer documentation. This guide covers the applicatio
 
 ## Architecture Overview
 
-Ascendara is built on a modern Electron + React stack with a modular architecture:
+Ascendara is an Electron + React app. The React renderer talks to the Electron main process through a preload bridge, and the main process runs native helper tools for heavy or platform-specific work:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        Renderer Process                          │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │                    React Frontend                        │    │
-│  │  • Vite dev server    • TailwindCSS    • Framer Motion  │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                              │                                   │
-│                         IPC Bridge                               │
-│                        (preload.js)                              │
-└──────────────────────────────┼──────────────────────────────────┘
-                               │
-┌──────────────────────────────┼──────────────────────────────────┐
-│                        Main Process                              │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │                   electron/app.js                        │    │
-│  │              (Entry point & orchestrator)                │    │
-│  └─────────────────────────────────────────────────────────┘    │
-│                              │                                   │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │                 electron/modules/                        │    │
-│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐   │    │
-│  │  │ config   │ │ settings │ │ downloads│ │  games   │   │    │
-│  │  └──────────┘ └──────────┘ └──────────┘ └──────────┘   │    │
-│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐   │    │
-│  │  │ updates  │ │ themes   │ │ system   │ │ window   │   │    │
-│  │  └──────────┘ └──────────┘ └──────────┘ └──────────┘   │    │
-│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐   │    │
-│  │  │ ludusavi │ │ steamcmd │ │ protocol │ │discord-rpc│  │    │
-│  │  └──────────┘ └──────────┘ └──────────┘ └──────────┘   │    │
-│  └─────────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────────┘
-                               │
-┌──────────────────────────────┼──────────────────────────────────┐
-│                      Binary Tools (Python)                       │
-│  ┌────────────────┐ ┌────────────────┐ ┌────────────────┐       │
-│  │  Downloader    │ │  GameHandler   │ │ CrashReporter  │       │
-│  └────────────────┘ └────────────────┘ └────────────────┘       │
-│  ┌────────────────┐ ┌────────────────┐ ┌────────────────┐       │
-│  │ GofileHelper   │ │ TorrentHandler │ │  Translator    │       │
-│  └────────────────┘ └────────────────┘ └────────────────┘       │
+│                        Renderer Process                         │
+│   React 19 · Vite · Tailwind CSS · shadcn/ui · Framer Motion    │
+│   src/pages · src/components · src/services · src/context       │
+└────────────────────────────────┬────────────────────────────────┘
+                                 │ window.electron (contextBridge)
+                       electron/preload.js
+                                 │ ipcRenderer.invoke / events
+┌────────────────────────────────┴────────────────────────────────┐
+│                          Main Process                           │
+│  electron/app.js — lifecycle, tray, local server, protocol      │
+│  electron/modules/ — settings, downloads, games, updates,       │
+│    local index, retro, proton, ludusavi, security, recovery …   │
+└────────────────────────────────┬────────────────────────────────┘
+                                 │ child processes
+┌────────────────────────────────┴────────────────────────────────┐
+│                         Helper Binaries                         │
+│  Downloader · GameHandler · TorrentHandler · NotificationHelper │
+│  LanguageTranslation (Python)  ·  CrashReporter (Rust)          │
+│  AchievementWatcher (Node.js)  ·  Ludusavi, SteamCMD (external) │
 └─────────────────────────────────────────────────────────────────┘
 ```
+
+In packaged builds, the renderer is served from a local HTTP server at `http://localhost:46859`. In development it's served by Vite at `http://localhost:5173`. The local server also proxies a few third-party APIs (TorBox, KHInsider, FLiNG) for the renderer.
 
 ## Core Components
 
 ### Main Process (`electron/`)
-The Electron main process handles system-level operations:
 
-| Module | Purpose |
+| File | Purpose |
 |--------|---------|
-| `app.js` | Entry point, window creation, app lifecycle |
-| `preload.js` | Secure IPC bridge between main and renderer |
-| `modules/config.js` | App configuration, API keys, constants |
-| `modules/settings.js` | User settings management |
-| `modules/downloads.js` | Download orchestration and progress |
-| `modules/games.js` | Game library, launching, shortcuts |
-| `modules/updates.js` | Auto-update system |
-| `modules/window.js` | Window management, fullscreen, tray |
-| `modules/discord-rpc.js` | Discord Rich Presence integration |
-| `modules/ludusavi.js` | Game save backup/restore |
-| `modules/steamcmd.js` | Steam Workshop downloads |
-| `modules/system.js` | System info, dependencies, drive space |
-| `modules/themes.js` | Custom theme import/export |
-| `modules/translations.js` | Language file management |
+| `app.js` | Entry point: window creation, tray, local server, protocol registration, app lifecycle |
+| `preload.js` | Exposes the `window.electron` API to the renderer |
+| `modules/index.js` | Loads modules; installs the IPC security guard first; lazy-loads non-critical modules |
+| `modules/config.js` | App version and branch, platform detection, paths, helper paths |
+| `modules/settings.js` | `SettingsManager`: loads, saves, and encrypts settings |
+| `modules/security.js` | Rejects IPC calls that don't come from Ascendara's own window |
+| `modules/downloads.js` | Starts the downloader and torrent handler, tracks progress, retries, queue |
+| `modules/games.js` | Library, game launching, executables, shortcuts, assets |
+| `modules/local-refresh.js`, `community-index.js`, `index-relay.js` | Local game index sync, covers, and index relay |
+| `modules/launcher-discovery.js`, `launcher-import.js` | Importing games from other launchers |
+| `modules/retro/` | Ascendara Retro library, scanning, catalogue, launching, saves |
+| `modules/proton.js`, `umu-database.js`, `wine-setup.js` | Linux and macOS compatibility layers |
+| `modules/ludusavi.js` | Save backup and restore |
+| `modules/updates.js`, `install-update.js` | App updates and branch switching |
+| `modules/recovery.js` | Settings recovery points and version rollback |
 | `modules/protocol.js` | `ascendara://` URL handling |
+| `modules/discord-rpc.js` | Discord Rich Presence |
+| `modules/system.js` | System info, drive space, dependencies, Defender exclusions |
+
+See [Project Structure](/docs/developer/project-structure) for the full list.
 
 ### Renderer Process (`src/`)
-The React frontend with modern UI components:
 
 | Directory | Purpose |
 |-----------|---------|
-| `src/pages/` | Main application views |
-| `src/components/` | Reusable UI components |
-| `src/context/` | React context providers |
+| `src/pages/` | Pages, including Big Picture (`big-picture/`) and Ascend (`ascend/`) |
+| `src/components/` | Reusable components and shadcn/ui primitives (`ui/`) |
+| `src/services/` | Business logic and external APIs (Firebase, game info, downloads, TorBox, …) |
+| `src/context/` | React context providers (auth, language, settings, theme, search, tour) |
 | `src/hooks/` | Custom React hooks |
 | `src/lib/` | Utility functions |
+| `src/translations/` | Language files (`en.json` is the source) |
 
-### Binary Tools (`binaries/`)
-Python executables for heavy operations:
+### Helper Binaries (`binaries/`)
 
-| Tool | Purpose |
-|------|---------|
-| `AscendaraDownloader` | Multi-threaded download manager |
-| `AscendaraGameHandler` | Game process management |
-| `AscendaraGofileHelper` | GoFile.io download handling |
-| `AscendaraTorrentHandler` | qBittorrent integration |
-| `AscendaraCrashReporter` | Error reporting and diagnostics |
-| `AscendaraLanguageTranslation` | AI-powered translations |
-| `AscendaraNotificationHelper` | System notifications |
-| `AscendaraAchievementWatcher` | Achievement tracking |
+| Tool | Language | Purpose |
+|------|----------|---------|
+| [AscendaraDownloader](/docs/binary-tool/downloader) | Python | Download, extract, verify, and install games (including Gofile) |
+| [AscendaraGameHandler](/docs/binary-tool/game-handler) | Python | Launch games, track playtime, Discord RPC, backups on close |
+| [AscendaraTorrentHandler](/docs/binary-tool/torrent-handler) | Python | Torrent downloads through qBittorrent |
+| [AscendaraNotificationHelper](/docs/binary-tool/notification-helper) | Python (PyQt6) | Desktop and achievement notifications |
+| [AscendaraLanguageTranslation](/docs/binary-tool/language-translator) | Python | Translates the UI into extra languages |
+| [AscendaraCrashReporter](/docs/binary-tool/crash-reporter) | Rust (FLTK) | Error reporting window |
+| [AscendaraAchievementWatcher](/docs/binary-tool/achievement-watcher) | Node.js | Watches achievement files |
+| [AscendaraLocalRefresh](/docs/binary-tool/local-refresh) | Python | Game index scraper (not shipped with the app) |
 
 ## IPC Communication
 
-The renderer communicates with the main process via IPC channels exposed through `preload.js`:
+The renderer calls the main process through the API exposed by `preload.js`:
 
 ```javascript
 // Renderer (React)
 const settings = await window.electron.getSettings();
-await window.electron.downloadFile(link, game, online, dlc, ...);
+await window.electron.downloadFile(link, game, online, dlc, isVr, updateFlow, version, imgID, size, additionalDirIndex, gameID);
 
-// Main Process (modules)
+// Main process (electron/modules)
 ipcMain.handle("get-settings", () => settingsManager.getSettings());
 ipcMain.handle("download-file", async (event, link, game, ...) => { ... });
 ```
 
-See the [IPC Reference](/docs/developer/ipc-reference) for all available channels.
+See the [IPC Reference](/docs/developer/ipc-reference) for the available methods and events.
 
 ## Data Flow
 
@@ -121,87 +107,66 @@ See the [IPC Reference](/docs/developer/ipc-reference) for all available channel
 User clicks download
         │
         ▼
-┌───────────────────┐
-│  Renderer: Start  │
-│  download request │
-└─────────┬─────────┘
-          │ IPC: download-file
-          ▼
-┌───────────────────┐
-│  Main: Spawn      │
-│  AscendaraDownloader│
-└─────────┬─────────┘
-          │ Child process
-          ▼
-┌───────────────────┐
-│  Python: Download │──► Progress updates via JSON file
-│  & Extract        │
-└─────────┬─────────┘
-          │
-          ▼
-┌───────────────────┐
-│  Main: Monitor    │──► IPC: download-progress events
-│  progress file    │
-└─────────┬─────────┘
-          │
-          ▼
-┌───────────────────┐
-│  Renderer: Update │
-│  UI with progress │
-└───────────────────┘
+Renderer: window.electron.downloadFile(...)
+        │ IPC: download-file
+        ▼
+Main: create game folder + {game}.ascendara.json,
+      spawn AscendaraDownloader (or TorrentHandler for magnets)
+        │
+        ▼
+Helper: transfer → extract → verify → install,
+        writing progress to downloadingData in {game}.ascendara.json
+        │
+        ▼
+Renderer: Downloads page polls window.electron.getDownloads()
+          every second; the main process reads downloadingData
+          from each game's {game}.ascendara.json
 ```
 
 ### Game Launch Flow
 ```
-User clicks play
+User clicks Play
         │
         ▼
-┌───────────────────┐
-│  Renderer: Launch │
-│  game request     │
-└─────────┬─────────┘
-          │ IPC: play-game
-          ▼
-┌───────────────────┐
-│  Main: Validate   │
-│  executable       │
-└─────────┬─────────┘
-          │
-          ▼
-┌───────────────────┐
-│  Main: Spawn game │──► Update Discord RPC
-│  process          │──► Hide window (optional)
-└─────────┬─────────┘
-          │
-          ▼
-┌───────────────────┐
-│  Main: Monitor    │──► Backup saves on close (optional)
-│  game process     │──► Restore window on exit
-└───────────────────┘
+Renderer: window.electron.playGame(game, isCustom, backupOnClose, ...)
+        │ IPC: play-game
+        ▼
+Main: resolve executable and launch commands;
+      on Linux add Proton/UMU/Wine runner arguments;
+      spawn AscendaraGameHandler; update Discord RPC; hide window
+        │
+        ▼
+GameHandler: launch game, track playtime and launch count,
+             launch trainer, run Ludusavi backup on exit
+        │
+        ▼
+Main: game-closed event → show window, reset Discord RPC
 ```
+
+## Development Mode Limitations
+
+When running from source (`yarn start`):
+- **Games** can't be launched.
+- **Ascend** features are disabled unless you configure Firebase credentials.
+- **Protected API endpoints** (such as reports, ratings, and authenticated requests) may reject requests, because source builds don't include the private request-signing secret.
+
+See [Building from Source](/docs/developer/build-from-source#important-limitations) for details.
 
 ## Quick Links
 
 | Topic | Description |
 |-------|-------------|
-| [Build from Source](/docs/developer/build-from-source) | Set up your development environment |
-| [Project Structure](/docs/developer/project-structure) | Detailed codebase walkthrough |
-| [IPC Reference](/docs/developer/ipc-reference) | All IPC channels documented |
+| [Build from Source](/docs/developer/build-from-source) | Set up your development environment and build the app |
+| [Project Structure](/docs/developer/project-structure) | Codebase walkthrough |
+| [System Design](/docs/developer/system-design) | Settings, data files, updates, protocol, security |
+| [IPC Reference](/docs/developer/ipc-reference) | The `window.electron` API |
 | [Tech Stack](/docs/developer/tech-stack) | Technologies and dependencies |
-| [Creating Tools](/docs/developer/creating-the-tools) | Building Python binaries |
-| [Contributing](/docs/developer/contributing) | How to contribute to Ascendara |
-
-## Development Mode Limitations
-
-When running from source, certain features are restricted:
-- **Analytics**: Disabled to prevent data pollution
-- **Reporting**: Feature/game/download reporting disabled
-- **Game Execution**: Games can only run from built versions
-
-These restrictions protect Ascendara's infrastructure. See [Build from Source](/docs/developer/build-from-source) for details.
+| [Creating the Tools](/docs/developer/creating-the-tools) | Building the helper binaries |
+| [Webview Development](/docs/developer/webview) | Ascendara Companion |
+| [Contributing](/docs/getting-started/contributing) | How to contribute to Ascendara |
 
 ## Getting Help
 
 - **Discord**: [ascendara.app/discord](https://ascendara.app/discord)
-- **GitHub Issues**: [github.com/ascendara/ascendara/issues](https://github.com/ascendara/ascendara/issues)
+- **GitHub Issues**: [github.com/Ascendara/ascendara/issues](https://github.com/Ascendara/ascendara/issues)
 - **API Docs**: [API Reference](/docs/api-reference/overview)
