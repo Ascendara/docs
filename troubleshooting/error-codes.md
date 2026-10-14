@@ -1,88 +1,91 @@
 # Understanding Error Codes
 
-## Error Code Categories
-
-### General Errors (1000-1004)
-- **1000**: Unknown Error
-- **1001**: Unhandled Exception
-- **1002**: Unhandled Reject
-- **1003**: Network Error
-- **1004**: Invalid Data
-
-### Game Handler Errors (1100-1199)
-- **1100**: Game Not Found
-- **1101**: Game Launch Failed
-- **1102**: Game Process Error
-- **1103**: Game Configuration Error
-- **1104**: Settings Error
-- **1105**: Download Directory Error
-
-### GoFile Helper Errors (1200-1299)
-- **1200**: GoFile API Error
-- **1201**: GoFile Upload Error
-- **1202**: GoFile Download Error
-- **1203**: GoFile Authentication Error
-- **1204**: GoFile Rate Limit
-- **1205**: GoFile File Error
-
-### Main Downloader Errors (1300-1399)
-- **1300**: Download Initialization Error
-- **1301**: Download Progress Error
-- **1302**: Download Cancel Error
-- **1303**: Download Verification Error
-- **1304**: Download Extraction Error
-- **1305**: Download Cleanup Error
-- **1306**: Settings File Error
-- **1307**: Games File Error
-- **1308**: Helper Launch Error
+When one of Ascendara's helper tools fails, it can open the **Crash Reporter**, a small window that shows which component failed and why. This page explains the error codes and what you can do.
 
 ## The Crash Reporter
 
-### Overview
-Ascendara includes a built-in crash reporter tool that helps diagnose and report issues when something goes wrong. When an error occurs, the crash reporter will automatically launch and provide detailed information about the problem.
+### What It Shows
+- **Affected Component**: The tool that failed, such as the Downloader or Game Handler
+- **Diagnostic Code**: A numeric error code
+- **What Happened**: A description of the code
+- **Technical Details**: The error message from the tool
 
-### What Information is Collected
-The crash reporter collects:
-- Error code and description
-- Affected component name
-- Technical details about the error
-- System information relevant to the crash
+Most of Ascendara's tools currently report the generic code `1`, which the Crash Reporter shows as **Unrecognized error code**. In that case, the **Technical Details** contain the actual error message, so include them when you ask for help.
 
-### Using the Crash Reporter
+### Buttons
+- **Get Support**: Opens the Ascendara Discord, where you can get help.
+- **Upload Crash Report**: Shows a confirmation. The Crash Reporter doesn't send your report or logs to Ascendara; to share your logs with support, use **Upload Logs** with a support code in **Settings**.
+- **Close**: Closes the window.
 
-#### For Normal Errors
-1. When a utility crashes, you'll see the "Ascendara Core Utility Crash" window
-2. The window shows:
-   - Affected component name
-   - Diagnostic code
-   - Error description
-   - Technical details
-3. You can:
-   - Get support through the Ascendara help center
-   - Upload the crash report
-   - Close the window
+For errors in Ascendara itself rather than a helper, the Crash Reporter has a **Critical Error** layout with recovery suggestions and **Report Problem**, **Restart Ascendara**, and **Exit** buttons. **Restart Ascendara** asks you to reopen Ascendara manually.
 
-#### For Critical Errors
-1. If Ascendara itself crashes, you'll see the "Critical Error" window
-2. The window provides:
-   - Error code and details
-   - Recovery suggestions
-   - Technical information
-3. Options available:
-   - Report the problem
-   - Restart Ascendara
-   - Exit the application
+## Error Code Categories
 
-### Reporting Issues
-1. Click "Upload Crash Report" to send the report to the Ascendara team
-2. The report helps Ascendara:
-   - Identify the root cause
-   - Improve stability
-   - Fix bugs faster
-3. Reports are anonymous and only include technical information
+### General Errors (1000-1004)
+- **1000**: An unknown error occurred
+- **1001**: An unhandled exception occurred
+- **1002**: An unhandled rejection occurred
+- **1003**: A network error occurred
+- **1004**: Invalid data received
 
-### Recovery Steps
-1. Try the suggested solutions in the crash reporter
-2. Restart Ascendara if recommended
-3. Check the Ascendara support center for known issues
-4. Contact support if the problem persists
+### Game Handler Errors (1100-1105)
+- **1100**: Game not found
+- **1101**: Failed to launch game
+- **1102**: Game configuration error
+- **1103**: Game process error
+- **1104**: Settings file error
+- **1105**: Download directory error
+
+### Language Translation Errors (1200-1202)
+- **1200**: Language Translation API error
+- **1201**: Language Translation rate limit exceeded
+- **1202**: Error processing the language file
+
+### GoFile Helper Errors (1300-1305)
+These codes belong to the former GoFile Helper. Gofile support is now built into the [Downloader](/docs/binary-tool/downloader), so you shouldn't see them.
+- **1300**: GoFile API error
+- **1301**: Failed to upload file to GoFile
+- **1302**: Failed to download file from GoFile
+- **1303**: GoFile authentication failed
+- **1304**: GoFile rate limit exceeded
+- **1305**: Error processing file for GoFile operation
+
+### Downloader Errors (1400-1408)
+- **1400**: Failed to initialize download
+- **1401**: Error updating download progress
+- **1402**: Failed to cancel download
+- **1403**: Download verification failed
+- **1404**: Failed to extract downloaded files
+- **1405**: Error during cleanup
+- **1406**: Error reading or writing the settings file
+- **1407**: Error reading or writing the games file
+- **1408**: Failed to launch helper process
+
+### Torrent Handler Errors (1500-1506)
+- **1500**: Torrent API error
+- **1501**: Failed to add torrent
+- **1502**: Failed to remove torrent
+- **1503**: Failed to get torrent status
+- **1504**: Torrent configuration error
+- **1505**: Error processing torrent file
+- **1506**: Failed to install torrent content
+
+### Notification Helper Errors (1600-1604)
+- **1600**: Failed to initialize notification
+- **1601**: Failed to display notification
+- **1602**: Invalid or unsupported theme
+- **1603**: Failed to load notification resources
+- **1604**: Error during notification animation
+
+## Download Errors in the App
+
+Most download problems don't open the Crash Reporter. Instead, the download card on the **Downloads** page shows the error. See [Common Issues](/docs/troubleshooting/common-issues#download-issues) for each message and its fix.
+
+## Recovery Steps
+1. Read the **Technical Details** for the actual error message.
+2. Try the action again. Many errors are temporary network problems.
+3. Run the health check in the [System Center](/docs/features/system-center).
+4. Check [Common Issues](/docs/troubleshooting/common-issues) for known problems.
+5. If the problem continues, ask for help in the [Discord community](https://ascendara.app/discord) and include the component name, code, and technical details.
+
+For developers, see the [Crash Reporter](/docs/binary-tool/crash-reporter) documentation.
