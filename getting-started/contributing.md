@@ -1,19 +1,22 @@
 # Contributing to Ascendara
 
-Thank you for your interest in contributing to Ascendara! This guide will help you get started.
+Thank you for your interest in contributing to Ascendara! This guide covers how to set up the project, the conventions the codebase follows, and how to submit changes. Accepted contributions are credited in the Ascendara changelog.
 
 ## Getting Started
 
 ### Prerequisites
 
-- **Node.js** 18+ 
-- **Python** 3.8+
+- **Node.js** 22 (CI uses 22.14.0) and **Yarn** 1.x
+- **Python** 3.12 (for the helper tools)
 - **Git**
-- **Visual Studio Build Tools** (Windows, for native dependencies)
+- **Rust and Cargo** (only if you work on or build the Crash Reporter)
+- **Visual Studio Build Tools** with the Windows SDK (Windows, for native dependencies)
+
+See [Building from Source](/docs/developer/build-from-source) for the full setup, including optional Firebase configuration.
 
 ### Setting Up Your Environment
 
-1. **Fork the repository** on GitHub
+1. **Fork the repository** on GitHub.
 
 2. **Clone your fork**:
    ```bash
@@ -27,76 +30,70 @@ Thank you for your interest in contributing to Ascendara! This guide will help y
    pip install -r requirements.txt
    ```
 
-4. **Start the development server**:
+4. **Start the development app**:
    ```bash
    yarn start
    ```
+
+`yarn install` also sets up a Husky pre-commit hook that runs Prettier on staged files through lint-staged.
 
 ---
 
 ## Code Style
 
+### Formatting and Linting
+
+- **Prettier** formats JavaScript, JSX, JSON, Markdown, HTML, and CSS: 2-space indentation, double quotes, a 90-character line width, and sorted Tailwind classes. Translation files in `src/translations/` are key-sorted automatically.
+- **ESLint** checks `src`, `electron`, the achievement watcher, and scripts.
+
+```bash
+yarn format        # format everything
+yarn format:check  # check formatting without writing
+yarn lint          # run ESLint
+```
+
 ### JavaScript/React
 
-- Use **ES6+** syntax
-- Use **functional components** with hooks
-- Follow existing naming conventions:
+- Use functional components with hooks.
+- Follow the existing naming conventions:
   - Components: `PascalCase`
-  - Functions/variables: `camelCase`
+  - Functions and variables: `camelCase`
   - Constants: `UPPER_SNAKE_CASE`
-- Use **async/await** over `.then()` chains
-
-### IPC Handlers
-
-- Use `_` for unused parameters:
-  ```javascript
-  // Good
-  ipcMain.handle("get-data", async (_, id) => { ... });
-  
-  // Only use event when needed
-  ipcMain.handle("send-data", async (event, data) => {
-    event.sender.send("data-received", result);
-  });
-  ```
-
-- Group related handlers in appropriate modules
-- Add JSDoc comments for complex handlers
+- Prefer `async`/`await` over `.then()` chains.
+- Put user-facing text in `src/translations/en.json` and read it with `t("section.key")`. Don't hardcode UI strings.
 
 ### Python
 
-- Follow **PEP 8** style guidelines
-- Use **type hints** where possible
-- Document functions with docstrings
+- Follow **PEP 8**.
+- Write JSON state files atomically, as the existing tools do, because the app reads them while the tools run.
+- Keep platform-specific paths for Windows, macOS, and Linux in sync with the other tools.
 
 ### CSS/Styling
 
-- Use **TailwindCSS** utility classes
-- Avoid custom CSS unless necessary
-- Follow the existing color scheme and design patterns
+- Use **Tailwind CSS** utility classes and the existing shadcn/ui components in `src/components/ui/`.
+- Use theme color tokens (such as `bg-card`, `text-primary`, `text-muted-foreground`) instead of fixed colors so every theme works.
 
 ---
 
 ## Making Changes
 
-### Branch Naming
+### Branches
 
-Use descriptive branch names:
+Active development happens on the `development` branch, which is merged into `main` for releases. Use a descriptive branch name for your work:
 - `feature/add-game-sorting`
 - `fix/download-progress-bug`
 - `docs/update-api-reference`
-- `refactor/settings-module`
 
 ### Commit Messages
 
-Follow conventional commit format:
+Use the conventional commit format:
 ```
 type(scope): subject
 
 # Examples:
-feat(downloads): add pause/resume functionality
-fix(games): resolve shortcut creation on Windows 11
-docs(api): update endpoint documentation
-refactor(settings): extract validation logic
+feat(big-picture): offer to start steam before launching online-fix games
+fix(index): only ask for help when the shared index is stale
+ci: write release descriptions from the changelog
 ```
 
 Types:
@@ -105,22 +102,25 @@ Types:
 - `docs`: Documentation changes
 - `refactor`: Code refactoring
 - `style`: Formatting changes
-- `test`: Adding tests
+- `test`: Adding or changing tests
+- `ci`: Build and release automation
 - `chore`: Maintenance tasks
 
 ### Pull Request Process
 
-1. **Create a feature branch** from `main`
-2. **Make your changes** with clear commits
-3. **Test thoroughly**:
-   - Run the app in development mode
-   - Test on Windows (primary platform)
-   - Check for console errors
-4. **Update documentation** if needed
+1. **Create a feature branch.**
+2. **Make your changes** with clear commits.
+3. **Check your work**:
+   - Run `yarn lint` and `yarn build`
+   - Run the app with `yarn start` and check the DevTools console for errors
+   - Test on Windows (the primary platform), and on Linux or macOS if your change affects them
+4. **Update the documentation** if needed. The docs live in the [Ascendara docs repository](https://github.com/Ascendara/docs).
 5. **Submit a pull request** with:
-   - Clear description of changes
+   - A clear description of the change
    - Screenshots for UI changes
-   - Reference to related issues
+   - References to related issues
+
+Pull requests to `main` run the **Source checks** workflow, which installs dependencies and builds the renderer.
 
 ---
 
@@ -128,13 +128,11 @@ Types:
 
 ### Adding New IPC Handlers
 
-1. **Choose the right module** in `electron/modules/`
+1. **Choose the right module** in `electron/modules/`, or create one and register it from `electron/app.js`.
 2. **Add the handler**:
    ```javascript
-   // In the appropriate module
    ipcMain.handle("new-handler", async (_, param1, param2) => {
      try {
-       // Implementation
        return { success: true, data: result };
      } catch (error) {
        console.error("Error in new-handler:", error);
@@ -142,57 +140,66 @@ Types:
      }
    });
    ```
-
-3. **Expose in preload.js**:
+   Use `_` for the event parameter when you don't need it.
+3. **Expose it in `electron/preload.js`**:
    ```javascript
-   // Add to the appropriate section
    newHandler: (param1, param2) => ipcRenderer.invoke("new-handler", param1, param2),
    ```
+4. **Call it from React** with `window.electron.newHandler(...)`.
+5. **Document it** in the [IPC Reference](/docs/developer/ipc-reference).
 
-4. **Document in IPC Reference** if it's a public API
+Every `ipcMain.handle` registered after startup is wrapped by `electron/modules/security.js`, which rejects calls that don't come from Ascendara's own window. Don't add handlers that accept arbitrary file paths or URLs without validating them. Prefer a named preload API over the legacy `window.electron.ipcRenderer` bridge.
 
 ### Adding New Pages
 
-1. Create the component in `src/pages/`
-2. Add the route in `App.jsx`
-3. Add navigation in `Navbar.jsx` if needed
-4. Follow existing page patterns for consistency
+1. Create the component in `src/pages/`.
+2. Add the route in `src/app.jsx`.
+3. Add navigation in `src/components/Navigation.jsx` if the page needs a navigation item.
+4. Add any searchable settings to `src/lib/settingsSearchData.js`.
+5. Follow existing page patterns for consistency.
 
-### Modifying Python Tools
+### Adding Translations
 
-1. Make changes in `binaries/{tool}/src/`
+Add new keys to `src/translations/en.json` only. The other built-in languages are generated from the English file with machine translation, so manual edits to them are overwritten. See [Language Translator](/docs/binary-tool/language-translator).
+
+### Modifying the Helper Tools
+
+1. Make changes in `binaries/{tool}/src/`.
 2. Test with Python directly first:
    ```bash
-   python src/AscendaraDownloader.py --help
+   python binaries/AscendaraDownloader/src/AscendaraDownloader.py --help
    ```
-3. Build the executable:
-   ```bash
-   pyinstaller --noconsole --onefile src/AscendaraDownloader.py
-   ```
-4. Test the built executable
+3. Build the executable with the platform build script. See [Creating the Tools](/docs/developer/creating-the-tools).
+4. Test the built executable from a packaged build.
 
 ---
 
 ## Testing
 
+### Automated Checks
+
+```bash
+yarn lint
+yarn build
+python -m unittest discover -s tests   # Python tests for build and release scripts
+```
+
 ### Manual Testing Checklist
 
 Before submitting a PR, verify:
 
-- [ ] App starts without errors
-- [ ] No console errors in DevTools
-- [ ] Feature works as expected
+- [ ] The app starts without errors
+- [ ] There are no new console errors in DevTools
+- [ ] Your feature works as expected
 - [ ] Existing features still work
-- [ ] UI looks correct (light/dark themes)
-- [ ] Settings persist after restart
+- [ ] The UI looks correct in light and dark themes
+- [ ] Settings persist after a restart
 
-### Testing Downloads
+### Testing Downloads and Game Launches
 
-> **Note**: Download testing requires a built version, not dev mode.
+> **Note**: Games can't be launched in development mode, and some API features are unavailable in source builds. Use a packaged build to test these flows.
 
-1. Build the app: `yarn dist`
-2. Run from `dist/win-unpacked/`
-3. Test download flows
+Build the app (see [Building from Source](/docs/developer/build-from-source)), then run it from `dist/win-unpacked/` on Windows, or from the AppImage or `.app` on Linux and macOS.
 
 ---
 
@@ -215,19 +222,19 @@ Documentation improvements are always welcome:
 - Fix typos or unclear explanations
 - Add examples
 - Update outdated information
-- Translate to other languages
 
 ---
 
 ## Getting Help
 
-- **Discord**: [ascendara.app/discord](https://ascendara.app/discord) - `#development` channel
-- **GitHub Discussions**: For longer technical discussions
+- **Discord**: [ascendara.app/discord](https://ascendara.app/discord)
 - **GitHub Issues**: For bug reports and feature requests
 
 ---
 
 ## Code of Conduct
+
+Please follow the [Code of Conduct](https://github.com/Ascendara/ascendara/blob/main/CODE_OF_CONDUCT.md):
 
 - Be respectful and inclusive
 - Provide constructive feedback
