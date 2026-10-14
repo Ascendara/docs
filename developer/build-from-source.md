@@ -2,144 +2,175 @@
 
 ## Prerequisites
 
-Before building Ascendara, ensure you have the following installed:
+To run Ascendara in development mode:
 
-- **Node.js**
-  - Version 18 or higher recommended
-  - Required for JavaScript runtime
-- **Windows Build Tools**
-  - Visual Studio Build Tools with Windows SDK
-  - Required for native dependencies (diskusage and electron-related builds)
+- **Node.js** 22 (CI uses 22.14.0)
+- **Yarn** 1.x (CI uses 1.22.22). npm also works for installing and running scripts.
+- **Python** 3.12 with `pip`, for the helper tools
+- **Git**, and a cloned repository. The Vite config reads the current commit with `git rev-parse HEAD`, so building from a ZIP download without Git history fails.
+- **Windows**: Visual Studio Build Tools with the Windows SDK, for native dependencies
 
-While not required, the following tools can make the development experience easier:
+To build installers, you also need:
 
-- **Git**: Optional - You can either clone the repository or simply download the files directly from GitHub
-- **Python 3.x**: Optional - Provides automated build scripts to simplify the development process, but all steps can be performed manually
+- **Rust and Cargo**, for the Crash Reporter
+- **Windows**: [7-Zip](https://www.7-zip.org) x64 installed in `C:\Program Files\7-Zip` (it's bundled into the downloader)
+- **Linux**: `unrar`, `p7zip-full`, `libfuse2`, and the FLTK/X11/OpenGL development packages (Debian/Ubuntu package names)
+- **macOS**: Xcode Command Line Tools and Python 3 with `venv`
 
 ## Important Limitations
 
-When running from source, Ascendara will run in Development Mode. Please be aware of the following limitations
-while in Development Mode, or while using a public build:
+When you run Ascendara from source, it runs in **development mode**, and some features are restricted:
 
-- **API Features**:
-  - Feature reporting
-  - Game reporting
-  - Download reporting
-- **Analytics Service**: The analytics service will be completely non-functional in the public version
-- **Game Execution**: You will not be able to run games in development mode
+- **Game execution**: Games can't be launched in development mode. Build and run a packaged version to play games.
+- **Ascend**: Ascend features are disabled unless you configure Firebase credentials (see below). The Ascend page shows a **Development Mode** notice.
+- **Protected API features**: Official builds sign their requests to the Ascendara API with a private secret that isn't in the repository. Without it, protected endpoints such as game reports, ratings, feature reporting, analytics, and the [index relay](/docs/features/refreshing-index#helping-refresh-the-index) may reject requests. Public endpoints such as the game index keep working.
+- **Build registration**: Official builds are registered with the Ascendara backend. Builds you make yourself aren't registered, so features that require an authorized build won't work in them.
 
-These limitations exist to protect Ascendara's infrastructure from potential abuse. The reporting and analytics services are essential for monitoring health, detecting issues, and ensuring Ascendara stays secure. For these reasons, these features are restricted to official builds only. You can still run games off the public version of Ascendara you just have to be running the built version. Thank you for your understanding.
+These limitations protect Ascendara's infrastructure from abuse. The reporting and analytics services are essential for monitoring health, detecting issues, and keeping Ascendara secure, so they're restricted to official builds. You can still play games with the official release of Ascendara.
 
 ## Getting the Source Code
-   > **Note:** You may use any compatible package manager such as `npm`, `yarn`, `deno`, etc.
+
+> **Note:** You can use any compatible package manager, such as `npm` or `yarn`.
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/ascendara/Ascendara.git
+git clone https://github.com/Ascendara/ascendara.git
+cd ascendara
 ```
 
-2. Install dependencies:
+2. Install the Node dependencies:
 
 ```bash
-npm install
+yarn install
 # or
-yarn
+npm install
 ```
 
-3. Set up Python environment and install dependencies:
-
-> **Note:** It is recommended to use Python's `venv` feature to isolate your development environment from the base Python installation. Ensure you have Python version 3.5 or higher installed.
-
-To create a virtual environment, run:
+3. Set up a Python virtual environment and install the Python dependencies:
 
 ```bash
 python -m venv .venv
 ```
 
-If you are using PowerShell, you may need to set the execution policy for the current user before activating the virtual environment. Use the following command:
+On Windows PowerShell, you may need to allow scripts for the current user first:
 
 ```ps1
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-Activate the virtual environment:
-
-```cmd
-.venv\Scripts\activate
-```
-
-Once activated, install the required Python dependencies:
+Activate the environment and install the requirements:
 
 ```bash
+# Windows
+.venv\Scripts\activate
+# macOS / Linux
+source .venv/bin/activate
+
 pip install -r requirements.txt
 ```
 
-## Development Preview
+Each helper tool also has its own `requirements.txt` in `binaries/<tool>/` if you work on a specific tool.
 
-To preview the application in development mode:
+### Configure Firebase (Optional)
 
-1. Open the project directory in Visual Studio Code or a terminal.
-2. Start the development server:
+Firebase powers Ascend accounts. It's optional for development. If you have your own Firebase project, copy the example environment file and fill in the `VITE_FIREBASE_*` values from the [Firebase Console](https://console.firebase.google.com/):
 
 ```bash
-npm run start
-# or
-yarn start
+cp .env.example .env
 ```
 
-This command will concurrently run both Electron and Vite, providing a live development environment.
+Firebase initializes automatically when credentials are present. Leave the values empty to run without authentication features. The `.env` file is ignored by Git.
+
+> **Warning:** Vite embeds every `VITE_*` value in the renderer bundle. Never put server credentials in these variables.
+
+## Development Preview
+
+Start the development app:
+
+```bash
+yarn start
+# or
+npm run start
+```
+
+This runs Vite and Electron together: Vite serves the renderer at `http://localhost:5173` with hot reloading, and Electron starts once the dev server is ready.
+
+Other useful scripts:
+
+| Command | Description |
+| --- | --- |
+| `yarn dev` | Run only the Vite dev server |
+| `yarn build` | Build the renderer into `build/` |
+| `yarn lint` | Run ESLint |
+| `yarn format` | Format the code with Prettier |
 
 ## Building the Application
 
-### Automatic Build (Recommended)
+Each platform has its own build script. All of them build the renderer, fix its asset paths for Electron, generate a build signature, and package the app with electron-builder into `dist/`.
 
-The automatic build script provided in the repository supports the following package managers:
+### Build Signature
 
-- npm
-- yarn
-- pnpm
-- bun
-
-If you are using a different package manager, you can use the [manual build process](#manual-build-process) below.
+Every build embeds a signature in `electron/build-signature.json`, generated with a `BUILD_SECRET`. Set one before building, either as an environment variable or in a `build.config.json` file in the project root (this file is ignored by Git):
 
 ```bash
-yarn dist
-# or
-npm run dist
+# Generate a random secret
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+
+# Linux / macOS
+export BUILD_SECRET="your-secret-here"
+# Windows (PowerShell)
+$env:BUILD_SECRET="your-secret-here"
 ```
 
-This script will automatically build the react app, then electron app and then move all contents to the `dist/` directory before deleting the `build/` directory and other temporary files.
+After packaging, the build scripts try to register the build with the Ascendara backend, which requires a private admin key. Pass `--skip-registration` to skip this step for your own builds.
 
-### Manual Build Process
+### Windows
 
-If you need more control, you can build manually:
-
-1. Build the React app:
+Build the helper executables first, then package the app:
 
 ```bash
-yarn build
-# or
-npm run build
+python scripts/build_windows_helpers.py
+yarn dist --skip-registration
 ```
 
-2. After building, the React app will be in the "build" directory:
+`build_windows_helpers.py` must run on a native Windows x64 machine. It creates a virtual environment in `.build_venv`, builds the Downloader, Game Handler, Notification Helper, and Torrent Handler with PyInstaller, builds the Crash Reporter with Cargo, and builds the Achievement Watcher with `pkg`. See [Creating the Tools](/docs/developer/creating-the-tools).
 
-   - Modify "index.html" to use relative paths by replacing "/assets/" with "assets/"
-   - Copy "index.html" to the "electron" directory
-   - Copy the "assets" directory to the "electron" directory
-   - Copy any other required assets (guide directory, icon.png, etc.) to the "electron" directory
+The packaged app is created in `dist/`, with an NSIS installer and an unpacked version in `dist/win-unpacked/`.
 
-3. Build the Electron app:
+### Linux
 
 ```bash
-yarn buildwithelectron
-# or
-npm run buildwithelectron
+yarn dist-linux --skip-registration
 ```
 
-5. Clean up temporary files:
-   - Remove the "build" directory
-   - Remove the copied files from the "electron" directory (index.html, assets, guide, etc.)
+The Linux script builds all helpers, the renderer, and an AppImage in `dist/`. If AppImage creation fails (for example, because of low disk space), it falls back to an unpacked build and a `.tar.gz` archive.
 
-Your compiled executable will be available in the "dist/win-unpacked" directory.
+### macOS
+
+```bash
+yarn setup-mac                 # download the official 7-Zip for macOS
+yarn dist-mac --check          # check prerequisites
+yarn dist-mac --skip-registration
+```
+
+`yarn dist-mac` builds for the architecture of your Mac and creates a DMG and ZIP in `dist/`. Use `yarn dist-mac-arm64`, `yarn dist-mac-intel`, or `yarn dist-mac-all` to choose the architecture, and `--dir` to build only an unpacked `.app`. Building both architectures on Apple Silicon requires a universal2 Python, Rosetta 2, and both Rust targets. See `README_MAC_BUILD.md` in the repository for signing, notarization, and cross-architecture details.
+
+### Manual Build Steps
+
+The build scripts automate these steps:
+
+1. Build the renderer: `yarn build`
+2. In `build/index.html`, replace absolute `/assets/` paths with relative `assets/` paths.
+3. Copy `build/index.html` and the `build/assets` directory into `electron/`.
+4. Generate the build signature: `node scripts/generate_build_signature.js`
+5. Package with electron-builder:
+   ```bash
+   yarn electron-builder --config.extraMetadata.main=electron/app.js --win --x64 --publish never
+   ```
+   Use `--linux` or `--mac` for other platforms. The helper binaries must already be built at the paths listed in `package.json` under `build.<platform>.extraResources`.
+6. Remove the copied files from `electron/` (`index.html`, `assets/`).
+
+## Automated Releases
+
+Official releases are built by GitHub Actions for Windows x64, Linux x64, macOS arm64, and macOS Intel. The workflow and the required secrets are described in `docs/BUILD_AUTOMATION.md` in the repository. Contributors don't need to run it.
