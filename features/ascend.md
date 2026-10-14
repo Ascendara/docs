@@ -1,42 +1,67 @@
 # Ascend
 
-Ascend is the premium subscription service for Ascendara, designed to unlock powerful features while directly supporting the solo developer behind the project. With Ascend, you gain access to cloud saves, friend activity, automatic game updates, and more—all while helping keep Ascendara alive and growing. Every new subscriber gets a free 7-day trial to experience everything Ascend has to offer before committing.
+Ascend is Ascendara's optional subscription. It unlocks social, cloud, and automation features while directly supporting the solo developer behind the project. Ascendara's core features (downloading, installing, and playing games) stay free with or without Ascend. New subscribers can start with a free 7-day trial.
 
 ## Supporting Independent Development
 
-Ascendara is built and maintained entirely by a solo developer. Unlike large companies with dedicated teams and corporate funding, Ascendara relies on its community to stay online and continue evolving. Your Ascend subscription is the most direct and impactful way to support this work.
+Ascendara is built and maintained by a solo developer. Unlike large companies with dedicated teams and corporate funding, Ascendara relies on its community to stay online and keep evolving. An Ascend subscription is the most direct way to support this work.
 
-Subscription revenue goes directly toward keeping the servers running 24/7, maintaining the API infrastructure that powers game indexing and downloads, funding secure cloud storage for user data, and enabling continuous development of new features and improvements. Every subscription matters—it's what keeps the games indexed, the community thriving, and the project moving forward. When you subscribe to Ascend, you're not just unlocking features; you're investing in the future of Ascendara.
+Subscription revenue keeps the servers running, maintains the API that powers the game index and downloads, funds cloud storage for user data, and pays for continued development. Every subscription helps keep the games indexed, the community thriving, and the project moving forward.
 
 ## Premium Features
 
-Ascend unlocks a suite of premium features designed to enhance every aspect of your Ascendara experience:
-
-- **Friends System**: Send and accept friend requests, build your gaming network, and see when your friends are online. Connect with other Ascendara users and grow your community.
-- **Real-Time Chat**: Chat directly with your friends within Ascendara. Share game recommendations, coordinate play sessions, and stay connected with your gaming circle.
-- **Profile & Bio**: Set up your personalized profile with a custom bio, showcase your gaming preferences, and let others know what you're all about. Make your profile uniquely yours.
-- **Cloud Sync**: Your profile, achievements, and game data are automatically synced to the cloud. Access your complete gaming history from anywhere, on any device.
-- **Public Leaderboard**: Compete with the community on the public leaderboard. See how your stats stack up against other players and climb the ranks.
-- **Auto Game Update Checking**: Automatically check for game updates in the background. Get notified when updates are available and install them with a single click.
-- **Upcoming Updates Peek**: Get an exclusive preview of what's coming in the next Ascendara update. Stay ahead of the curve and know what new features are on the horizon.
-- **Nexus Mod Managing**: Seamlessly manage your Nexus mods for supported games. Browse, install, and organize mods directly within Ascendara.
-- **Unlimited Downloads**: Download as many games as you want with no restrictions. Ascend removes all download limits so you can build your library freely.
-- **FLiNG Trainer**: Automatically downloads the correct FLiNG trainer for your game and handles installation, no manual searching or setup required.
-- **Download Queue**: Queue multiple downloads and let Ascendara handle them automatically. Start downloads and come back when they're all ready.
-- **Cloud Backups**: Automatically back up your game saves to the cloud. Never lose your progress and restore your saves on any device.
+- **Friends and Chat**: Send and accept friend requests, see when friends are online and what they're playing, set your status, and chat in real time. Messages from the last 7 days are kept.
+- **Profile and Bio**: A public profile with a bio, country, social links, level, playtime, and achievements. You can make your account private.
+- **Public Leaderboard**: Compare your stats with the community.
+- **Cloud Library Sync**: Sync your game list, playtime, and achievements to your Ascend profile, and restore them after reinstalling Ascendara or moving to a new PC.
+- **Cloud Save Backups**: Upload [game save backups](/docs/features/game-backups#cloud-backups) and restore them on another PC.
+- **Library Backups**: Back up and restore saves for your whole library with Ludusavi, and import cloud backups on another device.
+- **Retro Cloud Saves**: Back up your [Retro](/docs/features/retro#ascend-cloud-saves) memory cards and save folders to the cloud.
+- **Expanded Emulator Presets**: More consoles and emulator presets in [Ascendara Retro](/docs/features/retro).
+- **Automatic Game Updates**: Ascendara checks for game updates in the background and updates games with one click.
+- **Unlimited Download Queue**: Without Ascend, you can have 1 active download and 1 queued download. Ascend removes this limit.
+- **Ascendara Companion**: Monitor and manage downloads from your phone, tablet, or another computer. See [Ascendara Companion](/docs/features/companion).
+- **Nexus Mods**: Browse and download mods for supported games from inside Ascendara.
+- **FLiNG Trainers**: Download the correct FLiNG trainer for a game and launch it automatically with the game.
+- **Upcoming Update Preview**: See what's coming in the next Ascendara update.
+- **Experimental Branch**: Switch to the experimental release channel in **Settings** → **App Branch** to test features early.
+- **Hide Partner Ads**: Hide partner advertisements in search results (paid subscribers only, not available during the trial).
 
 ## Getting Started with Ascend
 
-Joining Ascend is straightforward and takes just a few minutes. First, make sure you have Ascendara installed and set up on your system. If you haven't done this yet, download Ascendara from the official website and complete the initial setup process.
+1. Open **Ascend** from the navigation bar.
+2. Create an account with your email or continue with Google. Your email address can't be changed after the account is created, so check it carefully.
+3. Verify your email address.
+4. Start your free 7-day trial, or choose a plan.
 
-Once Ascendara is ready, open the app and create your Ascend account directly within the application. This account is separate from any other accounts you may have and is specifically for accessing Ascend features. After your account is created, navigate to Settings and look for the Ascend subscription option. From there, you can start your free 7-day trial and immediately begin using all premium features.
+Ascend accounts are separate from any other account you have. Ascend also requires the latest version of Ascendara, so keep automatic updates on.
 
-After your trial period ends, you can choose to continue your subscription to maintain access to all premium features. Your continued support helps ensure Ascendara keeps growing and improving for everyone in the community.
+## Plans and Billing
+
+After the trial, you can choose a monthly plan, a 6-month plan, or a one-time lifetime purchase. Current prices are shown in the app when you select a plan. Checkout and billing are handled by Stripe in your browser, and you can manage your subscription or view invoices from **Ascend** → **Settings**.
+
+When your trial is about to end, Ascendara reminds you. If the trial ends without a subscription, your cloud library and synced data are deleted within a few days.
+
+### Discord Verification
+
+Subscribers can verify their account on the Ascendara Discord server to unlock exclusive roles and channels. Open **Ascend** → **Settings**, join the Discord server, and run the verification command shown there. Verification only works for active subscribers.
 
 ## Privacy, Security & Abuse Prevention
 
-Ascendara takes the security of your account and the integrity of the Ascend service seriously. To prevent abuse of the subscription system—such as account sharing, fraudulent trial usage, or other forms of exploitation—Ascendara collects and stores a hardware identifier (HWID) from your device when you create an Ascend account.
+Ascendara takes the security of your account and the integrity of the Ascend service seriously. To prevent abuse of the subscription system, such as account sharing or repeated free trials, Ascendara collects a hardware identifier (HWID) from your device when you create an Ascend account.
 
-Your hardware ID is generated from components of your system and serves as a unique fingerprint for your device. This identifier is securely encrypted and stored on Ascendara's servers, where it is used exclusively for abuse prevention purposes. It is never shared with third parties, never used for tracking or advertising, and never sold to anyone. The sole purpose of collecting this information is to ensure that each subscription is used fairly and that the free trial system isn't exploited.
+The hardware ID is generated from components of your system and acts as a fingerprint for your device. It is stored securely on Ascendara's servers and used only for abuse prevention. It is never shared with third parties, never used for tracking or advertising, and never sold.
 
-This approach helps maintain a level playing field for all subscribers and protects the resources that keep Ascendara running. If you have concerns about hardware ID collection or need to transfer your subscription to a new device, reach out through the [Discord community](https://ascendara.app/discord) for assistance.
+Because of this, each device can have one Ascend account, and each device can use the free trial once. If you have concerns about hardware ID collection or need to move your subscription to a new device, reach out through the [Discord community](https://ascendara.app/discord).
+
+### Account Privacy
+
+Turn on **Private Account** in **Ascend** → **Settings** to hide your profile details, games, and achievements from other users. Display names and bios are checked for inappropriate language. You can report other users from their profile.
+
+### Deleting Your Account
+
+Open **Ascend** → **Settings** and select **Request Account Deletion**. Your request is processed within a few days and you're notified by email.
+
+## Source Builds
+
+Ascend features are disabled when you run Ascendara from source without Firebase credentials. See [Building from Source](/docs/developer/build-from-source#important-limitations).
