@@ -114,13 +114,12 @@ All of these modules belong to `binaries/AscendaraDownloader/src` and are packag
 
 | File | Responsibility |
 | --- | --- |
-| `AscendaraDownloader.py` | CLI, game metadata, provider dispatch, progress, extraction supervision, staging, installation, verification, and executable detection. |
-| `AscendaraTransfer.py` | Streaming HTTP transfers, range validation, retry limits, speed limiting, and partial-download metadata. |
+| `AscendaraDownloader.py` | CLI, game metadata, provider dispatch, progress, staging, installation, verification, and executable detection. |
+| `AscendaraTransfer.py` | Streaming HTTP transfers, multi-connection ranges, range validation, retry limits, speed limiting, and partial-download metadata. |
+| `AscendaraExtraction.py` | Archive detection and the extraction worker process (ZIP, UnRAR, 7-Zip). `supervise_extraction` is its entry point; it never touches the network. |
 | `AscendaraGofile.py` | Gofile discovery, folder traversal, authentication, and provider errors. It does not launch a separate helper. |
 | `AscendaraDownloadRecovery.py` | Retry timing, response-size validation, archive-family matching, and repair downloads. |
 | `AscendaraRarRecovery.py` | Native UnRAR bindings and shared archive-path and recovery utilities. |
-
-`AscendaraDownloader_OLD.py` is not the current entry point. Use `AscendaraDownloader.py` and the downloader build specification when developing or packaging V4.
 
 Electron's `electron/modules/downloads.js` starts the downloader with the positional arguments above and reads game metadata for progress. Torrent and magnet links use the separate [Torrent Handler](/docs/binary-tool/torrent-handler).
 
@@ -143,7 +142,7 @@ Successful completion removes `downloadingData`. The downloader writes metadata 
 
 ### Transfer and Extraction Design
 
-Transfers use `Range` and `If-Range` with a strong ETag or Last-Modified validator. The downloader validates returned ranges and lengths before appending data. Network failures use bounded backoff; HTTP 429 and 503 can honor `Retry-After`. Most other HTTP client errors fail immediately. A transfer permits up to 48 attempts, with a six-failure limit that resets after substantial forward progress.
+With **Single Stream Download** on (the default), each file uses one connection. When it's off, the downloader splits a file into ranges and downloads them over up to `threadCount` connections, capped at 16. Transfers use `Range` and `If-Range` with a strong ETag or Last-Modified validator. The downloader validates returned ranges and lengths before appending data. Network failures use bounded backoff; HTTP 429 and 503 can honor `Retry-After`. Most other HTTP client errors fail immediately. A transfer permits up to 48 attempts, with a six-failure limit that resets after substantial forward progress.
 
 Archive decoding runs in a spawned worker process. The parent receives progress through a pipe, handles cancellation, and stops workers that exit unexpectedly or report no decoder activity for 300 seconds. The worker does not write frontend progress JSON directly.
 
@@ -160,16 +159,11 @@ python -m pip install -r requirements.txt
 python src/AscendaraDownloader.py --help
 ```
 
-For the Windows binary, install PyInstaller in your build environment and use the existing specification:
+To build the Windows executable, use `scripts/build_windows_helpers.py`, which runs PyInstaller with the bundled `UnRAR.dll`, 7-Zip (`7z.exe`, `7z.dll`, and its license), and the icon. The output is `binaries/AscendaraDownloader/dist/AscendaraDownloader.exe`. On Linux and macOS, the app build scripts bundle the platform's 7-Zip (and UnRAR on Linux) the same way. See [Creating the Tools](/docs/developer/creating-the-tools).
 
-```powershell
-python -m pip install pyinstaller
-python -m PyInstaller AscendaraDownloader.spec
-```
+Keep the sibling Python modules available when running from source. A development environment without a bundled 7-Zip needs a `7z`, `7zz`, or `7za` on the `PATH` for formats that require it.
 
-The specification builds `dist/AscendaraDownloader.exe`, includes `src/UnRAR.dll`, and uses `src/ascendara.ico`. Keep the sibling Python modules available when running from source. Packaging everything into one downloader does not remove native extraction dependencies: provide a discoverable `7z`, `7zz`, or `7za` tool for formats that need it. The current specification bundles UnRAR but does not explicitly bundle 7-Zip.
-
-Settings come from `ascendarasettings.json` in Ascendara's platform-specific application-data directory. On Windows, a frozen build reads the `Ascendara` folder, while source execution reads `Electron`. The `downloadLimit` setting is interpreted in KiB/s (`0` means unlimited). `behaviorAfterDownload` selects the completion action; direct CLI runs also read these settings.
+Settings come from `ascendarasettings.json` in Ascendara's application-data directory: `%APPDATA%\Ascendara\` on Windows (a frozen build; source execution reads `%APPDATA%\Electron\`), `~/Library/Application Support/ascendara/` on macOS, and `~/.config/ascendara/` on Linux. The `downloadLimit` setting is interpreted in KiB/s (`0` means unlimited). `singleStream` and `threadCount` control connections per file, and `behaviorAfterDownload` selects the completion action. Direct CLI runs also read these settings.
 
 ## Troubleshooting
 
