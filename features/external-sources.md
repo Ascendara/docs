@@ -1,23 +1,23 @@
 # External Sources and Game Index
 
-Ascendara uses a game index system to manage game data locally on your computer. This allows for fast browsing, reduced network usage, and offline access when using Ascendara's official index.
+Ascendara keeps a game index on your computer for fast browsing and offline access. By default it uses the official Ascendara index. External Sources Mode lets you load games from a community source bucket or from JSON lists you import yourself instead.
+
+For how the official index works and stays up to date, see [Your Game Index](/docs/features/refreshing-index).
 
 ## Overview
 
-The game index acts as a local database containing:
+The game index is a local list containing:
 
-- Game listings and metadata
+- Game names, sizes, and versions
 - Download links and source references
 - Cover images
 - Categories, ratings, and popularity data when available
-
-By storing this data locally, Ascendara can provide a fast browsing experience without relying on repeated network requests.
 
 ---
 
 ## Choosing a Game Source
 
-Ascendara supports two source modes. Each offers a different balance of performance, features, and flexibility.
+Ascendara supports two source modes. Each offers a different balance of features and flexibility. You can switch between them at any time at the top of the **Your Game Index** page (**Settings** → **Manage Index**).
 
 ### Official Ascendara Index (Recommended)
 
@@ -27,143 +27,116 @@ The official index provides the full Ascendara experience and is the default opt
 
 - Full metadata support
 - Categories, ratings, and popularity data
-- Locally cached data and images
-- Fast browsing and offline-friendly behavior
+- Cover images
+- Automatic background updates
 - Full Ascendara feature compatibility
-
-**Storage Requirement**
-Approximately 200 MB
 
 **Best for**
 Users who want the fastest experience and full feature support.
 
 ### External Sources Mode
 
-External Sources Mode allows Ascendara to load games from an external source bucket URL instead of the official Ascendara index.
+External Sources Mode loads games from an external source instead of the official Ascendara index. It is marked **Experimental** in the app.
 
-This mode is designed for flexibility and custom sourcing. Users can switch to a supported external bucket and have Ascendara build the game list from that source.
+This mode is designed for flexibility and custom sourcing. You can point Ascendara at a supported source bucket and pick one of its sources, or import your own JSON lists.
 
 **Features**
 
-- Supports external bucket URLs
-- Lets users choose their own supported source
-- Lower local storage usage
+- Supports external source bucket URLs
+- Lets you choose your own source, and switch between sources you've used
+- Supports your own imported JSON lists (Custom Lists)
 - Flexible for custom or community-maintained sources
 
 **Limitations**
 
-- Reduced metadata support
-- No categories, ratings, or popularity data
+- No cover images, categories, popularity data, or ratings from the source
 - Browsing by category is unavailable
 - Sorting by popularity is unavailable
-- Cover images are not provided by the source bucket itself
-- Some visual and metadata-based Ascendara features may be limited
+- Automatic background index updates are paused; sync the source manually instead
 
 **Best for**
-Users who want a lightweight or customizable source option.
+Users who want to use a different catalog.
 
 ---
 
-## Source Bucket URLs
+## Source Buckets
 
-When External Sources Mode is enabled, Ascendara reads from a source bucket URL that points to a supported source collection.
+A source bucket is a URL that hosts a collection of sources. Ascendara asks the Ascendara API to read the bucket, so only bucket hosts that the API recognizes are accepted. If a URL isn't recognized, Ascendara shows **This URL is not a recognized source bucket.**
 
-Users can paste a supported bucket URL into the Source Bucket URL field in Ascendara preferences. Once set, Ascendara will load games from that source.
+### Setting Up a Source
 
-### How It Works
+1. Open **Settings** → **Manage Index**.
+2. Select **External Sources** at the top of the page. If you're switching for the first time, Ascendara explains the reduced metadata.
+3. Paste a URL into **Source bucket URL**, or select **Use recommended**, then click **Set**.
+4. Select **Browse sources**, search the list, and pick a source.
+5. Ascendara loads the source and builds your game list from it.
 
-- The source bucket URL points to a supported game source collection
-- Ascendara reads the collection and converts it into a usable game list
-- The loaded source is then shown under your available sources
-- Users can switch between available sources while External Sources Mode is enabled
+Use **Sync now** to reload the selected source and **Change source** to pick a different one. Sources you've used before appear under **Your sources** so you can switch back without browsing the bucket again.
 
-### Notes
+### Source Badges
 
-- The source must be publicly reachable by Ascendara
-- The source must follow one of Ascendara's supported formats
-- Metadata availability depends on the source format and data provided
-- External sources do not provide the same completeness as the official Ascendara index
+- **Trusted**: Widely used by the community and known to be reliable and safe.
+- **Rating**: The source's community rating, when the bucket provides one.
+- **Torrent only**: The source only publishes magnet links. See [Torrent-Only Sources](#torrent-only-sources).
 
----
+### When a Source Can't Be Fetched
 
-## Reduced Metadata in External Sources Mode
+Some source links are protected by a browser challenge that Ascendara can't solve on its own. In that case Ascendara shows **Couldn't fetch source automatically** and opens the link in your browser. Once the page loads the JSON, copy all of the text, paste it into the dialog, and Ascendara will use it.
 
-When using external sources, Ascendara may not have access to the full metadata available in the official index.
+### Torrent-Only Sources
 
-This means the following features may be unavailable for games loaded from external sources:
-
-- Cover images provided directly by the index
-- Categories
-- Ratings
-- Popularity data
-- Popularity-based sorting
-- Category-based browsing
-
-Ascendara may still attempt to fill in certain visual data dynamically when possible, but this is not guaranteed and depends on the source data and title matching.
+Some sources only publish magnet links. To select one, you need to enable torrenting in **Settings**, which requires qBittorrent. Torrenting exposes your IP address to peers, so using a VPN is strongly recommended. While a torrent-only source is selected, torrenting can't be turned off; change the external source first.
 
 ---
 
-## Supported Source Formats
+## Custom Lists
 
-Ascendara supports multiple source structures for external source buckets.
+Custom Lists let you import your own game JSON and use it as your source.
 
-### 1. Ascendara JSON Format (Full Format)
+1. In External Sources Mode, select **Import New List** under **Custom Lists**.
+2. Paste the JSON, or select **Paste from clipboard**, and click **Process JSON**.
+3. Review the detected structure, keys, and number of items, then give the list a name.
+4. Import the list. It becomes the active list.
 
-This is the native Ascendara format and provides the highest level of compatibility.
+Select a list to switch to it. You can also rename or delete lists. Lists are stored as JSON files in `Documents/Ascendara/CustomLists`.
+
+---
+
+## Supported Formats
+
+External sources and Custom Lists accept two JSON structures.
+
+### 1. Games Array
+
+The same structure as the official Ascendara index:
 
 ```json
 {
   "games": [
     {
-      "category": ["Action", "Adventure", "Indie"],
-      "dirlink": "https://example.com/game-download/",
-      "dlc": false,
-      "download_links": {},
       "game": "Sample Game",
       "gameID": "AbCdEf",
       "imgID": "sample123",
-      "latest_update": "2026-04-21",
-      "minReqs": {
-        "cpu": "Intel Core i5 or equivalent",
-        "directx": "Version 11",
-        "gpu": "NVIDIA GeForce GTX 1060 or equivalent",
-        "os": "Windows 10 64-bit",
-        "ram": "8 GB RAM",
-        "storage": "10 GB available space"
+      "dirlink": "https://example.com/game-download/",
+      "download_links": {
+        "gofile": ["https://gofile.io/d/example"]
       },
-      "online": false,
-      "releasedBy": "Sample Group",
-      "size": "15.0 GB",
       "version": "1.0.0",
-      "weight": "5000"
+      "size": "15.0 GB",
+      "latest_update": "2026-04-21",
+      "category": ["Action", "Adventure"],
+      "online": false,
+      "dlc": false
     }
   ]
 }
 ```
 
-**Supported fields include**
+When this structure is used as an external source, Ascendara reads each game's name (`game`, `title`, or `name`), its links (`download_links`, `dirlink`, `url`, `uri`, `uris`, or `magnet`), its size (`size` or `fileSize`), and its date (`latest_update`, `uploadDate`, or `date`). Other fields such as categories, ratings, and images are not used in External Sources Mode. See the [game list format](/docs/api-reference/games-list) for all fields of the official index.
 
-- `game` — game title
-- `gameID` — unique identifier
-- `imgID` — image reference used by Ascendara's official index format
-- `dirlink` — source or page link
-- `download_links` — structured download links
-- `version` — version information
-- `latest_update` — update tracking
-- `size` — game size
-- `category` — categories or genres
-- `weight` — ranking or weight value
-- `releasedBy` — source attribution
-- `dlc` — whether the entry is DLC
-- `online` — whether online support is noted
-- `minReqs` — minimum system requirements
+### 2. Downloads Array
 
-> **Important**  
-> In External Sources Mode, not all fields are used equally. Some metadata may be ignored depending on the source behavior and the current Ascendara implementation.
-
-### 2. Simplified Download Collection Format
-
-Ascendara also supports a simplified collection format focused mainly on titles, file sizes, links, and upload metadata.
+A simplified collection format focused on titles, links, sizes, and upload dates:
 
 ```json
 {
@@ -174,7 +147,7 @@ Ascendara also supports a simplified collection format focused mainly on titles,
       "fileSize": "500 MB",
       "uris": [
         "https://example.com/download1",
-        "https://example.com/download2"
+        "magnet:?xt=urn:btih:example"
       ],
       "uploadDate": "2025-03-05T16:41:20.000Z"
     }
@@ -182,107 +155,38 @@ Ascendara also supports a simplified collection format focused mainly on titles,
 }
 ```
 
-**Supports**
-
-- Game titles
-- File sizes
-- Download links
-- Upload dates
-- Collection naming
-
-This format is useful for lightweight source buckets where only core download data is available.
-
-### Format Behavior
-
-Different formats provide different levels of functionality inside Ascendara.
-
-**Ascendara JSON Format**
-- Best compatibility
-- Supports richer metadata
-- Better alignment with Ascendara's internal systems
-- Preferred when building a complete custom source
-
-**Simplified Download Collection Format**
-- Lightweight
-- Easy to host and maintain
-- Focused on download data
-- May result in reduced metadata and fewer supported features inside Ascendara
+Ascendara reads the game name and version from the title, so titles like `Game Name (v1.0.0)` work best.
 
 ---
 
-## Image Handling
+## Images in External Sources Mode
 
-**Official Index**
-- Images are handled through Ascendara's official index data
-- Optimized for consistency and speed
-
-**External Sources**
-- Images are not guaranteed as part of the source bucket
-- Visual results may be limited or resolved dynamically when possible
-- Image quality and consistency may vary depending on title matching and available data
-
-Because of this, external sources should be expected to provide a more limited browsing experience than the official index.
-
----
-
-## Performance Considerations
-
-### Official Index
-- Fastest browsing experience
-- Better caching behavior
-- More complete metadata
-- Better support for Ascendara features
-- Higher storage usage
-
-### External Sources
-- Lower storage usage
-- More flexible source selection
-- May load more slowly depending on the source
-- Limited metadata support
-- More dependent on source structure and availability
-
----
-
-## Switching Between Source Modes
-
-You can switch between the official index and external sources at any time.
-
-1. Open Ascendara Preferences
-2. Go to the Game Index or External Sources section
-3. Enable or disable External Sources Mode
-4. If enabled, paste a supported Source Bucket URL
-5. Select the source you want Ascendara to use
-6. Ascendara will reload the game list using the selected source
+Sources don't provide cover images. Ascendara tries to find artwork for each game from SteamGridDB by matching the title. Results depend on how closely the title matches, so some games may have incorrect or missing artwork.
 
 ---
 
 ## Troubleshooting
 
-### External source does not load
-- Make sure the bucket URL is correct
-- Confirm the source is publicly reachable
-- Verify that the source uses a supported format
-- Try reloading the source after saving the URL
+### The source bucket isn't accepted
+- Make sure the URL is correct and complete.
+- Only bucket hosts recognized by the Ascendara API are supported. Try **Use recommended**.
+
+### A source doesn't load
+- Select **Sync now** to try again.
+- If Ascendara asks you to paste the JSON manually, open the link in your browser and copy the entire page.
+- Check that the source uses one of the supported formats.
 
 ### Games are missing metadata
-- External sources may not provide full metadata
-- Categories, ratings, popularity data, and cover images may not be available
-- For full metadata support, use the official Ascendara index
+- This is expected in External Sources Mode. For categories, ratings, popularity sorting, and covers, switch back to the official Ascendara index.
 
-### Images are missing or inconsistent
-- External sources may not include image data
-- Dynamically resolved visuals may vary based on title matching
-- This is expected behavior in External Sources Mode
-
-### Browsing feels more limited
-- External sources do not support the full official-index experience
-- For full filtering, popularity sorting, and metadata-driven features, switch back to the official Ascendara index
+### I can't select a source
+- The source may be torrent-only. Enable torrenting in **Settings** first.
 
 ---
 
 ## Summary
 
-- **The Official Ascendara Index** provides the full Ascendara experience with better performance and full metadata support
-- **External Sources Mode** allows users to load games from supported source bucket URLs
+- **The Official Ascendara Index** provides the full Ascendara experience with automatic updates and full metadata
+- **External Sources Mode** loads games from a supported source bucket or your own Custom Lists
 - External sources are more flexible, but come with reduced metadata and fewer browsing features
-- For the best overall experience, the official Ascendara index is recommended
+- For the best overall experience, use the official Ascendara index
