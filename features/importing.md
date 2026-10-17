@@ -6,7 +6,7 @@ Importing never moves, copies, or re-downloads your games. Each game stays where
 
 ## Two Ways to Import
 
-Open your **Library**, click the arrow next to **Add game**, and choose **Import from other launchers**. Ascendara asks which kind of games you want to bring in:
+Open your **Library**, click the arrow next to **Add game**, and choose **Import from other launchers**. Ascendara asks which kind of games you want to bring in. The same choice is offered during first-time setup, on the **Optional extras** step.
 
 | | [Games installed on this PC](#games-installed-on-this-pc) | [Games you own but have not installed](#store-accounts) |
 | --- | --- | --- |
@@ -69,7 +69,7 @@ Ascendara doesn't download owned games itself. When you want to play one, Ascend
 2. Click **Connect** next to Steam, Epic Games, or GOG.
 3. A sign-in window from that store opens. Sign in the same way you would on the store's website, including any two-factor code or "I'm not a robot" check.
 4. When sign-in finishes, the window closes on its own and Ascendara loads your library. Large collections can take a moment.
-5. Make sure **Show connected-store games** is on, then click **View in library**.
+5. Your owned games now show in your Library. Ascendara turns on **Show connected-store games** for you the first time you connect a store. Click **View in library** to see them.
 
 Each connected store shows a green dot, your account name, how many games you own, and when it was last updated. You can connect one, two, or all three stores.
 
