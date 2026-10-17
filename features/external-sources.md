@@ -17,7 +17,7 @@ The game index is a local list containing:
 
 ## Choosing a Game Source
 
-Ascendara supports two source modes. Each offers a different balance of features and flexibility. You can switch between them at any time at the top of the **Your Game Index** page (**Settings** → **Manage Index**).
+Ascendara supports two source modes. Each offers a different balance of features and flexibility. You can switch between them at any time on the **External Sources** page: open **Settings → Game Index** and select **Manage sources**, then turn **Use external sources** on or off. While an external source is active, **Settings → Game Index** also offers **Use Ascendara index** to switch back in one click.
 
 ### Official Ascendara Index (Recommended)
 
@@ -65,13 +65,13 @@ A source bucket is a URL that hosts a collection of sources. Ascendara asks the 
 
 ### Setting Up a Source
 
-1. Open **Settings** → **Manage Index**.
-2. Select **External Sources** at the top of the page. If you're switching for the first time, Ascendara explains the reduced metadata.
+1. Open **Settings → Game Index** and select **Manage sources**.
+2. On the **External Sources** page, turn on **Use external sources**. The page reminds you that external sources have reduced metadata.
 3. Paste a URL into **Source bucket URL**, or select **Use recommended**, then click **Set**.
 4. Select **Browse sources**, search the list, and pick a source.
 5. Ascendara loads the source and builds your game list from it.
 
-Use **Sync now** to reload the selected source and **Change source** to pick a different one. Sources you've used before appear under **Your sources** so you can switch back without browsing the bucket again.
+Use **Sync Now** to reload the selected source and **Change** to pick a different one. Sources you've used before appear under **Your sources** so you can switch back without browsing the bucket again.
 
 ### Source Badges
 
@@ -93,7 +93,7 @@ Some sources only publish magnet links. To select one, you need to enable torren
 
 Custom Lists let you import your own game JSON and use it as your source.
 
-1. In External Sources Mode, select **Import New List** under **Custom Lists**.
+1. On the **External Sources** page, with **Use external sources** turned on, select **Import New List** under **Custom Lists**.
 2. Paste the JSON, or select **Paste from clipboard**, and click **Process JSON**.
 3. Review the detected structure, keys, and number of items, then give the list a name.
 4. Import the list. It becomes the active list.

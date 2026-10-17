@@ -1,23 +1,29 @@
 # Your Library
 
-The **Library** brings together every game you play with Ascendara: games downloaded through Ascendara, custom games you add yourself, and games [imported](/docs/features/importing) from other launchers. Games appear in the Library while they're still downloading.
+The **Library** brings together every game you play with Ascendara: games downloaded through Ascendara, custom games you add yourself, games [imported](/docs/features/importing) from other launchers, and, if you connect a [store account](/docs/features/importing#store-accounts), games you own on Steam, Epic Games, or GOG. Games appear in the Library while they're still downloading.
 
 ## Library Tabs
 
 The Library sidebar has these tabs. Drag them to change their order.
 
-- **All Games**: Every installed game and your folders.
+- **All Games**: Every installed game and your folders, plus owned games from connected [store accounts](/docs/features/importing#store-accounts). Owned games show a small store badge and open their store to play or install.
 - **Favorites**: Games you marked with the heart icon. You can favorite games before you install them, give them a personal 1–5 star rating, and set a status (**Playing**, **Completed**, or **Backlog**). Favorite ratings are stored only on your computer and are never shared.
 - **Cloud Games**: Games saved to your [Ascend](/docs/features/ascend) cloud library that aren't installed on this PC. This tab appears when you're signed in to Ascend. Select **Download & Restore** (or **Add & Restore** for custom games) to install a game and recover its playtime.
 - **Play Later**: Games you saved to play later from Search or a game page.
 - **History**: Games you deleted while keeping their data. Their playtime and stats are preserved, and are restored if you reinstall the game.
 - **Retro**: Your [Ascendara Retro](/docs/features/retro) library.
 
-The sidebar also has tools to add games, create folders, [import games](/docs/features/importing), sync to the cloud, open [Library Backups](/docs/features/game-backups#library-backups), and calculate your library value.
+### Sidebar Actions
+
+- **Add game**: The main button at the top of the sidebar adds a game you already have on your computer (see [Adding Games](#adding-games)).
+- **The arrow next to Add game** opens more ways to add games:
+  - **Import from other launchers**: Bring in games from Steam, Epic Games, GOG, Ubisoft Connect, or Battle.net, either by scanning this PC or by connecting your store accounts. See [Importing Games](/docs/features/importing).
+  - **New Folder**: Create a folder to organize your games.
+- **Library tools**, near the bottom of the sidebar, groups the less frequent actions: [Library Backups](/docs/features/game-backups#library-backups), **Sync to Cloud** for [Ascend](/docs/features/ascend) members, and [Library Value](#library-value).
 
 ## Adding Games
 
-Select **Add to Library** in the sidebar.
+Click **Add game** at the top of the Library sidebar.
 
 - **Single game**: Choose an executable, then enter the game's name, version, and whether it includes online play or DLC.
 - **Scan folder**: Choose a folder whose subfolders each contain a game. Ascendara finds the executables, lets you review the names, and adds the selected games. If a folder has several executables, choose the right one.
@@ -93,4 +99,4 @@ Your **Profile** shows your level, XP, total playtime, most played games, downlo
 
 ## Library Value
 
-Select **Library Value** in the Library sidebar to estimate the retail value of your library using the [CheapShark](https://www.cheapshark.com) API.
+Open **Library tools** in the Library sidebar and select **Library Value** to estimate the retail value of your library using the [CheapShark](https://www.cheapshark.com) API.

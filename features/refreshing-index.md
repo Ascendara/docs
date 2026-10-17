@@ -8,13 +8,13 @@ You don't need to build or refresh the index yourself. Ascendara downloads the o
 
 ## Opening Your Game Index
 
-Open **Settings** and select **Manage Index** in the **Your Game Index** section. In [Big Picture Mode](/docs/features/big-picture), the same options are available from the index manager.
+Open **Settings** and select **Game Index** in the list on the left. In [Big Picture Mode](/docs/features/big-picture), the same options are available from the index manager.
 
-The page shows which index you're using, how many games it contains, and how long ago it was last updated.
+The **Ascendara Index** card shows how many games your index contains, when it was last refreshed, and the date of the index itself. The **Settings** card next to it holds the index options described [below](#settings).
 
 ## Choosing an Index
 
-You can use one of two sources. Switch between them at the top of the page.
+You can use one of two sources. The Ascendara Index is used unless you turn on External Sources.
 
 ### Ascendara Index (Recommended)
 
@@ -29,7 +29,11 @@ This is the default, and it supports every Ascendara feature.
 
 ### External Sources
 
-External Sources Mode loads games from a community source bucket or from your own imported JSON lists instead of the official index. External sources don't include cover images, categories, or popularity data. See [External Sources](/docs/features/external-sources).
+External Sources Mode loads games from a community source bucket or from your own imported JSON lists instead of the official index. External sources don't include cover images, categories, or popularity data.
+
+To use one, select **Manage sources** at the bottom of the Settings card in **Settings → Game Index**. This opens the **External Sources** page. See [External Sources](/docs/features/external-sources).
+
+While an external source is active, the Game Index section shows **An external source is active** instead of the Ascendara Index card. Select **Use Ascendara index** there to switch back.
 
 ## How the Index Stays Up to Date
 
@@ -41,7 +45,7 @@ When **Keep Index Up to Date** is on (the default), Ascendara:
 
 If a check fails, Ascendara retries up to 5 times, one minute apart. When the index changes, the game list reloads automatically.
 
-To update right away, select **Refresh now** on the Your Game Index page.
+To update right away, select **Refresh now** on the Ascendara Index card in **Settings → Game Index**. If you don't have an index yet, the button says **Get the index**.
 
 Automatic syncing is paused while External Sources Mode is on.
 
@@ -51,7 +55,7 @@ Covers are not downloaded all at once. After each sync, Ascendara downloads the 
 
 ## Helping Refresh the Index
 
-Sometimes the game source blocks Ascendara's servers from reading it. If that happens and the shared index hasn't been updated for more than 12 hours, the Your Game Index page shows **The game index can't update itself right now** with a **Help refresh** button.
+Sometimes the game source blocks Ascendara's servers from reading it. If that happens and the shared index hasn't been updated for more than 12 hours, **Settings → Game Index** shows **The game index can't update itself right now** with a **Help refresh** button.
 
 When you select **Help refresh**, Ascendara fetches the latest game pages using your own connection and sends them to the Ascendara API, which builds the updated index. A small window may open and ask you to confirm you're human. Once it finishes, everyone using Ascendara receives the update, and your index syncs immediately.
 
@@ -59,7 +63,11 @@ Helping is optional. Your index continues to work while the shared index is out 
 
 ## Settings
 
-The **Advanced** section of the Your Game Index page contains:
+The **Settings** card in **Settings → Game Index** contains:
+
+### Keep Index Up to Date
+
+Turns automatic background syncing on or off. See [How the Index Stays Up to Date](#how-the-index-stays-up-to-date). This option is hidden while an external source is active.
 
 ### Storage Location
 
@@ -75,7 +83,7 @@ Select the pencil icon to choose another folder. Ascendara doesn't move the exis
 
 ### Blacklist
 
-The blacklist hides specific games from your index. Games are identified by their 6-character Game ID. Enter a Game ID and press **Enter**, or click **X** next to an ID to remove it. Blacklisted games are removed from the game list each time it syncs.
+**Blacklisted Games** hides specific games from your index. Games are identified by their 6-character Game ID. Enter a Game ID and press **Enter** or select **+**, and click **X** next to an ID to remove it. Blacklisted games are removed from the game list each time it syncs.
 
 Ascendara includes three blacklisted IDs by default.
 
@@ -100,7 +108,7 @@ Refresh your index before reporting missing files or a corrupted download, then 
 
 ### No Games Appear After Setup
 
-Ascendara couldn't download the game list, most likely because you were offline. Games appear automatically once Ascendara can connect. You can also open Your Game Index and select **Refresh now**.
+Ascendara couldn't download the game list, most likely because you were offline. Games appear automatically once Ascendara can connect. You can also open **Settings → Game Index** and select **Refresh now**.
 
 ### The Index Doesn't Update
 

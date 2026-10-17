@@ -36,7 +36,7 @@ This feature only works with Windows Defender. If you use a different antivirus,
 
 ## Your Library
 
-All of your games live in one library: games downloaded through Ascendara, custom games you add yourself, and games [imported](/docs/features/importing) from Steam, Epic Games, GOG Galaxy, Ubisoft Connect, and Battle.net. Organize them with folders, Favorites, Play Later, and Smart Collections, and track playtime and achievements.
+All of your games live in one library: games downloaded through Ascendara, custom games you add yourself, and games [imported](/docs/features/importing) from Steam, Epic Games, GOG Galaxy, Ubisoft Connect, and Battle.net. Connect your Steam, Epic Games, or GOG account to also see games you own but haven't installed. Organize them with folders, Favorites, Play Later, and Smart Collections, and track playtime and achievements.
 
 - [Your Library](/docs/features/library)
 - [Importing Games](/docs/features/importing)
