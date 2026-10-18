@@ -36,6 +36,20 @@ The download link from the provider has most likely expired. Some providers do t
 ### No Files Error
 The downloader couldn't find any files to download, which usually means the file was removed from the provider. Try a different provider if one is available.
 
+### "Game files are not available"
+The game's page shows this instead of the download options when there are no download links for the game at all. This almost always means the game's files were taken down on purpose because they no longer work, for example:
+
+- **The online fix stopped working.** Games with online play often rely on a shared account or a fix for the game's servers. When that account gets banned or the game's servers stop accepting it, the fix no longer works.
+- **The files stopped working.** A game update, a server-side check, or broken files can stop a release from launching or running properly.
+- **The files were removed** from every download provider.
+
+Links are removed in these cases instead of leaving files up that won't work. There's nothing to fix on your side, and other providers won't have working files either.
+
+What you can do:
+
+- Check back later. If working files become available again, the download options come back after you [refresh your game index](/docs/features/refreshing-index).
+- If you think the files were removed by mistake, use **Report** on the game's page.
+
 ### "This game was removed from the download provider"
 The file is no longer available on that provider. Refresh [your game index](/docs/features/refreshing-index) and try again, or choose a different provider.
 
