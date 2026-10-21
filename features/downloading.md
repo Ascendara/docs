@@ -8,6 +8,47 @@ Choose a download directory during setup or in **Settings** → **Download Manag
 
 Make sure the drive has room for both the downloaded archive and the extracted game. The game page shows the download size and an estimated **Installation Size**.
 
+## Download Folder Check
+
+Ascendara checks a download folder before games go into it, so problems show up right away instead of halfway through a download. The check runs during the welcome setup, right after you choose a folder (and protect it, on Windows), and in **Settings** → **Download Manager** whenever you change the **Default Download Location** or add an **Additional Location**. It takes a few seconds.
+
+The check has two parts:
+
+1. **File access**: Ascendara creates a temporary folder, then writes, appends to, reads back, renames, and deletes a test file to make sure it can manage files there.
+2. **Antivirus test**: Ascendara downloads an online-fix file that antivirus software often removes from game downloads. The file is saved to the folder just like a real download, watched for about five seconds to make sure it isn't removed or changed, and then moved and deleted to make sure it isn't locked. Ascendara then repeats the test with a second file, so a scanner that lets one file through doesn't hide a problem.
+
+If everything passes, you can download games to that folder. In **Settings**, a passed check folds away on its own. If there's a problem, Ascendara explains what it found and you can **Try again**. Select **Details** to see the exact errors. During setup, you can also **Continue anyway** or **Skip check**, and the setup summary shows whether the check passed.
+
+### The Test Files
+
+Both test files are `OnlineFix64.dll`, taken unchanged from two real games available on Ascendara. Online-fix files like these let games connect for online play, and antivirus software often flags them as false positives and removes them, which breaks the game. Testing with the same kind of file a game download contains shows exactly what would happen to a real game in that folder.
+
+Ascendara downloads them from its own server:
+
+- `https://cdn.ascendara.app/setup/1/OnlineFix64.dll`
+- `https://cdn.ascendara.app/setup/2/OnlineFix64.dll`
+
+During the check, they're saved in a temporary hidden folder inside the download folder you chose, named `.ascendara-check-` followed by a random ID, with each file in its own subfolder. Ascendara never runs or loads the files: it only writes them, reads them back to check that they're still there and unchanged, and moves and deletes them. The temporary folder and everything in it are removed when the check finishes, whether it passes or not.
+
+If your antivirus shows an alert about `OnlineFix64.dll` while the check runs, that's the test working as intended: the same alert would have removed files from a real game download.
+
+### Folder Access Problems
+
+**Ascendara can't use this folder** means the file access test failed, so downloads will likely fail there too. This usually happens with folders that need administrator permission (such as `C:\Program Files`), read-only or disconnected drives, and folders that a sync or backup tool locks. Choose a different folder, ideally on a local drive in a location you own, such as `C:\Games`.
+
+### Antivirus Interference
+
+**Your antivirus is interfering with downloads** means a test file was blocked while it downloaded, removed or changed after it downloaded, or locked so it couldn't be moved or deleted. Your antivirus is treating game files as threats, and it may delete important game files while they download, which stops games from working.
+
+- **Windows Defender**: Select **Protect this folder** (setup) or **Protect folder** (Settings) to exclude your download folders from Defender. Windows asks for administrator permission, and the check runs again once the folder is protected. See [Protecting Directories from Windows Defender](/docs/features/overview#protecting-directories-from-windows-defender).
+- **Other antivirus software**: Ascendara can't change its settings. Add your download folder as an exclusion in your antivirus, then select **Try again**.
+
+See [Antivirus False Positives](/docs/getting-started/protect-yourself#antivirus-false-positives) for why game files get flagged.
+
+### Check Could Not Finish
+
+**The check couldn't finish** means the test files couldn't be downloaded, so the antivirus test didn't run. It doesn't mean anything is wrong with the folder. Check your internet connection, VPN, or firewall, then select **Try again**.
+
 ## Download Methods
 
 Open a game and choose a provider under **Download Options**. The available methods depend on the provider.
@@ -106,7 +147,7 @@ These settings are in **Settings**, most of them in the **Download Manager** sec
 
 | Setting | What it does |
 | --- | --- |
-| **Default Download Location** and **Additional Locations** | Where games are installed. |
+| **Default Download Location** and **Additional Locations** | Where games are installed. Each new location runs the [download folder check](#download-folder-check). |
 | **Protect Directories from Defender** | Excludes your download directories from Windows Defender (Windows only). See [Protecting Directories](/docs/features/overview#protecting-directories-from-windows-defender). |
 | **Single Stream Download** | Uses one connection per file. On by default; more stable for large files. |
 | **Download Threads** | When Single Stream is off, how many connections to use. The downloader uses at most 16 connections per file. |

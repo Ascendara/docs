@@ -49,7 +49,7 @@ Signs that something is probably an ad or scam:
 
 ## Antivirus False Positives
 
-Game files, especially online-fix and crack files, are often flagged as false positives by antivirus software and removed during or after installation. On Windows, Ascendara can exclude your download folders from Windows Defender: enable **Protect Directories from Defender** in **Settings**. This only affects Windows Defender. If you use another antivirus, add your download folders as exclusions in that antivirus yourself.
+Game files, especially online-fix and crack files, are often flagged as false positives by antivirus software and removed during or after installation. On Windows, Ascendara can exclude your download folders from Windows Defender: enable **Protect Directories from Defender** in **Settings**. This only affects Windows Defender. If you use another antivirus, add your download folders as exclusions in that antivirus yourself. Ascendara's [download folder check](/docs/features/downloading#download-folder-check) tests each download folder with a commonly flagged file, so you know whether your antivirus will interfere before you download a game.
 
 Only exclude folders that you use for games, and only download from the providers listed in Ascendara.
 

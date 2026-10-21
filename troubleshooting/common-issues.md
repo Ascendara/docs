@@ -83,6 +83,7 @@ After a game is downloaded and extracted, Ascendara verifies the installed files
 - If the Downloads page shows **Files disappeared after extraction**, select **Enable protection and retry** (Windows Defender) or **Retry missing files**. Ascendara keeps the source archive while it waits for your choice, so the missing files can be restored.
 - On Windows, turn on **Protect Directories from Defender** in **Settings** to prevent this in the future. If you use a different antivirus, add your download folders as exclusions in that antivirus.
 - If you see **Windows detected a false positive and prevented the download from completing**, enable **Protect Directories** and download again.
+- To test whether your antivirus still interferes, change or re-add the download location in **Settings** to run the [download folder check](/docs/features/downloading#download-folder-check).
 
 If files are removed after a game was already installed and verified, the original archive is no longer available, so you need to download the game again. You can check an installed game at any time with **Verify Game Files** on its page. File verification is available for games downloaded with Ascendara 8.1.2 or later.
 

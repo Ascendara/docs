@@ -236,13 +236,14 @@ unsubscribe();
 | `openFileDialog(exePath)` | File picker |
 | `getPathForFile(file)` | Absolute path of a file dropped into the app (synchronous) |
 | `canCreateFiles(directory)` | Check write permissions |
+| `verifyDownloadDirectory(directory, runId)` | Run the download folder check: basic file operations, then two antivirus test downloads. Resolves to `{ basic: { ok, error? }, files: [{ url, ok, reason?, error? }] }`, where `reason` is `downloadFailed`, `blocked`, `deleted`, or `locked` |
 | `checkFileExists(filePath)` | Check whether a file exists |
 | `getDriveSpace(path)` / `getDrives()` / `listDirectory(dirPath)` | Drives and folders |
 | `getAssetPath(filename)` / `getAudioAsset(filename)` | Bundled images and sounds |
 | `readLocalFile(filePath, encoding)` | Read a local file |
 | `getTempPath()` / `writeFile(filePath, buffer)` / `deleteFile(filePath)` | Temporary files |
 
-**Events**: `onDirectorySizeStatus(callback)`
+**Events**: `onDirectorySizeStatus(callback)`, `onDownloadDirectoryVerifyProgress(callback)` (download folder check progress: `{ runId, stage, index?, status, phase?, progress?, reason? }`)
 
 ---
 

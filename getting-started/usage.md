@@ -12,11 +12,12 @@ When you first launch Ascendara, the welcome setup guides you through:
 5. **How you found Ascendara**: An optional question.
 6. **Download location**: The folder where games are installed. You can add more folders later in **Settings**.
 7. **Protect your directories** (Windows): Exclude your download folder from Windows Defender so false positives aren't deleted mid-download. Windows asks for administrator permission. This only works with Windows Defender.
-8. **Theme**: Choose a light or dark theme.
-9. **Import your games**: Optionally [import installed games](/docs/features/importing) from Steam, Epic Games, GOG Galaxy, Ubisoft Connect, or Battle.net.
-10. **Updates**: Choose automatic or manual Ascendara updates.
-11. **Compatibility tools** (Linux and macOS): Install Proton CachyOS and UMU-Launcher (Linux) or Wine (macOS).
-12. **Game dependencies** (Windows): Install common runtime libraries:
+8. **Check your download folder**: Ascendara makes sure it can manage files in the folder and that your antivirus doesn't block or delete game files there. See [Download Folder Check](/docs/features/downloading#download-folder-check).
+9. **Theme**: Choose a light or dark theme.
+10. **Import your games**: Optionally [import installed games](/docs/features/importing) from Steam, Epic Games, GOG Galaxy, Ubisoft Connect, or Battle.net.
+11. **Updates**: Choose automatic or manual Ascendara updates.
+12. **Compatibility tools** (Linux and macOS): Install Proton CachyOS and UMU-Launcher (Linux) or Wine (macOS).
+13. **Game dependencies** (Windows): Install common runtime libraries:
     * .NET Framework
     * DirectX
     * OpenAL
