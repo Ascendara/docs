@@ -15,14 +15,16 @@ Ascendara keeps a local copy of the game index on your computer and updates it a
 Ascendara's download manager handles the whole process: transfer, extraction, verification, and installation. Interrupted downloads can resume where supported, archive problems are retried automatically, and you can queue downloads, limit speed, and choose what your computer does when a download finishes.
 
 - [Downloading Games](/docs/features/downloading)
-- [TorBox Debrid Service](/docs/features/torbox-integration)
+- [Debrid Services](/docs/features/debrid-services)
+- [TorBox](/docs/features/torbox-integration)
+- [Real-Debrid](/docs/features/real-debrid)
 - [Download Manager (technical)](/docs/binary-tool/downloader)
 
 ## Download Games in 2 Clicks
 
 Games hosted on supported providers can use **seamless downloads**: Ascendara resolves the link and starts the download itself, with no browser and no CAPTCHA. Seamless downloads are currently supported for **GoFile** and **PixelDrain**. Look for the seamless download icon on a game to see whether it's supported.
 
-If you use [TorBox](/docs/features/torbox-integration), you can also enable **Prioritize Torbox over Seamless** to download through TorBox whenever both options are available.
+If you use a [debrid service](/docs/features/debrid-services), you can also enable its option to prefer it over seamless downloads, such as **Prioritize Torbox over Seamless**.
 
 ## Protecting Directories from Windows Defender
 

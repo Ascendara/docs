@@ -160,6 +160,7 @@ See [Building from Source](/docs/developer/build-from-source#important-limitatio
 | [Project Structure](/docs/developer/project-structure) | Codebase walkthrough |
 | [System Design](/docs/developer/system-design) | Settings, data files, updates, protocol, security |
 | [IPC Reference](/docs/developer/ipc-reference) | The `window.electron` API |
+| [Debrid Providers](/docs/developer/debrid-providers) | The debrid service and provider adapters |
 | [Tech Stack](/docs/developer/tech-stack) | Technologies and dependencies |
 | [Creating the Tools](/docs/developer/creating-the-tools) | Building the helper binaries |
 | [Webview Development](/docs/developer/webview) | Ascendara Companion |

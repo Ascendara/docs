@@ -4,14 +4,22 @@
 
 TorBox is a debrid and seedbox service. A debrid service converts file-host links into premium direct download links, so downloads skip host speed limits, wait times, and CAPTCHAs. TorBox can also download torrents on its servers so you download the finished files directly instead of connecting to peers.
 
+See [Debrid Services](/docs/features/debrid-services) for settings shared with [Real-Debrid](/docs/features/real-debrid), including service priority.
+
 ## What TorBox Does in Ascendara
 
-When a TorBox API key is set:
+When TorBox is connected:
 
-- **Hoster downloads**: Downloads from **1Fichier** and **MegaDB** go through TorBox automatically. Ascendara sends the link to TorBox and downloads the premium direct link it returns.
-- **All providers (optional)**: Turn on **Prioritize Torbox over Seamless** to use TorBox for every provider, including GoFile and PixelDrain, whenever TorBox supports the link.
-- **Torrents**: With **Use TorBox for torrents** on (the default), magnet links are sent to TorBox instead of being downloaded through qBittorrent. You don't need qBittorrent for torrent downloads when TorBox handles them.
-- **TorBox Downloads page**: A **Torbox Downloads** page appears in the navigation bar, showing your TorBox account, plan, downloads in progress, and completed downloads ready to download to your PC.
+- **Hoster downloads**: Links from hosts that TorBox supports go through TorBox automatically. TorBox processes the link in its cloud first, even if a local download is already running, and you then download it to your PC from the **TorBox Downloads** page.
+- **Seamless providers (optional)**: GoFile, PixelDrain, and Buzzheavier keep their normal seamless downloads by default. Turn on **Prioritize Torbox over Seamless** to use TorBox for them too, whenever TorBox supports the link.
+- **Torrents**: With **Use TorBox for torrents** on (the default), magnet links are sent to TorBox instead of being downloaded through qBittorrent. You don't need qBittorrent for torrent downloads when TorBox handles them. When a torrent finishes in the cloud, it continues to your PC automatically and is extracted like any other download.
+- **TorBox Downloads page**: A **TorBox Downloads** page appears in the navigation bar, showing your TorBox account, plan, downloads in progress, and completed downloads ready to download to your PC.
+
+## Supported Hosts
+
+Ascendara checks links against the hosts and aliases listed by TorBox's public [`/webdl/hosters` endpoint](https://api-docs.torbox.app/). Exact hostnames and their subdomains match. Links from unsupported hosts download normally.
+
+The list is cached for 24 hours. If it can't be refreshed, Ascendara keeps the last valid list and tries again after five minutes. A host that TorBox supports can still be temporarily unavailable; TorBox reports that as an error when you start the download.
 
 On a game's download page, you can disable TorBox for a single download, for example if TorBox doesn't support that provider's link.
 
@@ -40,15 +48,15 @@ TorBox offers several plans (Free, Essential, Standard, and Pro). For current fe
 
 ### Step 4: Add the Key to Ascendara
 
-1. Open **Settings** and scroll to the **Download Manager** section.
-2. Paste your key into **Torbox API Key**.
-3. Click **Set**.
+1. Open **Settings → Downloads** and turn on **Debrid services**.
+2. Select **TorBox** and paste your key into **Torbox API Key**.
+3. Save the key.
 
 The key is stored encrypted in your Ascendara settings.
 
 ## TorBox Settings
 
-These options appear in the **Download Manager** section of **Settings**:
+These options appear under **Debrid services** in **Settings → Downloads**:
 
 | Setting | Default | What it does |
 | --- | --- | --- |
