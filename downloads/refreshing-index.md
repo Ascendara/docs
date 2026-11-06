@@ -31,7 +31,7 @@ This is the default, and it supports every Ascendara feature.
 
 External Sources Mode loads games from a community source bucket or from your own imported JSON lists instead of the official index. External sources don't include cover images, categories, or popularity data.
 
-To use one, select **Manage sources** at the bottom of the Settings card in **Settings → Game Index**. This opens the **External Sources** page. See [External Sources](/docs/features/external-sources).
+To use one, select **Manage sources** at the bottom of the Settings card in **Settings → Game Index**. This opens the **External Sources** page. See [External Sources](/docs/downloads/external-sources).
 
 While an external source is active, the Game Index section shows **An external source is active** instead of the Ascendara Index card. Select **Use Ascendara index** there to switch back.
 

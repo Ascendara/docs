@@ -24,7 +24,7 @@ When you need to type, such as when searching, Big Picture Mode shows a virtual 
 - **Downloads**: Follow active and queued downloads, and stop or kill a download.
 - **Retro**: Play games from your [Ascendara Retro](/docs/features/retro) library and set up consoles.
 - **Cloud**: Your Ascend cloud library and cloud saves.
-- **Index**: Manage [your game index](/docs/features/refreshing-index), including **Keep Index Up to Date**.
+- **Index**: Manage [your game index](/docs/downloads/refreshing-index), including **Keep Index Up to Date**.
 - **Preferences**: Big Picture settings such as controller type, keyboard layout, and home style.
 - **Power**: Return to the desktop interface, exit Ascendara, or shut down your computer.
 
@@ -34,7 +34,7 @@ From a game's page you can also play with a trainer, open the mod manager, and b
 
 Games that support seamless downloads (GoFile and PixelDrain) download directly in Big Picture Mode. If more than one provider is available, choose one. Other download methods need a browser, so Ascendara asks you to exit Big Picture Mode and continue in the regular interface.
 
-The usual download queue limits apply. See [Downloading Games](/docs/features/downloading#download-queue).
+The usual download queue limits apply. See [Downloading Games](/docs/downloads/downloading#download-queue).
 
 ## Things That Need a Mouse
 

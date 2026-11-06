@@ -23,7 +23,7 @@ When you run Ascendara from source, it runs in **development mode**, and some fe
 
 - **Game execution**: Games can't be launched in development mode. Build and run a packaged version to play games.
 - **Ascend**: Ascend features are disabled unless you configure Firebase credentials (see below). The Ascend page shows a **Development Mode** notice.
-- **Protected API features**: Official builds sign their requests to the Ascendara API with a private secret that isn't in the repository. Without it, protected endpoints such as game reports, ratings, feature reporting, analytics, and the [index relay](/docs/features/refreshing-index#helping-refresh-the-index) may reject requests. Public endpoints such as the game index keep working.
+- **Protected API features**: Official builds sign their requests to the Ascendara API with a private secret that isn't in the repository. Without it, protected endpoints such as game reports, ratings, feature reporting, analytics, and the [index relay](/docs/downloads/refreshing-index#helping-refresh-the-index) may reject requests. Public endpoints such as the game index keep working.
 - **Build registration**: Official builds are registered with the Ascendara backend. Builds you make yourself aren't registered, so features that require an authorized build won't work in them.
 
 These limitations protect Ascendara's infrastructure from abuse. The reporting and analytics services are essential for monitoring health, detecting issues, and keeping Ascendara secure, so they're restricted to official builds. You can still play games with the official release of Ascendara.

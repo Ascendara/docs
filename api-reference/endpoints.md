@@ -245,7 +245,7 @@ Whether the API is keeping the index up to date.
 | Field | Meaning |
 | --- | --- |
 | `serverRefresh` | The API refreshes the index on its own schedule |
-| `blocked` | The game source is blocking the API. When this is `true` and the index is stale, Ascendara asks users to [help refresh](/docs/features/refreshing-index#helping-refresh-the-index). |
+| `blocked` | The game source is blocking the API. When this is `true` and the index is stale, Ascendara asks users to [help refresh](/docs/downloads/refreshing-index#helping-refresh-the-index). |
 | `blockedSince` | When the block started |
 | `lastChecked` | The last refresh attempt |
 | `lastSuccess` | The last successful refresh |

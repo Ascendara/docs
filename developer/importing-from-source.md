@@ -72,7 +72,7 @@ This step is necessary because each browser has different manifest requirements 
 4. Allow the browser to open Ascendara. Ascendara receives the link through an `ascendara://download` URL.
 5. Review the game name in Ascendara (games outside the index are supported), then continue to download.
 
-See [Downloading Games](/docs/features/downloading#browser-extension) for the full flow in Ascendara.
+See [Downloading Games](/docs/downloads/downloading#browser-extension) for the full flow in Ascendara.
 
 ## Troubleshooting
 

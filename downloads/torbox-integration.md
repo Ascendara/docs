@@ -4,16 +4,16 @@
 
 TorBox is a debrid and seedbox service. A debrid service converts file-host links into premium direct download links, so downloads skip host speed limits, wait times, and CAPTCHAs. TorBox can also download torrents on its servers so you download the finished files directly instead of connecting to peers.
 
-See [Debrid Services](/docs/features/debrid-services) for settings shared with [Real-Debrid](/docs/features/real-debrid), including service priority.
+See [Debrid Services](/docs/downloads/debrid-services) for settings shared by all services, including the download order.
 
 ## What TorBox Does in Ascendara
 
 When TorBox is connected:
 
-- **Hoster downloads**: Links from hosts that TorBox supports go through TorBox automatically. TorBox processes the link in its cloud first, even if a local download is already running, and you then download it to your PC from the **TorBox Downloads** page.
-- **Seamless providers (optional)**: GoFile, PixelDrain, and Buzzheavier keep their normal seamless downloads by default. Turn on **Prioritize Torbox over Seamless** to use TorBox for them too, whenever TorBox supports the link.
-- **Torrents**: With **Use TorBox for torrents** on (the default), magnet links are sent to TorBox instead of being downloaded through qBittorrent. You don't need qBittorrent for torrent downloads when TorBox handles them. When a torrent finishes in the cloud, it continues to your PC automatically and is extracted like any other download.
-- **TorBox Downloads page**: A **TorBox Downloads** page appears in the navigation bar, showing your TorBox account, plan, downloads in progress, and completed downloads ready to download to your PC.
+- **Hoster downloads**: Links from hosts that TorBox supports go through TorBox automatically. TorBox processes the link in its cloud first, even if a local download is already running, and you then download it to your PC from the **Debrid Downloads** page.
+- **Seamless providers (optional)**: GoFile, PixelDrain, and Buzzheavier keep their normal seamless downloads by default. Turn on **Prefer over direct downloads** to use TorBox for them too, whenever TorBox supports the link.
+- **Torrents**: With **Cloud torrents** on (the default), magnet links are sent to TorBox instead of being downloaded through qBittorrent. You don't need qBittorrent for torrent downloads when TorBox handles them. When a torrent finishes in the cloud, it continues to your PC automatically and is extracted like any other download.
+- **Debrid Downloads page**: A **Debrid Downloads** page appears in the navigation bar. Choose **TorBox** to see your account, plan, downloads in progress, and completed downloads ready to download to your PC.
 
 ## Supported Hosts
 
@@ -48,22 +48,22 @@ TorBox offers several plans (Free, Essential, Standard, and Pro). For current fe
 
 ### Step 4: Add the Key to Ascendara
 
-1. Open **Settings → Downloads** and turn on **Debrid services**.
-2. Select **TorBox** and paste your key into **Torbox API Key**.
-3. Save the key.
+1. Open **Settings → Debrid** and turn on **Use debrid services**.
+2. Find **TorBox** under **Accounts** and paste your key into **API key**.
+3. Click **Connect**. Ascendara checks the key before saving it.
 
-The key is stored encrypted in your Ascendara settings.
+The key is stored in your operating system's keychain with your other saved credentials.
 
 ## TorBox Settings
 
-These options appear under **Debrid services** in **Settings → Downloads**:
+These options appear on the **TorBox** card in **Settings → Debrid**:
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| **Torbox API Key** | Empty | Enables TorBox. |
-| **Prioritize Torbox over Seamless** | Off | Uses TorBox even for providers that support seamless downloads. |
-| **Use TorBox for torrents** | On | Sends magnet links to TorBox instead of qBittorrent. |
-| **Fall back to qBittorrent** | Off | If TorBox can't add a magnet, retries it through your qBittorrent WebUI. This may send torrent traffic outside TorBox, so make sure your VPN is active. |
+| **API key** | Empty | Connects TorBox. |
+| **Prefer over direct downloads** | Off | Uses TorBox even for providers that support seamless downloads. |
+| **Cloud torrents** | On | Sends magnet links to TorBox instead of qBittorrent. |
+| **Fall back to qBittorrent** | Off | If TorBox can't add a magnet, retries it through your qBittorrent WebUI. Requires local torrenting to be on. This may send torrent traffic outside TorBox, so make sure your VPN is active. |
 
 ## Troubleshooting TorBox
 

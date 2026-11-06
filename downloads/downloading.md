@@ -92,11 +92,11 @@ For Buzzheavier, Ascendara opens a popup window: double-click the download butto
 
 ### Debrid Services
 
-With [TorBox](/docs/features/torbox-integration) or [Real-Debrid](/docs/features/real-debrid) connected, links from supported hosts are converted into premium direct links, and magnet links can download in the service's cloud. See [Debrid Services](/docs/features/debrid-services).
+With a debrid service such as [TorBox](/docs/downloads/torbox-integration), [Real-Debrid](/docs/downloads/real-debrid), [AllDebrid](/docs/downloads/alldebrid), [Premiumize](/docs/downloads/premiumize), or [Debrid-Link](/docs/downloads/debrid-link) connected, links from supported hosts are converted into premium direct links, and magnet links can download in the service's cloud. See [Debrid Services](/docs/downloads/debrid-services).
 
 ### Torrents
 
-Torrent downloads are off by default. To enable them, turn on **Torrent on Ascendara** in **Settings** and read the warning. Torrenting requires qBittorrent with its Web UI enabled (or a [debrid service](/docs/features/debrid-services)), and using a VPN is strongly recommended because peers can see your IP address. See the [Torrent Handler](/docs/binary-tool/torrent-handler) for setup details.
+Torrent downloads are off by default. To enable them, turn on **Torrent on Ascendara** in **Settings** and read the warning. Torrenting requires qBittorrent with its Web UI enabled (or a [debrid service](/docs/downloads/debrid-services)), and using a VPN is strongly recommended because peers can see your IP address. See the [Torrent Handler](/docs/binary-tool/torrent-handler) for setup details.
 
 ## Following Your Downloads
 

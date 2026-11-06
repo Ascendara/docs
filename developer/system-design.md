@@ -211,7 +211,7 @@ Users switch branches in **Settings** → **App Branch**, which downloads and ru
 
 ## Game Index
 
-The renderer reads games from `ascendara_games.json` in the local index folder. `community-index.js` keeps it in sync with `https://api.ascendara.app/json/v2/games`, using the response's ETag to skip unchanged downloads, and downloads covers on demand from `r2.ascendara.app`. When the API can't reach the game source, `index-relay.js` can fetch the source pages from the user's connection on the API's behalf. See [Your Game Index](/docs/features/refreshing-index).
+The renderer reads games from `ascendara_games.json` in the local index folder. `community-index.js` keeps it in sync with `https://api.ascendara.app/json/v2/games`, using the response's ETag to skip unchanged downloads, and downloads covers on demand from `r2.ascendara.app`. When the API can't reach the game source, `index-relay.js` can fetch the source pages from the user's connection on the API's behalf. See [Your Game Index](/docs/downloads/refreshing-index).
 
 ## Protocol Handler
 

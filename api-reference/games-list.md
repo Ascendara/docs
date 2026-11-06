@@ -2,7 +2,7 @@
 
 `GET /json/v2/games` returns every game in the official index: its metadata, download links, and system requirements. Ascendara syncs this list into each user's local index, and the API refreshes it on a schedule.
 
-Each user's local `ascendara_games.json` uses the same format. See [Your Game Index](/docs/features/refreshing-index).
+Each user's local `ascendara_games.json` uses the same format. See [Your Game Index](/docs/downloads/refreshing-index).
 
 ## Caching
 

@@ -175,7 +175,7 @@ See the [API Reference](/docs/api-reference/overview).
 | KHInsider | Soundtracks |
 | CheapShark | Library value |
 | Nexus Mods, FLiNG | Mods and trainers |
-| TorBox | Debrid downloads |
+| TorBox, Real-Debrid, AllDebrid, Premiumize, Debrid-Link | Debrid downloads |
 | Discord | Rich Presence |
 
 ---

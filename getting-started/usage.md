@@ -12,7 +12,7 @@ When you first launch Ascendara, the welcome setup guides you through:
 5. **How you found Ascendara**: An optional question.
 6. **Download location**: The folder where games are installed. You can add more folders later in **Settings**.
 7. **Protect your directories** (Windows): Exclude your download folder from Windows Defender so false positives aren't deleted mid-download. Windows asks for administrator permission. This only works with Windows Defender.
-8. **Check your download folder**: Ascendara makes sure it can manage files in the folder and that your antivirus doesn't block or delete game files there. See [Download Folder Check](/docs/features/downloading#download-folder-check).
+8. **Check your download folder**: Ascendara makes sure it can manage files in the folder and that your antivirus doesn't block or delete game files there. See [Download Folder Check](/docs/downloads/downloading#download-folder-check).
 9. **Theme**: Choose a light or dark theme.
 10. **Import your games**: Optionally [import installed games](/docs/features/importing) from Steam, Epic Games, GOG Galaxy, Ubisoft Connect, or Battle.net.
 11. **Updates**: Choose automatic or manual Ascendara updates.
@@ -31,7 +31,7 @@ The game dependencies are runtime libraries that most games need. If you've play
 ## Finding Games
 Use **Search** to browse the game index. You can filter by category, size, online support, and DLC, and sort by popularity, name, or recent updates. Press **Ctrl+K** (**Cmd+K** on macOS) anywhere to search games, settings, and commands.
 
-The game list comes from [your game index](/docs/features/refreshing-index), which updates automatically in the background.
+The game list comes from [your game index](/docs/downloads/refreshing-index), which updates automatically in the background.
 
 ### Game Badges and Icons
 * **ONLINE**: Online multiplayer is enabled through Online-Fix. Online-Fix games require Steam to be running.
@@ -41,7 +41,7 @@ The game list comes from [your game index](/docs/features/refreshing-index), whi
 * **Seamless download**: The game can be downloaded inside the app without a browser.
 
 ## Downloading a Game
-Open a game to see its details, system requirements, and download options. Choose a provider, then start the download. See [Downloading Games](/docs/features/downloading) for every method in detail.
+Open a game to see its details, system requirements, and download options. Choose a provider, then start the download. See [Downloading Games](/docs/downloads/downloading) for every method in detail.
 
 ### Seamless Downloads
 Supported providers (GoFile and PixelDrain) download directly in Ascendara with no browser and no CAPTCHA.

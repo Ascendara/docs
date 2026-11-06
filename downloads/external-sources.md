@@ -2,7 +2,7 @@
 
 Ascendara keeps a game index on your computer for fast browsing and offline access. By default it uses the official Ascendara index. External Sources Mode lets you load games from a community source bucket, imported JSON lists, or your own self-hosted library instead.
 
-For how the official index works and stays up to date, see [Your Game Index](/docs/features/refreshing-index).
+For how the official index works and stays up to date, see [Your Game Index](/docs/downloads/refreshing-index).
 
 ## Overview
 

@@ -27,7 +27,7 @@ Press **Ctrl+K** (**Cmd+K** on macOS) anywhere in Ascendara to open the command 
 | **Manage Game Profiles** | Opens [Game Profiles](/docs/features/library#game-profiles). |
 | **Open Smart Collections** | Opens [Smart Collections](/docs/features/library#smart-collections). |
 | **Enter Big Picture Mode** | Switches to [Big Picture Mode](/docs/features/big-picture). |
-| **Refresh Local Index** | Opens [Your Game Index](/docs/features/refreshing-index). |
+| **Refresh Local Index** | Opens [Your Game Index](/docs/downloads/refreshing-index). |
 | **Open Settings** | Opens Settings. |
 | **Reload interface** | Reloads the interface without changing your library or settings. |
 

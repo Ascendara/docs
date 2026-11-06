@@ -3,7 +3,7 @@
 ## Overview
 Ascendara Local Refresh is a command-line scraper that builds a game index (`ascendara_games.json` plus cover images) from a game source. It fetches and parses the source's game posts with multiple threads, downloads covers, and writes the index in the format Ascendara reads.
 
-> **Not shipped with the app.** Ascendara no longer builds the index on users' computers, and the app no longer has a manual scrape option. The Ascendara API runs the official index refresh on a schedule, and the app downloads the result automatically. See [Your Game Index](/docs/features/refreshing-index). This tool remains in the repository for developers and for building indexes yourself.
+> **Not shipped with the app.** Ascendara no longer builds the index on users' computers, and the app no longer has a manual scrape option. The Ascendara API runs the official index refresh on a schedule, and the app downloads the result automatically. See [Your Game Index](/docs/downloads/refreshing-index). This tool remains in the repository for developers and for building indexes yourself.
 
 Source: `binaries/AscendaraLocalRefresh/src/`
 

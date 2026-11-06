@@ -22,7 +22,7 @@ This version has known critical issues. Update Ascendara to the latest version.
 - Check your internet connection and try a different network.
 - Check that **Download Speed Limit** in **Settings** is `0` (unlimited) or high enough.
 - Turn off **Single Stream Download** to use more connections per file.
-- Use a [TorBox](/docs/features/torbox-integration) account for premium hoster speeds.
+- Use a [debrid service](/docs/downloads/debrid-services) account, such as TorBox or Real-Debrid, for premium hoster speeds.
 
 ### "The download connection was interrupted"
 Your network or internet provider may be blocking the provider, or the connection is unstable. Try enabling **Single Stream Download** in **Settings** for a more stable download, try a VPN, or check your firewall and antivirus settings.
@@ -47,11 +47,11 @@ Links are removed in these cases instead of leaving files up that won't work. Th
 
 What you can do:
 
-- Check back later. If working files become available again, the download options come back after you [refresh your game index](/docs/features/refreshing-index).
+- Check back later. If working files become available again, the download options come back after you [refresh your game index](/docs/downloads/refreshing-index).
 - If you think the files were removed by mistake, use **Report** on the game's page.
 
 ### "This game was removed from the download provider"
-The file is no longer available on that provider. Refresh [your game index](/docs/features/refreshing-index) and try again, or choose a different provider.
+The file is no longer available on that provider. Refresh [your game index](/docs/downloads/refreshing-index) and try again, or choose a different provider.
 
 ### Gofile Rate Limit or Account Creation Failed
 Gofile has rate limited your connection, or Ascendara couldn't create the temporary Gofile account it needs. Enable a VPN or wait a few minutes, then try again.
@@ -83,7 +83,7 @@ After a game is downloaded and extracted, Ascendara verifies the installed files
 - If the Downloads page shows **Files disappeared after extraction**, select **Enable protection and retry** (Windows Defender) or **Retry missing files**. Ascendara keeps the source archive while it waits for your choice, so the missing files can be restored.
 - On Windows, turn on **Protect Directories from Defender** in **Settings** to prevent this in the future. If you use a different antivirus, add your download folders as exclusions in that antivirus.
 - If you see **Windows detected a false positive and prevented the download from completing**, enable **Protect Directories** and download again.
-- To test whether your antivirus still interferes, change or re-add the download location in **Settings** to run the [download folder check](/docs/features/downloading#download-folder-check).
+- To test whether your antivirus still interferes, change or re-add the download location in **Settings** to run the [download folder check](/docs/downloads/downloading#download-folder-check).
 
 If files are removed after a game was already installed and verified, the original archive is no longer available, so you need to download the game again. You can check an installed game at any time with **Verify Game Files** on its page. File verification is available for games downloaded with Ascendara 8.1.2 or later.
 

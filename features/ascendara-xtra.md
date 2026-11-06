@@ -15,7 +15,7 @@ Ascendara shows rich information about each game on its download page and on the
 | Soundtracks | [KHInsider](https://downloads.khinsider.com) |
 | Library value estimates | [CheapShark](https://www.cheapshark.com) |
 | Star ratings and reviews | Players on Ascendara |
-| Size, version, system requirements, download links | The [game index](/docs/features/refreshing-index) |
+| Size, version, system requirements, download links | The [game index](/docs/downloads/refreshing-index) |
 
 Ascendara matches games to Steam by name. When a match isn't exact, the page shows **Game information may be inaccurate**.
 

@@ -15,7 +15,8 @@ Here's how to contribute:
    | Folder | Contents |
    | --- | --- |
    | `getting-started/` | Introduction, installation, usage, safety, and contributing |
-   | `features/` | User guides for each feature |
+   | `downloads/` | Downloading games, the game index, external sources, and debrid services |
+   | `features/` | User guides for the library and other features |
    | `troubleshooting/` | Common issues, error codes, VR games, and emulators |
    | `developer/` | Architecture, building from source, IPC, and tools |
    | `binary-tool/` | The helper tools bundled with Ascendara |

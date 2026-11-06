@@ -6,25 +6,28 @@ Ascendara is your all-in-one gaming companion for discovering, downloading, and 
 
 Ascendara keeps a local copy of the game index on your computer and updates it automatically, so searching and browsing are instant and work offline. Filter by category, size, online support, and DLC, or sort by popularity, name, and recent updates. Each game page shows its system requirements, Steam details and screenshots, time to beat, and community reviews.
 
-- [Your Game Index](/docs/features/refreshing-index)
-- [External Sources](/docs/features/external-sources)
+- [Your Game Index](/docs/downloads/refreshing-index)
+- [External Sources](/docs/downloads/external-sources)
 - [Game Information](/docs/features/ascendara-xtra)
 
 ## Advanced Download Management
 
 Ascendara's download manager handles the whole process: transfer, extraction, verification, and installation. Interrupted downloads can resume where supported, archive problems are retried automatically, and you can queue downloads, limit speed, and choose what your computer does when a download finishes.
 
-- [Downloading Games](/docs/features/downloading)
-- [Debrid Services](/docs/features/debrid-services)
-- [TorBox](/docs/features/torbox-integration)
-- [Real-Debrid](/docs/features/real-debrid)
+- [Downloading Games](/docs/downloads/downloading)
+- [Debrid Services](/docs/downloads/debrid-services)
+- [TorBox](/docs/downloads/torbox-integration)
+- [Real-Debrid](/docs/downloads/real-debrid)
+- [AllDebrid](/docs/downloads/alldebrid)
+- [Premiumize](/docs/downloads/premiumize)
+- [Debrid-Link](/docs/downloads/debrid-link)
 - [Download Manager (technical)](/docs/binary-tool/downloader)
 
 ## Download Games in 2 Clicks
 
 Games hosted on supported providers can use **seamless downloads**: Ascendara resolves the link and starts the download itself, with no browser and no CAPTCHA. Seamless downloads are currently supported for **GoFile** and **PixelDrain**. Look for the seamless download icon on a game to see whether it's supported.
 
-If you use a [debrid service](/docs/features/debrid-services), you can also enable its option to prefer it over seamless downloads, such as **Prioritize Torbox over Seamless**.
+If you use a [debrid service](/docs/downloads/debrid-services), you can also turn on its **Prefer over direct downloads** option to use it instead of seamless downloads.
 
 ## Protecting Directories from Windows Defender
 
