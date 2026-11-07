@@ -20,7 +20,7 @@ Premiumize limits downloads with fair use points rather than a fixed number of d
 
 Supported hosted links are converted to direct links by Premiumize and then downloaded by Ascendara's normal downloader. Only links from hosts that Premiumize lists as supported are sent to it. Other links download normally.
 
-Turn on **Prefer over direct downloads** to also send links from seamless providers through Premiumize.
+Turn on **Prefer over direct downloads** to also send links from [Magic Link](/docs/features/magic-links) hosts through Premiumize.
 
 ## Torrents
 

@@ -18,7 +18,7 @@ Each adapter in `src/services/downloads/debrid/` (TorBox, Real-Debrid, AllDebrid
 
 - Its identity (`id`, `name`), settings keys (`apiKeySetting`, `torrentSetting`, `prioritizeSetting`), `apiKeyUrl` for the **Get an API key** link, `downloadsPath`, and `hostDownloadMode` (`direct`, or `cloud` for TorBox, which processes hosted links in its cloud first).
 - `getUserInfo(apiKey)`, used to check a key before saving it, and `describeAccount(user, t)`, returning `{ name, plan, expiresAt, expiryNote, stats }` for the account card. `stats` entries are `{ label, value, unit? }`, where `unit` is `bytes` or `days`.
-- `seamlessHosts`: providers that keep their seamless download unless `prioritizeSetting` is on.
+- `seamlessHosts`: [Magic Link](/docs/features/magic-links) hosts (previously called seamless downloads) that keep using Ascendara's own download unless `prioritizeSetting` is on.
 - Cached supported-host access and URL matching (`getCachedSupportedHosts`, `getSupportedHosts`, `isSupportedUrl`).
 - `submitMagnet(link, apiKey, game)` returning `{ id }`, and `resolveHost(link, apiKey)` returning `{ id, status, url }`. A missing URL sends the user to the adapter's downloads page.
 - A metadata storage key and serializer. The existing TorBox and Real-Debrid storage formats are preserved; the newer adapters only store torrents, since hosted links start right away.

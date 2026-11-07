@@ -38,13 +38,12 @@ The game list comes from [your game index](/docs/downloads/refreshing-index), wh
 * **ALL-DLCs**: All available DLC is included.
 * **Verified Game**: The Ascendara community verified the game works with all of Ascendara's features.
 * **Star rating**: The average rating from people who downloaded and played the game on Ascendara. Open the game to read their reviews.
-* **Seamless download**: The game can be downloaded inside the app without a browser.
 
 ## Downloading a Game
 Open a game to see its details, system requirements, and download options. Choose a provider, then start the download. See [Downloading Games](/docs/downloads/downloading) for every method in detail.
 
-### Seamless Downloads
-Supported providers (GoFile and PixelDrain) download directly in Ascendara with no browser and no CAPTCHA.
+### Magic Links
+Hosts marked with a **Magic** chip (GoFile, PixelDrain, BuzzHeavier, and MegaDB) download directly in Ascendara with no browser, ads, or CAPTCHA. See [Ascendara Magic Links](/docs/features/magic-links). Magic Links used to be called Seamless Downloads.
 
 ### Using the Download Handler Extension (Recommended)
 1. Open the download link in your browser and enable the extension.

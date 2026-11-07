@@ -11,13 +11,14 @@ Ascendara is a game discovery, download, and library app for Windows, Linux, and
 
 ## Downloads
 
-- **[Downloading Games](/docs/downloads/downloading)** - Seamless downloads, the browser extension, the queue, and settings
+- **[Downloading Games](/docs/downloads/downloading)** - Magic Links, the browser extension, the queue, and settings
 - **[Your Game Index](/docs/downloads/refreshing-index)** - How the game list stays up to date
 - **[External Sources](/docs/downloads/external-sources)** - Community sources, imported lists, and self-hosted libraries
 - **[Debrid Services](/docs/downloads/debrid-services)** - TorBox, Real-Debrid, AllDebrid, Premiumize, and Debrid-Link
 
 ## Features
 
+- **[Ascendara Magic Links](/docs/features/magic-links)** - Downloads with no browser, ads, or CAPTCHA
 - **[Your Library](/docs/features/library)** - Organize, launch, and manage your games
 - **[Big Picture Mode](/docs/features/big-picture)** - A controller-first interface
 - **[Ascendara Retro](/docs/features/retro)** - Classic console games through your own emulators

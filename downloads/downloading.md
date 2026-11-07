@@ -53,9 +53,11 @@ See [Antivirus False Positives](/docs/getting-started/protect-yourself#antivirus
 
 Open a game and choose a provider under **Download Options**. The available methods depend on the provider.
 
-### Seamless Downloads
+### Magic Links
 
-GoFile and PixelDrain downloads start directly in Ascendara with no browser and no CAPTCHA. Select the provider and click **Download Now**.
+Hosts marked with a **Magic** chip are [Ascendara Magic Links](/docs/features/magic-links): GoFile, PixelDrain, BuzzHeavier, and MegaDB. Select the host and click **Download Now**, and Ascendara gets the file and starts the download with no browser, ads, or CAPTCHA. For MegaDB, Ascendara waits out the host's short countdown for you.
+
+> **Note:** Magic Links used to be called **Seamless Downloads**. The feature was renamed to Ascendara Magic Links, and BuzzHeavier and MegaDB now work as Magic Links too.
 
 ### Browser Extension
 
@@ -66,7 +68,7 @@ For other providers, the download page in your browser has a CAPTCHA or countdow
 3. Allow your browser to open Ascendara. The extension sends the file link to Ascendara.
 4. Review the game name and continue to download.
 
-The first time you download a game, Ascendara offers a step-by-step guide. Read [Staying Safe](/docs/getting-started/protect-yourself) to avoid fake download buttons.
+Read [Staying Safe](/docs/getting-started/protect-yourself) to avoid fake download buttons.
 
 ### Downloading From Any Website
 

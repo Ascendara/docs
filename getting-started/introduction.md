@@ -30,7 +30,7 @@ The game index is served by a public API at `api.ascendara.app` that is free for
 
 ### Discover and Download
 - **Game Index**: A local copy of the game list is kept up to date automatically so browsing is instant and works offline. See [Your Game Index](/docs/downloads/refreshing-index).
-- **Seamless Downloads**: Supported providers download inside the app with no browser or CAPTCHA.
+- **[Ascendara Magic Links](/docs/features/magic-links)**: Supported hosts download inside the app with no browser, ads, or CAPTCHA (previously called Seamless Downloads).
 - **Browser Downloads**: The Ascendara Download Handler extension sends downloads from your browser to Ascendara, including games that aren't in the index.
 - **Download Manager**: Downloads, extracts, verifies, and installs games, with a download queue, speed limits, and resumable transfers. See [Downloading Games](/docs/downloads/downloading).
 - **Debrid and Torrents**: Optional TorBox, Real-Debrid, AllDebrid, Premiumize, Debrid-Link, and qBittorrent support. See [Debrid Services](/docs/downloads/debrid-services).

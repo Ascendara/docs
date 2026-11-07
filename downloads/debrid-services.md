@@ -48,7 +48,7 @@ Each card has its own **Download options**. They only apply to that service.
 | Option | Default | What it does |
 | --- | --- | --- |
 | **Cloud torrents** | On | Lets this service handle magnet links instead of qBittorrent. |
-| **Prefer over direct downloads** | Off | Also uses this service for hosts that Ascendara can already [download seamlessly](/docs/downloads/downloading#seamless-downloads). |
+| **Prefer over direct downloads** | Off | Also uses this service for [Magic Link](/docs/features/magic-links) hosts, which Ascendara can already download on its own. |
 | **Remove from the service when done** | Off | AllDebrid, Premiumize, and Debrid-Link only. Deletes a torrent from your account once its game is on your PC. |
 | **Fall back to qBittorrent** | Off | TorBox only. Retries a magnet through qBittorrent if TorBox can't add it. Needs local torrenting on. |
 
@@ -73,9 +73,9 @@ A supported host can still be temporarily unavailable on the service. In that ca
 
 On a game's download page, you can turn debrid off for a single download, for example if the service doesn't support that provider's link.
 
-## Seamless Providers
+## Magic Link Hosts
 
-By default, providers that support [seamless downloads](/docs/downloads/downloading#seamless-downloads) keep using them. Turn on a service's **Prefer over direct downloads** option to send those links through the debrid service as well, as long as the service supports them.
+By default, [Magic Link](/docs/features/magic-links) hosts (GoFile, PixelDrain, BuzzHeavier, and MegaDB) keep using Magic Links. With TorBox, MegaDB isn't treated as a Magic Link host, so it goes through TorBox whenever TorBox supports the link. Turn on a service's **Prefer over direct downloads** option to send those links through the debrid service as well, as long as the service supports them.
 
 ## Torrents
 

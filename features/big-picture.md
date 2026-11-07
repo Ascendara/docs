@@ -32,7 +32,7 @@ From a game's page you can also play with a trainer, open the mod manager, and b
 
 ## Downloading in Big Picture Mode
 
-Games that support seamless downloads (GoFile and PixelDrain) download directly in Big Picture Mode. If more than one provider is available, choose one. Other download methods need a browser, so Ascendara asks you to exit Big Picture Mode and continue in the regular interface.
+Games with [Magic Links](/docs/features/magic-links) on GoFile or PixelDrain download directly in Big Picture Mode. If more than one provider is available, choose one. Other download methods need a browser, so Ascendara asks you to exit Big Picture Mode and continue in the regular interface.
 
 The usual download queue limits apply. See [Downloading Games](/docs/downloads/downloading#download-queue).
 

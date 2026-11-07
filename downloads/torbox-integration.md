@@ -11,7 +11,7 @@ See [Debrid Services](/docs/downloads/debrid-services) for settings shared by al
 When TorBox is connected:
 
 - **Hoster downloads**: Links from hosts that TorBox supports go through TorBox automatically. TorBox processes the link in its cloud first, even if a local download is already running, and you then download it to your PC from the **Debrid Downloads** page.
-- **Seamless providers (optional)**: GoFile, PixelDrain, and Buzzheavier keep their normal seamless downloads by default. Turn on **Prefer over direct downloads** to use TorBox for them too, whenever TorBox supports the link.
+- **Magic Link hosts (optional)**: GoFile, PixelDrain, and BuzzHeavier keep using [Magic Links](/docs/features/magic-links) by default. Turn on **Prefer over direct downloads** to use TorBox for them too, whenever TorBox supports the link.
 - **Torrents**: With **Cloud torrents** on (the default), magnet links are sent to TorBox instead of being downloaded through qBittorrent. You don't need qBittorrent for torrent downloads when TorBox handles them. When a torrent finishes in the cloud, it continues to your PC automatically and is extracted like any other download.
 - **Debrid Downloads page**: A **Debrid Downloads** page appears in the navigation bar. Choose **TorBox** to see your account, plan, downloads in progress, and completed downloads ready to download to your PC.
 
@@ -61,7 +61,7 @@ These options appear on the **TorBox** card in **Settings → Debrid**:
 | Setting | Default | What it does |
 | --- | --- | --- |
 | **API key** | Empty | Connects TorBox. |
-| **Prefer over direct downloads** | Off | Uses TorBox even for providers that support seamless downloads. |
+| **Prefer over direct downloads** | Off | Uses TorBox even for Magic Link hosts. |
 | **Cloud torrents** | On | Sends magnet links to TorBox instead of qBittorrent. |
 | **Fall back to qBittorrent** | Off | If TorBox can't add a magnet, retries it through your qBittorrent WebUI. Requires local torrenting to be on. This may send torrent traffic outside TorBox, so make sure your VPN is active. |
 

@@ -27,7 +27,7 @@ Once connected, the card shows your plan, premium end date, and fidelity points.
 
 Supported hosted links are unlocked by AllDebrid and then downloaded by Ascendara's normal downloader. Only links from hosts that AllDebrid lists as supported are sent to it. Other links download normally.
 
-Turn on **Prefer over direct downloads** to also send links from seamless providers through AllDebrid.
+Turn on **Prefer over direct downloads** to also send links from [Magic Link](/docs/features/magic-links) hosts through AllDebrid.
 
 ## Torrents
 

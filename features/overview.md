@@ -25,9 +25,11 @@ Ascendara's download manager handles the whole process: transfer, extraction, ve
 
 ## Download Games in 2 Clicks
 
-Games hosted on supported providers can use **seamless downloads**: Ascendara resolves the link and starts the download itself, with no browser and no CAPTCHA. Seamless downloads are currently supported for **GoFile** and **PixelDrain**. Look for the seamless download icon on a game to see whether it's supported.
+Games hosted on supported providers can use [Ascendara Magic Links](/docs/features/magic-links): Ascendara gets the file and starts the download itself, with no browser, ads, or CAPTCHA. Magic Links work with **GoFile**, **PixelDrain**, **BuzzHeavier**, and **MegaDB**. Look for the **Magic** chip next to a host on a game's download page.
 
-If you use a [debrid service](/docs/downloads/debrid-services), you can also turn on its **Prefer over direct downloads** option to use it instead of seamless downloads.
+Magic Links used to be called **seamless downloads**; the feature was renamed to Ascendara Magic Links.
+
+If you use a [debrid service](/docs/downloads/debrid-services), you can also turn on its **Prefer over direct downloads** option to use it instead of Magic Links.
 
 ## Protecting Directories from Windows Defender
 

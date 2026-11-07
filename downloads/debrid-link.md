@@ -18,7 +18,7 @@ Supported hosted links are converted to direct links by Debrid-Link and then dow
 
 Debrid-Link also reports which hosts are currently offline. Ascendara leaves offline hosts out, so their links go to the next service in your **Download order**, or download normally. Because of this, Debrid-Link's host list is refreshed every 15 minutes instead of every 24 hours.
 
-Turn on **Prefer over direct downloads** to also send links from seamless providers through Debrid-Link.
+Turn on **Prefer over direct downloads** to also send links from [Magic Link](/docs/features/magic-links) hosts through Debrid-Link.
 
 ## Torrents
 

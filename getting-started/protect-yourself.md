@@ -4,12 +4,12 @@ Understanding the risks and protecting yourself online is essential. Please note
 
 ## Ascendara Download Manager
 
-Ascendara has its own download manager that downloads, extracts, verifies, and installs games for you. Some games support seamless downloads that need no browser at all, while others require you to visit the file host and send the real download to Ascendara.
+Ascendara has its own download manager that downloads, extracts, verifies, and installs games for you. Some games support [Ascendara Magic Links](/docs/features/magic-links) that need no browser at all, while others require you to visit the file host and send the real download to Ascendara.
 
 ## Download Process
 
-### Seamless Downloads
-Games from supported providers (GoFile and PixelDrain) can be downloaded directly in Ascendara. You never visit the file host, so there are no ads or fake buttons to avoid.
+### Magic Links
+Games from Magic Link hosts (GoFile, PixelDrain, BuzzHeavier, and MegaDB) can be downloaded directly in Ascendara. You never visit the file host, so there are no ads or fake buttons to avoid. Magic Links used to be called Seamless Downloads.
 
 ### Browser Downloads
 For other providers, you open the file host page in your browser and start the download yourself. Navigate the page carefully until you reach the real download, then let the Download Handler extension send it to Ascendara, or copy the direct download link manually.
@@ -55,6 +55,6 @@ Only exclude folders that you use for games, and only download from the provider
 
 ## Stay Safe
 
-Whether you use seamless downloads or the browser extension, always let Ascendara's download manager handle the actual download and installation.
+Whether you use Magic Links or the browser extension, always let Ascendara's download manager handle the actual download and installation.
 
 > **Remember:** Never download or run any additional software suggested by file hosting sites. Ascendara is the only program you need to download and install your games.

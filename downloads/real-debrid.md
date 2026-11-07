@@ -27,7 +27,7 @@ Once connected, the card shows your plan, premium end date, points, and remainin
 
 Supported hosted links are unrestricted by Real-Debrid and then downloaded by Ascendara's normal downloader. Only links whose hostname is on Real-Debrid's supported domain list (including aliases and subdomains) are sent to Real-Debrid. Other links download normally.
 
-Turn on **Prefer over direct downloads** to also send links from seamless providers through Real-Debrid.
+Turn on **Prefer over direct downloads** to also send links from [Magic Link](/docs/features/magic-links) hosts through Real-Debrid.
 
 Queued links are checked again when the queue starts them, using your current API key.
 
