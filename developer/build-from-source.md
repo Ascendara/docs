@@ -173,4 +173,4 @@ The build scripts automate these steps:
 
 ## Automated Releases
 
-Official releases are built by GitHub Actions for Windows x64, Linux x64, macOS arm64, and macOS Intel. The workflow and the required secrets are described in `docs/BUILD_AUTOMATION.md` in the repository. Contributors don't need to run it.
+Official releases are built by GitHub Actions for Windows x64, Linux x64, macOS arm64, and macOS Intel. The workflow and the required secrets are described in [Release Automation](/docs/developer/release-automation). Contributors don't need to run it.

@@ -157,6 +157,7 @@ See [Building from Source](/docs/developer/build-from-source#important-limitatio
 | Topic | Description |
 |-------|-------------|
 | [Build from Source](/docs/developer/build-from-source) | Set up your development environment and build the app |
+| [Release Automation](/docs/developer/release-automation) | How official releases are built, signed, and published |
 | [Project Structure](/docs/developer/project-structure) | Codebase walkthrough |
 | [System Design](/docs/developer/system-design) | Settings, data files, updates, protocol, security |
 | [IPC Reference](/docs/developer/ipc-reference) | The `window.electron` API |
