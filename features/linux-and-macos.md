@@ -60,9 +60,33 @@ Settings are stored in `~/.config/ascendara/ascendarasettings.json`.
 
 ## macOS
 
-On macOS, Windows games run through **Wine**. Native macOS executables and `.app` bundles can be selected for games and run directly.
+Native macOS executables and `.app` bundles can be selected for games and run directly. How Windows games run depends on your Mac.
 
-During the welcome setup, Ascendara can install Wine through Homebrew. Homebrew must already be installed, and Apple Silicon Macs also need Rosetta 2. If setup asks for a password, run `brew install --cask wine-stable` in Terminal, then select **Check again**. Game compatibility under Wine varies from game to game.
+### Apple Silicon: Highball
+
+On Apple Silicon Macs, Ascendara runs Windows games with [Highball](https://github.com/gauthierpiarrette/highball), a free and open source project bundled with the app. Highball translates Windows and DirectX into macOS and Metal. You don't need to install Wine or Homebrew.
+
+The compatibility files download automatically the first time you play a Windows game, or you can download them during the welcome setup or from **Settings** → **Compatibility**. Rosetta 2 is required and is installed during setup; macOS may ask for your password.
+
+In **Settings** → **Compatibility** you can choose:
+
+- **Graphics translator**: **Automatic** (DXMT) works for most games. If a game shows a black screen or closes right away, try another one:
+  - **DXMT** (DirectX 10/11)
+  - **D3DMetal** (DirectX 11/12, Apple): often the fastest for newer games. It's part of Apple's Game Porting Toolkit, so you need to accept Apple's license (personal, non-commercial use) before enabling it.
+  - **DXVK** (DirectX 9/10/11)
+  - **VKD3D** (DirectX 12)
+  - **WineD3D**: the slowest but most compatible
+- **Game environment**: **One shared environment for all games** is faster to set up. **Separate environment per game** keeps games from affecting each other.
+
+Each game's settings can override the graphics translator, open its environment folder, or **Reset** its environment. Resetting recreates the environment the next time you play.
+
+Game pages and search results show a **Mac** compatibility rating, based on Highball's compatibility list and community reports. Games with kernel anti-cheat, or that the publisher blocks, can't run on a Mac at all, and Ascendara warns you before you download one.
+
+Compatibility files and environments are stored in `~/Library/Application Support/ascendara/highball/`.
+
+### Intel Macs
+
+On Intel Macs, Windows games run through Wine installed on your system. During the welcome setup, Ascendara can install Wine through Homebrew, which must already be installed. If setup asks for a password, run `brew install --cask wine-stable` in Terminal, then select **Check again**. You can also choose **System Wine** on Apple Silicon instead of Highball. Game compatibility under Wine varies from game to game.
 
 ### Not Available on macOS
 
@@ -98,4 +122,6 @@ Install Proton CachyOS or Proton-GE and UMU-Launcher from **Settings**, or insta
 - Reset the game's compatibility prefix.
 
 ### Games Don't Start on macOS
-Make sure Wine is installed and works from Terminal (`wine --version`). Some games don't run under Wine at all.
+- Check the game's **Mac** compatibility rating. Some games can't run on a Mac under any compatibility layer.
+- On Apple Silicon, try a different **Graphics translator** for the game, then **Reset** its environment.
+- On Intel Macs, make sure Wine is installed and works from Terminal (`wine --version`).

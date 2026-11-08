@@ -4,14 +4,16 @@ The **Library** brings together every game you play with Ascendara: games downlo
 
 ## Library Tabs
 
-The Library sidebar has these tabs. Drag them to change their order.
+The Library sidebar has these tabs. Drag them to change their order, or choose which ones show with **Library pages** (see [Sidebar Actions](#sidebar-actions)).
 
 - **All Games**: Every installed game and your folders, plus owned games from connected [store accounts](/docs/features/importing#store-accounts). Owned games show a small store badge and open their store to play or install.
+- **Hidden Folders**: Folders you hid with **Hide This Folder**. This tab only appears once you hide a folder. Right-click a folder here and select **Show in Library** to bring it back.
 - **Favorites**: Games you marked with the heart icon. You can favorite games before you install them, give them a personal 1–5 star rating, and set a status (**Playing**, **Completed**, or **Backlog**). Favorite ratings are stored only on your computer and are never shared.
 - **Cloud Games**: Games saved to your [Ascend](/docs/features/ascend) cloud library that aren't installed on this PC. This tab appears when you're signed in to Ascend. Select **Download & Restore** (or **Add & Restore** for custom games) to install a game and recover its playtime.
+- **Wishlist**: Your Steam wishlist, once you connect your Steam [store account](/docs/features/importing#store-accounts). Filter to games that are **On Ascendara** and download them directly. With [Ascend](/docs/features/ascend), Ascendara notifies you as soon as a game from your wishlist is added to the index. Without Ascend, you can hide this tab with **Hide this page**.
 - **Play Later**: Games you saved to play later from Search or a game page.
 - **History**: Games you deleted while keeping their data. Their playtime and stats are preserved, and are restored if you reinstall the game.
-- **Retro**: Your [Ascendara Retro](/docs/features/retro) library.
+- **Retro**: Your [Ascendara Retro](/docs/features/retro) library of classic console games.
 
 ### Sidebar Actions
 
@@ -19,6 +21,7 @@ The Library sidebar has these tabs. Drag them to change their order.
 - **The arrow next to Add game** opens more ways to add games:
   - **Import from other launchers**: Bring in games from Steam, Epic Games, GOG, Ubisoft Connect, or Battle.net, either by scanning this PC or by connecting your store accounts. See [Importing Games](/docs/features/importing).
   - **New Folder**: Create a folder to organize your games.
+  - **Library pages**: Show or hide sidebar tabs.
 - **Library tools**, near the bottom of the sidebar, groups the less frequent actions: [Library Backups](/docs/features/game-backups#library-backups), **Sync to Cloud** for [Ascend](/docs/features/ascend) members, and [Library Value](#library-value).
 
 ## Adding Games

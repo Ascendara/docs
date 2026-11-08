@@ -1,6 +1,6 @@
 # Creating the Tools for Production Builds
 
-Ascendara's helper tools are bundled into standalone executables so users don't need Python, Node.js, or any dependencies installed. The Python tools are built with PyInstaller (6.16.0), the Crash Reporter with Cargo, and the Achievement Watcher with `pkg`.
+Ascendara's helper tools are bundled into standalone executables so users don't need Python, Node.js, or any dependencies installed. The Python tools are built with PyInstaller (6.16.0), the Crash Reporter and Game Handler with Cargo, and the Achievement Watcher with `pkg`.
 
 Each platform has a build script that builds the tools for you. You normally don't need to run PyInstaller yourself.
 
@@ -9,13 +9,14 @@ Each platform has a build script that builds the tools for you. You normally don
 | Tool | Windows | Linux | macOS |
 | --- | --- | --- | --- |
 | AscendaraDownloader | Bundled | Bundled | Bundled |
-| AscendaraGameHandler | Bundled | Bundled | Bundled |
+| AscendaraGameHandler (Rust) | Bundled | Bundled | Bundled |
 | AscendaraNotificationHelper | Bundled | Bundled | Bundled |
 | AscendaraTorrentHandler | Bundled | Bundled | Bundled |
 | AscendaraCrashReporter (Rust) | Bundled | Bundled | Bundled |
 | AscendaraAchievementWatcher (Node.js) | Bundled | Bundled | Bundled |
 | AscendaraLanguageTranslation | Downloaded on demand | Bundled | Bundled |
 | AscendaraLocalRefresh | Not shipped | Not shipped | Not shipped |
+| Highball | — | — | Bundled (Apple Silicon only) |
 | Ludusavi | Downloaded on demand | Downloaded on demand | Downloaded on demand, or found on `PATH` |
 
 On-demand tools ("sidecars") are downloaded from `cdn.ascendara.app` the first time a feature needs them. See [System Design](/docs/developer/system-design#sidecars).
@@ -43,8 +44,8 @@ Run this on a native Windows x64 machine with Cargo, Yarn, and 7-Zip x64 install
      --hidden-import unrar.unrarlib \
      binaries/AscendaraDownloader/src/AscendaraDownloader.py
    ```
-   The Downloader and Torrent Handler bundle 7-Zip and its license. The Downloader also bundles `UnRAR.dll`. The Game Handler and Notification Helper use the same command without the extra binaries.
-3. Builds the Crash Reporter: `cargo build --release --locked` in `binaries/AscendaraCrashReporter`.
+   The Downloader and Torrent Handler bundle 7-Zip and its license. The Downloader also bundles `UnRAR.dll` and hatchzip with its licenses. The Notification Helper bundles its `sounds` folder and adds `--hidden-import PyQt6.QtMultimedia` so it can play notification sounds.
+3. Builds the Crash Reporter and Game Handler: `cargo build --release --locked` in `binaries/AscendaraCrashReporter` and `binaries/AscendaraGameHandler`.
 4. Builds the Achievement Watcher: `yarn install --frozen-lockfile` and `yarn build-win` in `binaries/AscendaraAchievementWatcher`.
 5. Checks that every resource listed in `package.json` exists and is a Windows x64 executable.
 
@@ -54,19 +55,20 @@ The outputs are placed where `package.json` expects them:
 | --- | --- |
 | Python tools | `binaries/<Tool>/dist/<Tool>.exe` |
 | Crash Reporter | `binaries/AscendaraCrashReporter/target/release/AscendaraCrashReporter.exe` |
+| Game Handler | `binaries/AscendaraGameHandler/target/release/AscendaraGameHandler.exe` |
 | Achievement Watcher | `binaries/AscendaraAchievementWatcher/dist/AscendaraAchievementWatcher.exe` |
 
 ## Linux
 
 `yarn dist-linux` builds the tools as part of the app build:
 
-- Creates `.build_venv`, installs PyInstaller and every tool's requirements, and builds the Downloader, Game Handler, Language Translation, Torrent Handler, and Notification Helper as single-file executables.
+- Creates `.build_venv`, installs PyInstaller and every tool's requirements, and builds the Downloader, Language Translation, Torrent Handler, and Notification Helper as single-file executables.
 - Bundles the system `unrar` and p7zip's `7z` and `7z.so` (with their license notices) into the Downloader and Torrent Handler. The script uses Debian/Ubuntu paths; other distributions may need adjustments.
-- Builds the Crash Reporter with Cargo and the Achievement Watcher with `yarn build-linux`.
+- Builds the Crash Reporter and Game Handler with Cargo and the Achievement Watcher with `yarn build-linux`.
 
 ## macOS
 
-`yarn dist-mac` builds the tools for each target architecture in its own virtual environment (`.build_venv_mac/<arch>`), passes an explicit Rust target to Cargo, and bundles the official macOS `7zz` (downloaded by `yarn setup-mac`) into the Downloader and Torrent Handler. See `README_MAC_BUILD.md` in the repository.
+`yarn dist-mac` builds the tools for each target architecture in its own virtual environment (`.build_venv_mac/<arch>`), passes an explicit Rust target to Cargo, and bundles the official macOS `7zz` (downloaded by `yarn setup-mac`) into the Downloader and Torrent Handler. Apple Silicon builds also build the pinned Highball CLI (`yarn setup-highball`, or `scripts/build_highball.py`) and bundle it in `Contents/Resources/Highball` with its engine manifest, compatibility data, and license notices. Intel builds don't include Highball and use the system Wine. See `README_MAC_BUILD.md` in the repository.
 
 ## Achievement Watcher
 
@@ -80,28 +82,30 @@ yarn build-win     # or build-linux / build-mac
 
 The output is `dist/AscendaraAchievementWatcher(.exe)`.
 
-## Crash Reporter
+## Crash Reporter and Game Handler
 
-> **Note:** This tool is written in Rust with the FLTK GUI toolkit.
+> **Note:** These tools are written in Rust. The Crash Reporter uses the FLTK GUI toolkit.
 
 ```bash
-cd binaries/AscendaraCrashReporter
+cd binaries/AscendaraCrashReporter   # or binaries/AscendaraGameHandler
 cargo build --release --locked
 ```
 
-The output is `target/release/AscendaraCrashReporter(.exe)`. On Windows, `build.rs` embeds the icon into the executable.
+The output is `target/release/<Tool>(.exe)`. On Windows, `build.rs` embeds the icon into the executable.
 
 ## Building a Single Tool Manually
 
 To build one Python tool by hand, install its requirements and run PyInstaller from the project root:
 
 ```bash
-pip install -r binaries/AscendaraGameHandler/requirements.txt pyinstaller==6.16.0
+pip install -r binaries/AscendaraNotificationHelper/requirements.txt pyinstaller==6.16.0
 python -m PyInstaller --onefile --noconfirm --clean --windowed \
-  --name AscendaraGameHandler \
-  --icon binaries/AscendaraGameHandler/src/ascendara.ico \
-  --distpath binaries/AscendaraGameHandler/dist \
-  binaries/AscendaraGameHandler/src/AscendaraGameHandler.py
+  --name AscendaraNotificationHelper \
+  --icon binaries/AscendaraNotificationHelper/src/ascendara.ico \
+  --distpath binaries/AscendaraNotificationHelper/dist \
+  --add-data "binaries/AscendaraNotificationHelper/src/sounds;sounds" \
+  --hidden-import PyQt6.QtMultimedia \
+  binaries/AscendaraNotificationHelper/src/AscendaraNotificationHelper.py
 ```
 
 On Linux and macOS, use `:` instead of `;` to separate the source and destination in `--add-data` and `--add-binary`.
@@ -118,7 +122,7 @@ On Linux and macOS, use `:` instead of `;` to separate the source and destinatio
 
 ## Running Tools From Source
 
-In development mode, Ascendara starts some tools from their Python source (for example, the Game Handler) and others from `binaries/<Tool>/dist/`, so build the tools you're testing. You can also run any Python tool directly:
+In development mode, Ascendara starts the Downloader and Torrent Handler from their Python source, the other Python tools from `binaries/<Tool>/dist/`, and the Rust tools from `binaries/<Tool>/target/release/`, so build the tools you're testing. You can also run any Python tool directly:
 
 ```bash
 python binaries/AscendaraDownloader/src/AscendaraDownloader.py --help

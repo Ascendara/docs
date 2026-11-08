@@ -78,15 +78,15 @@ The desktop shell:
 | Tool | Key dependencies |
 |------|------------------|
 | Downloader | `requests`, `patool`, `beautifulsoup4`, `unrar` (Windows), plus bundled 7-Zip and UnRAR |
-| Game Handler | `psutil`, `pypresence` |
 | Torrent Handler | `qbittorrent-api` |
 | Notification Helper | `PyQt6`, `requests` |
 | Language Translation | `requests` |
 | Local Refresh | `cloudscraper`, `requests`, `beautifulsoup4` |
 
-### Crash Reporter (Rust)
+### Rust Tools
 - **Rust** 2021 edition, built with Cargo
-- `fltk` (bundled FLTK) and `fltk-theme` for the window, `webbrowser`, `chrono`, and `winres` to embed the Windows icon
+- **Crash Reporter**: `fltk` (bundled FLTK) and `fltk-theme` for the window, `webbrowser`, `chrono`, and `winres` to embed the Windows icon
+- **Game Handler** (Rust 1.90+): `discord-rich-presence`, `serde_json`, `shlex`, `sysinfo` (Windows and Linux), `plist` (macOS), `ureq` (Linux), `windows-sys` (Windows), and `winres`
 
 ### Achievement Watcher (Node.js)
 - Packaged with `pkg` 5.8 on a Node 18 runtime

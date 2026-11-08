@@ -203,7 +203,7 @@ binaries/
 │   ├── AscendaraDownloadRecovery.py  # Retries and repair downloads
 │   ├── AscendaraRarRecovery.py       # UnRAR bindings
 │   └── UnRAR.dll
-├── AscendaraGameHandler/src/AscendaraGameHandler.py
+├── AscendaraGameHandler/             # Rust (Cargo.toml, src/main.rs, execute.rs, runners.rs, …)
 ├── AscendaraTorrentHandler/src/AscendaraTorrentHandler.py
 ├── AscendaraNotificationHelper/src/AscendaraNotificationHelper.py
 ├── AscendaraLanguageTranslation/src/AscendaraLanguageTranslation.py
@@ -211,6 +211,7 @@ binaries/
 │   ├── AscendaraLocalRefresh.py, base_scraper.py
 │   ├── steamrip_scraper.py, goggames_scraper.py, utils.py
 ├── AscendaraCrashReporter/           # Rust (Cargo.toml, src/main.rs, build.rs)
+├── Highball/dist/                    # Bundled Highball CLI and compatibility data (macOS)
 └── AscendaraAchievementWatcher/      # Node.js (src/watchdog.js, monitor.js, …)
 ```
 

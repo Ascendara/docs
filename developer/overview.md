@@ -24,8 +24,9 @@ Ascendara is an Electron + React app. The React renderer talks to the Electron m
                                  │ child processes
 ┌────────────────────────────────┴────────────────────────────────┐
 │                         Helper Binaries                         │
-│  Downloader · GameHandler · TorrentHandler · NotificationHelper │
-│  LanguageTranslation (Python)  ·  CrashReporter (Rust)          │
+│  Downloader · TorrentHandler · NotificationHelper ·             │
+│  LanguageTranslation (Python)  ·  GameHandler, CrashReporter    │
+│  (Rust)  ·  Highball (macOS, Apple Silicon)                     │
 │  AchievementWatcher (Node.js)  ·  Ludusavi, SteamCMD (external) │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -76,7 +77,7 @@ See [Project Structure](/docs/developer/project-structure) for the full list.
 | Tool | Language | Purpose |
 |------|----------|---------|
 | [AscendaraDownloader](/docs/binary-tool/downloader) | Python | Download, extract, verify, and install games (including Gofile) |
-| [AscendaraGameHandler](/docs/binary-tool/game-handler) | Python | Launch games, track playtime, Discord RPC, backups on close |
+| [AscendaraGameHandler](/docs/binary-tool/game-handler) | Rust | Launch games, track playtime, Discord RPC, backups on close |
 | [AscendaraTorrentHandler](/docs/binary-tool/torrent-handler) | Python | Torrent downloads through qBittorrent |
 | [AscendaraNotificationHelper](/docs/binary-tool/notification-helper) | Python (PyQt6) | Desktop and achievement notifications |
 | [AscendaraLanguageTranslation](/docs/binary-tool/language-translator) | Python | Translates the UI into extra languages |

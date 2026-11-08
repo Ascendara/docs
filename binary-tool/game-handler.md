@@ -3,11 +3,11 @@
 ## Overview
 The Game Handler launches games, tracks playtime and launch counts, and handles everything that happens while a game runs: Discord Rich Presence for shortcut launches, FLiNG trainers, Linux compatibility runners, and Ludusavi save backups when the game closes. Ascendara starts it every time you click **Play**, and desktop shortcuts start it directly.
 
-Source: `binaries/AscendaraGameHandler/src/AscendaraGameHandler.py`
+Source: `binaries/AscendaraGameHandler/src/` (Rust, entry point `main.rs`). The handler was rewritten from Python to Rust; it keeps the same arguments, files, and log output, so the app and existing shortcuts work unchanged.
 
 ## Features
 - Launches Windows executables, native Linux and macOS executables, and macOS `.app` bundles
-- Runs Windows games on Linux through UMU-Launcher, Proton, or Wine, and on macOS through Wine
+- Runs Windows games on Linux through UMU-Launcher, Proton, or Wine, and on macOS through Highball (Apple Silicon) or Wine
 - Admin launches on Windows (`runas`)
 - Custom launch options
 - Playtime and launch count tracking, including games that start through a launcher or bootstrapper
@@ -20,7 +20,7 @@ Source: `binaries/AscendaraGameHandler/src/AscendaraGameHandler.py`
 
 ### Command Line Arguments
 ```bash
-AscendaraGameHandler.exe <game_path> <is_custom_game> <admin> [--shortcut] [--ludusavi] [--trainer] [--gameLaunchCmd "<options>"] [Linux runner options]
+AscendaraGameHandler.exe <game_path> <is_custom_game> <admin> [--shortcut] [--ludusavi] [--trainer] [--gameLaunchCmd "<options>"] [runner options]
 ```
 
 ### Parameters
@@ -34,17 +34,23 @@ AscendaraGameHandler.exe <game_path> <is_custom_game> <admin> [--shortcut] [--lu
 | `--trainer` | Launch `ascendaraFlingTrainer.exe` from the game folder alongside the game |
 | `--gameLaunchCmd "<options>"` | Launch options passed to the game |
 
-### Linux Runner Options
-On Linux, Ascendara passes the runner it resolved for the game:
+### Runner Options
+On Linux and macOS, Ascendara passes the runner it resolved for the game. The options keep their `--linux-` prefix on macOS too:
 
 | Argument | Description |
 | --- | --- |
-| `--linux-runner-type` | `umu`, `proton`, or `wine` |
-| `--linux-runner-path` | Path to `umu-run`, the Proton folder, or the Wine binary |
-| `--linux-compat-data` | The game's compatibility data folder (`~/.ascendara/compatdata/<game>`) |
+| `--linux-runner-type` | `umu`, `proton`, `wine`, or `highball` |
+| `--linux-runner-path` | Path to `umu-run`, the Proton folder, the Wine binary, or the bundled `highball` CLI |
+| `--linux-compat-data` | The game's compatibility data folder (`~/.ascendara/compatdata/<game>` on Linux, the Highball bottle on macOS) |
 | `--linux-steam-path` | The Steam installation, used by Proton |
 | `--linux-umu-id` | The game's UMU ID (defaults to `umu-default`) |
 | `--linux-proton-path` | The Proton build UMU should use (`PROTONPATH`). If omitted, UMU uses UMU-Proton. |
+| `--linux-umu-use-steam` | `1` to let UMU use the Steam installation |
+| `--linux-steamappid` | Online-Fix games: sets `SteamAppId` and `SteamGameId`, and injects the Steam overlay with Proton |
+| `--linux-winedlloverrides` | Online-Fix games: DLL overrides merged into `WINEDLLOVERRIDES` |
+| `--highball-bottle` | macOS: the Highball bottle (environment) to run the game in, shared or per game |
+| `--highball-home` | macOS: Ascendara's Highball home, passed as `HIGHBALL_HOME` |
+| `--highball-renderer` | macOS: the graphics translator (`dxmt`, `d3dmetal`, `dxvk`, `vkd3d`, or `wined3d`) |
 
 ### Examples
 ```bash
@@ -61,7 +67,21 @@ AscendaraGameHandler.exe "C:/Games/MyGame/game.exe" false true --trainer --gameL
 ./AscendaraGameHandler "/games/MyGame/game.exe" false false \
   --linux-runner-type umu --linux-runner-path ~/.ascendara/tools/umu/umu-run \
   --linux-compat-data ~/.ascendara/compatdata/MyGame --linux-umu-id umu-12345
+
+# macOS (Apple Silicon) with Highball
+./AscendaraGameHandler "/Games/MyGame/game.exe" false false \
+  --linux-runner-type highball --linux-runner-path /Applications/Ascendara.app/Contents/Resources/Highball/highball \
+  --highball-home ~/Library/Application\ Support/ascendara/highball --highball-bottle ascendara --highball-renderer dxmt
 ```
+
+## Building
+
+```bash
+cd binaries/AscendaraGameHandler
+cargo build --release --locked
+```
+
+The executable is written to `target/release/AscendaraGameHandler(.exe)`, where `package.json` and development mode expect it. See [Creating the Tools](/docs/developer/creating-the-tools).
 
 ## How a Launch Works
 
@@ -81,6 +101,7 @@ All JSON files are written atomically (to a temporary file that replaces the ori
 | --- | --- | --- |
 | Windows | `.exe` | Started directly, or with `ShellExecuteW` and the `runas` verb when `admin` is set |
 | Linux | `.exe` with `--linux-*` options | `umu-run`, `proton run`, or Wine with an isolated prefix |
+| macOS (Apple Silicon) | `.exe` with `highball` runner | `highball run [--renderer <r>] <bottle> <exe> -- <args>` |
 | Linux / macOS | `.exe` without runner options | System Wine with a prefix in `~/.ascendara/compatdata/<game>` |
 | macOS | `.app` | The bundle's `CFBundleExecutable` from `Contents/MacOS` |
 | Linux / macOS | Native executable | Started directly |
@@ -96,7 +117,7 @@ The handler adds 180 seconds to `playTime` every 3 minutes while the game runs, 
 Some games start through a launcher, bootstrapper, or anti-cheat wrapper that exits while the real game keeps running. When the process the handler started exits, it checks for other processes running from the game's install folder and keeps tracking until all of them have exited.
 
 ### Trainers
-With `--trainer`, the handler looks for `ascendaraFlingTrainer.exe` in the game's root folder (the folder containing `.ascendara.json`, or the executable's folder for custom games). If Windows reports that the trainer needs elevation, it relaunches the trainer as administrator. On Linux and macOS, the trainer runs through the same runner as the game. The trainer is terminated when the game closes.
+With `--trainer`, the handler looks for `ascendaraFlingTrainer.exe` in the game's root folder (the folder containing `.ascendara.json`, or the executable's folder for custom games). If Windows reports that the trainer needs elevation, it relaunches the trainer as administrator. On Linux and macOS, the trainer runs through the same runner as the game. The trainer is terminated when the game closes. With Highball, every Wine process in the game's bottle is stopped when the game closes.
 
 ### Ludusavi Backups
 With `--ludusavi`, the handler runs a Ludusavi backup after the game closes, using the backup settings from `ascendarasettings.json`:
@@ -107,7 +128,7 @@ ludusavi --config <config dir> [--no-manifest-update] backup "<game name>" \
   --compression <level> --force [--wine-prefix <prefix>]
 ```
 
-The backup only runs when backups are enabled in Ascendara's settings. On Linux, if the game has no custom save paths, the handler passes the game's Wine prefix with `--wine-prefix`.
+The backup only runs when backups are enabled in Ascendara's settings. On Linux, if the game has no custom save paths, the handler passes the game's Wine prefix with `--wine-prefix`. On macOS, it passes the game's Highball bottle, which is a Wine prefix.
 
 ## Files
 
@@ -146,7 +167,7 @@ The handler reads `ascendarasettings.json` for the download directory, Ludusavi 
 | macOS | `~/Library/Application Support/ascendara/gamehandler.log` |
 | Linux | `~/.ascendara/gamehandler.log` |
 
-Output from UMU, Proton, and Wine is also written to this log.
+Output from UMU, Proton, Wine, and Highball is also written to this log.
 
 ## Error Handling
 If the launch fails, the handler sets `isRunning` back to `false`, decrements `launchCount`, and registers the [Crash Reporter](/docs/binary-tool/crash-reporter) to open when it exits:

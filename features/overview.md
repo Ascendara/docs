@@ -53,7 +53,7 @@ All of your games live in one library: games downloaded through Ascendara, custo
 
 Click **Play** and Ascendara handles the rest through its [Game Handler](/docs/binary-tool/game-handler): it launches the correct executable with your launch options, tracks playtime, updates Discord Rich Presence, and can back up your saves when the game closes. Some older games may need extra configuration or may not work on modern systems.
 
-On Linux, Windows games run through Proton, UMU-Launcher, or Wine, and on macOS through Wine. See [Linux and macOS](/docs/features/linux-and-macos).
+On Linux, Windows games run through Proton, UMU-Launcher, or Wine, and on macOS through Highball (Apple Silicon) or Wine (Intel). See [Linux and macOS](/docs/features/linux-and-macos).
 
 ## Big Picture Mode
 
@@ -61,7 +61,7 @@ A controller-first interface for the couch. Ascendara offers to switch to Big Pi
 
 ## Ascendara Retro
 
-A separate library for classic console games launched through emulators you already have. See [Ascendara Retro](/docs/features/retro).
+A **Retro** tab in your Library for classic console games launched through emulators you already have. See [Ascendara Retro](/docs/features/retro).
 
 ## Ascendara Timemachine
 

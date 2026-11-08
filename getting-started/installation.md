@@ -51,7 +51,7 @@ Download the `.dmg` for your Mac from the [GitHub releases page](https://github.
 
 Open the DMG and drag Ascendara into **Applications**. Install it in a writable location such as **Applications**, because automatic updates replace the installed app.
 
-Windows games on macOS require Wine. During setup, Ascendara can install Wine through Homebrew (Homebrew must already be installed, and Apple Silicon also requires Rosetta 2). Game compatibility varies. See [Linux and macOS](/docs/features/linux-and-macos) for the features that are not available on macOS.
+On Apple Silicon, Windows games run through Highball, which is bundled with Ascendara and downloads its compatibility files the first time you play (Rosetta 2 is installed during setup). On Intel Macs, Windows games need Wine, which Ascendara can install through Homebrew during setup. Game compatibility varies. See [Linux and macOS](/docs/features/linux-and-macos) for the features that are not available on macOS.
 
 ## Browser Extension
 

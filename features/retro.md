@@ -1,6 +1,6 @@
 # Ascendara Retro
 
-Ascendara Retro is a separate library for organizing and launching games from supported classic consoles. It does not download ROMs or replace the emulator. You provide the ROM folders and emulator files, and Ascendara remembers the setup, scans the folders, matches game metadata, and starts the configured emulator with the correct game file.
+Ascendara Retro is a tab in your [Library](/docs/features/library) for organizing and launching games from supported classic consoles. It does not download ROMs or replace the emulator. You provide the ROM folders and emulator files, and Ascendara remembers the setup, scans the folders, matches game metadata, and starts the configured emulator with the correct game file.
 
 ## Supported consoles
 
@@ -31,13 +31,13 @@ An active Ascend subscription or verified access unlocks additional console prof
 
 Ascend access also unlocks alternate launch presets for consoles that are otherwise free, such as FCEUX for NES and DolphinXR for GameCube and Wii.
 
-These consoles and presets are configured from **All emulators** on the Retro page. Without an active Ascend subscription or verified access, the section shows a prompt to sign in or subscribe instead of the console and emulator list; the locked consoles also show a lock icon in the console list and open the same prompt when selected.
+These consoles and presets are configured from **All emulators** in the Retro tab. Without an active Ascend subscription or verified access, the section shows a prompt to sign in or subscribe instead of the console and emulator list; the locked consoles also show a lock icon in the console list and open the same prompt when selected.
 
 **All emulators** also lists setup resources that are not console profiles themselves, such as PS3 system-software links, BIOS/setup guides for Azahar, Cemu, Eden, melonDS, and Mednafen, and ShadPKG for PS3. It additionally lists experimental, guide-only entries for PS4 and PS5 emulators (fpPS4, KytyPS5, RPCSX); these are not yet launchable consoles in Retro and only link to the emulator's own project pages.
 
 ## First-time setup
 
-1. Open **Retro** and select a console.
+1. Open **Library** → **Retro** and select a console.
 2. Open that console's setup dialog.
 3. Choose the emulator executable. On Windows, select the emulator's `.exe` file.
 4. Add one or more folders containing that console's ROMs. Folders must exist and use absolute paths. You can add up to 32 folders.
@@ -56,7 +56,7 @@ Choose the **Custom** launch preset, enter one argument per line, and use `{rom}
 
 Choose **Scan** after adding or changing ROM folders. Ascendara checks the supported file extensions for that console, records discs and related files, and keeps the scan running in the background if you leave the page.
 
-If the local catalogue has one unambiguous match, Ascendara fills in the title, year, genres, description, developer, and cover automatically. You can update the catalogue from the Retro page by downloading the catalogue or importing a LaunchBox `Metadata.xml` or `Metadata.zip` file.
+If the local catalogue has one unambiguous match, Ascendara fills in the title, year, genres, description, developer, and cover automatically. You can update the catalogue from the Retro tab by downloading the catalogue or importing a LaunchBox `Metadata.xml` or `Metadata.zip` file.
 
 For a game with an incorrect or missing match:
 

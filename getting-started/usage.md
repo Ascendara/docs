@@ -16,7 +16,7 @@ When you first launch Ascendara, the welcome setup guides you through:
 9. **Theme**: Choose a light or dark theme.
 10. **Import your games**: Optionally [import installed games](/docs/features/importing) from Steam, Epic Games, GOG Galaxy, Ubisoft Connect, or Battle.net.
 11. **Updates**: Choose automatic or manual Ascendara updates.
-12. **Compatibility tools** (Linux and macOS): Install Proton CachyOS and UMU-Launcher (Linux) or Wine (macOS).
+12. **Compatibility tools** (Linux and macOS): Install Proton CachyOS and UMU-Launcher (Linux), download the Highball compatibility files (Apple Silicon Macs), or install Wine (Intel Macs).
 13. **Game dependencies** (Windows): Install common runtime libraries:
     * .NET Framework
     * DirectX
@@ -70,7 +70,7 @@ All downloaded, custom, and imported games appear in your **Library**. Click a g
 You can also organize games into folders, mark Favorites, and use Play Later. See [Your Library](/docs/features/library).
 
 ### Adding Your Own Games
-1. In the Library, select **Add to Library**.
+1. In the Library, select **Add game**.
 2. Choose **Single game** to pick one executable, or **Scan folder** to add every game in a folder's subfolders.
 3. Enter the game's details and save.
 

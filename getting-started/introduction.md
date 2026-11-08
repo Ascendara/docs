@@ -8,7 +8,7 @@ Ascendara became open source in May 2024 and is actively maintained by a solo de
 ## Supported Platforms
 - **Windows 10 and 11** (64-bit): the primary platform with full feature support.
 - **Linux** (x64 AppImage): Windows games run through Proton, UMU-Launcher, or Wine. See [Linux and macOS](/docs/features/linux-and-macos).
-- **macOS** (Apple Silicon and Intel): available from the GitHub releases. Windows games require Wine, and some features are Windows-only.
+- **macOS** (Apple Silicon and Intel): available from the GitHub releases. Windows games run through the bundled Highball on Apple Silicon or Wine on Intel Macs, and some features are Windows-only.
 
 On Linux and macOS, Ascendara shows a compatibility notice on first launch. Windows is recommended for the best experience.
 

@@ -25,7 +25,6 @@ Subscription revenue keeps the servers running, maintains the API that powers th
 - **FLiNG Trainers**: Download the correct FLiNG trainer for a game and launch it automatically with the game.
 - **Upcoming Update Preview**: See what's coming in the next Ascendara update.
 - **Experimental Branch**: Switch to the experimental release channel in **Settings** → **App Branch** to test features early.
-- **Hide Partner Ads**: Hide partner advertisements in search results (paid subscribers only, not available during the trial).
 
 ## Getting Started with Ascend
 

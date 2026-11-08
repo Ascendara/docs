@@ -125,7 +125,7 @@ If a game only works when launched directly, create a shortcut to the game's exe
 ## Performance Issues
 - **Lag or stuttering**: Close background applications and update your drivers.
 - **High CPU usage during downloads**: Lower the number of download threads or turn on **Single Stream Download**.
-- **Slow interface**: Turn off **Smooth Transitions** in **Settings**, or turn on **Safe UI Mode** in the System Center.
+- **Slow interface**: Turn on **Reduce Effects** in **Settings** → **Motion & Effects**. It turns off blur, page transitions, and looping animations so Ascendara uses less CPU and GPU. If that isn't enough, turn on **Safe UI Mode** in the System Center.
 
 ## Log Files
 
