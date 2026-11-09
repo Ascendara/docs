@@ -195,14 +195,17 @@ useEffect(() => {
 
 ```
 binaries/
-├── AscendaraDownloader/src/
-│   ├── AscendaraDownloader.py        # CLI and installation pipeline
-│   ├── AscendaraTransfer.py          # HTTP transfers
-│   ├── AscendaraGofile.py            # Gofile resolver
-│   ├── AscendaraExtraction.py        # Archive extraction worker
-│   ├── AscendaraDownloadRecovery.py  # Retries and repair downloads
-│   ├── AscendaraRarRecovery.py       # UnRAR bindings
-│   └── UnRAR.dll
+├── AscendaraDownloader/             # Rust (Cargo.toml, build.rs)
+│   └── src/
+│       ├── main.rs                   # Command line and startup
+│       ├── pipeline.rs               # One download from link to installed game
+│       ├── http.rs                   # Resumable multi-connection transfers
+│       ├── providers.rs              # Pixeldrain, Buzzheavier, Gofile, cloud-torrent lists
+│       ├── torrent.rs                # Built-in BitTorrent client
+│       ├── archive.rs                # ZIP, RAR, and 7z extraction
+│       ├── install.rs                # Install, rollback, verification, executable detection
+│       ├── state.rs                  # The game's .ascendara.json
+│       └── system.rs, util.rs        # Settings, notifications, paths, logging
 ├── AscendaraGameHandler/             # Rust (Cargo.toml, src/main.rs, execute.rs, runners.rs, …)
 ├── AscendaraTorrentHandler/src/AscendaraTorrentHandler.py
 ├── AscendaraNotificationHelper/src/AscendaraNotificationHelper.py

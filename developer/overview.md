@@ -24,9 +24,9 @@ Ascendara is an Electron + React app. The React renderer talks to the Electron m
                                  │ child processes
 ┌────────────────────────────────┴────────────────────────────────┐
 │                         Helper Binaries                         │
-│  Downloader · TorrentHandler · NotificationHelper ·             │
-│  LanguageTranslation (Python)  ·  GameHandler, CrashReporter    │
-│  (Rust)  ·  Highball (macOS, Apple Silicon)                     │
+│  Downloader, GameHandler, CrashReporter (Rust)  ·               │
+│  TorrentHandler, NotificationHelper, LanguageTranslation        │
+│  (Python)  ·  Highball (macOS, Apple Silicon)                   │
 │  AchievementWatcher (Node.js)  ·  Ludusavi, SteamCMD (external) │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -76,9 +76,9 @@ See [Project Structure](/docs/developer/project-structure) for the full list.
 
 | Tool | Language | Purpose |
 |------|----------|---------|
-| [AscendaraDownloader](/docs/binary-tool/downloader) | Python | Download, extract, verify, and install games (including Gofile) |
+| [AscendaraDownloader](/docs/binary-tool/downloader) | Rust | Download, extract, verify, and install games (including Gofile, file hosts, and torrents) |
 | [AscendaraGameHandler](/docs/binary-tool/game-handler) | Rust | Launch games, track playtime, Discord RPC, backups on close |
-| [AscendaraTorrentHandler](/docs/binary-tool/torrent-handler) | Python | Torrent downloads through qBittorrent |
+| [AscendaraTorrentHandler](/docs/binary-tool/torrent-handler) | Python | Older qBittorrent torrent handler; torrents now download in the Downloader |
 | [AscendaraNotificationHelper](/docs/binary-tool/notification-helper) | Python (PyQt6) | Desktop and achievement notifications |
 | [AscendaraLanguageTranslation](/docs/binary-tool/language-translator) | Python | Translates the UI into extra languages |
 | [AscendaraCrashReporter](/docs/binary-tool/crash-reporter) | Rust (FLTK) | Error reporting window |

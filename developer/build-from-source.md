@@ -12,8 +12,8 @@ To run Ascendara in development mode:
 
 To build installers, you also need:
 
-- **Rust and Cargo**, for the Crash Reporter
-- **Windows**: [7-Zip](https://www.7-zip.org) x64 installed in `C:\Program Files\7-Zip` (it's bundled into the downloader)
+- **Rust and Cargo** (Rust 1.90 or newer), for the Downloader, Game Handler, and Crash Reporter
+- **Windows**: [7-Zip](https://www.7-zip.org) x64 installed in `C:\Program Files\7-Zip` (it's bundled into the Torrent Handler)
 - **Linux**: `unrar`, `p7zip-full`, `libfuse2`, and the FLTK/X11/OpenGL development packages (Debian/Ubuntu package names)
 - **macOS**: Xcode Command Line Tools and Python 3 with `venv`
 
@@ -134,7 +134,7 @@ python scripts/build_windows_helpers.py
 yarn dist --skip-registration
 ```
 
-`build_windows_helpers.py` must run on a native Windows x64 machine. It creates a virtual environment in `.build_venv`, builds the Downloader, Game Handler, Notification Helper, and Torrent Handler with PyInstaller, builds the Crash Reporter with Cargo, and builds the Achievement Watcher with `pkg`. See [Creating the Tools](/docs/developer/creating-the-tools).
+`build_windows_helpers.py` must run on a native Windows x64 machine. It creates a virtual environment in `.build_venv`, builds the Notification Helper and Torrent Handler with PyInstaller, builds the Downloader, Game Handler, and Crash Reporter with Cargo, and builds the Achievement Watcher with `pkg`. See [Creating the Tools](/docs/developer/creating-the-tools).
 
 The packaged app is created in `dist/`, with an NSIS installer and an unpacked version in `dist/win-unpacked/`.
 

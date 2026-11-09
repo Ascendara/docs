@@ -9,7 +9,7 @@ Thank you for your interest in contributing to Ascendara! This guide covers how 
 - **Node.js** 22 (CI uses 22.14.0) and **Yarn** 1.x
 - **Python** 3.12 (for the helper tools)
 - **Git**
-- **Rust and Cargo** (only if you work on or build the Crash Reporter)
+- **Rust and Cargo** (Rust 1.90 or newer, for the Downloader, Game Handler, and Crash Reporter)
 - **Visual Studio Build Tools** with the Windows SDK (Windows, for native dependencies)
 
 See [Building from Source](/docs/developer/build-from-source) for the full setup, including optional Firebase configuration.
@@ -67,6 +67,12 @@ yarn lint          # run ESLint
 - Follow **PEP 8**.
 - Write JSON state files atomically, as the existing tools do, because the app reads them while the tools run.
 - Keep platform-specific paths for Windows, macOS, and Linux in sync with the other tools.
+
+### Rust
+
+- Format with `cargo fmt` and keep `cargo clippy` clean.
+- Build with `--locked` so `Cargo.lock` stays the source of truth.
+- Keep the tool's command line, game files, and log format compatible with the app, which reads them while the tool runs.
 
 ### CSS/Styling
 
@@ -165,9 +171,10 @@ Add new keys to `src/translations/en.json` only. The other built-in languages ar
 ### Modifying the Helper Tools
 
 1. Make changes in `binaries/{tool}/src/`.
-2. Test with Python directly first:
+2. Build and run the tool directly first. Rust tools use Cargo; Python tools run with Python:
    ```bash
-   python binaries/AscendaraDownloader/src/AscendaraDownloader.py --help
+   cd binaries/AscendaraDownloader && cargo test && cargo build --release
+   python binaries/AscendaraNotificationHelper/src/AscendaraNotificationHelper.py --help
    ```
 3. Build the executable with the platform build script. See [Creating the Tools](/docs/developer/creating-the-tools).
 4. Test the built executable from a packaged build.

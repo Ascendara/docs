@@ -77,8 +77,7 @@ The desktop shell:
 
 | Tool | Key dependencies |
 |------|------------------|
-| Downloader | `requests`, `patool`, `beautifulsoup4`, `unrar` (Windows), plus bundled 7-Zip and UnRAR |
-| Torrent Handler | `qbittorrent-api` |
+| Torrent Handler (older qBittorrent path) | `qbittorrent-api` |
 | Notification Helper | `PyQt6`, `requests` |
 | Language Translation | `requests` |
 | Local Refresh | `cloudscraper`, `requests`, `beautifulsoup4` |
@@ -86,6 +85,7 @@ The desktop shell:
 ### Rust Tools
 - **Rust** 2021 edition, built with Cargo
 - **Crash Reporter**: `fltk` (bundled FLTK) and `fltk-theme` for the window, `webbrowser`, `chrono`, and `winres` to embed the Windows icon
+- **Downloader** (Rust 1.90+): `tokio` and `reqwest` (rustls) for transfers, `librqbit` for torrents, `zip`, `sevenz-rust2`, and `unrar` for extraction, `sha2` and `md-5` for checksums, `serde_json`, `regex`, `windows-sys` (Windows), `libc` (Unix), and `winres`
 - **Game Handler** (Rust 1.90+): `discord-rich-presence`, `serde_json`, `shlex`, `sysinfo` (Windows and Linux), `plist` (macOS), `ureq` (Linux), `windows-sys` (Windows), and `winres`
 
 ### Achievement Watcher (Node.js)
@@ -99,7 +99,7 @@ The desktop shell:
 | SteamCMD | Workshop Downloader |
 | qBittorrent (Web UI) | Torrent downloads |
 | Proton-GE, Proton CachyOS, UMU-Launcher, Wine | Running Windows games on Linux and macOS |
-| 7-Zip, UnRAR | Archive extraction (bundled into the downloader) |
+| 7-Zip | Archive extraction for the Torrent Handler (bundled) |
 
 ---
 
@@ -111,7 +111,7 @@ The desktop shell:
 | `electron-builder` | Packaging (NSIS, DMG/ZIP, AppImage) |
 | `vite` | Renderer bundling |
 | `pyinstaller` | Python helpers |
-| `cargo` | Crash Reporter |
+| `cargo` | Downloader, Game Handler, Crash Reporter |
 | `pkg` | Achievement Watcher |
 
 ### Development
