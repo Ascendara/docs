@@ -10,7 +10,7 @@ Ascendara must not be run as administrator on Windows. Running it in administrat
 
 ## Windows
 
-1. Visit [ascendara.app](https://ascendara.app) and click the download button, or download the installer directly from [cdn.ascendara.app/files/AscendaraInstaller.exe](https://cdn.ascendara.app/files/AscendaraInstaller.exe).
+1. Visit [ascendara.app](https://ascendara.app) and click the download button, or download the installer directly from [the latest GitHub release](https://github.com/Ascendara/installer/releases/latest/download/AscendaraInstaller.exe).
 2. Run the installer. It downloads the latest version of Ascendara and starts its setup; follow any prompts in the setup window.
 3. Ascendara launches when setup finishes. Complete the [first-time setup](/docs/getting-started/usage#first-time-setup).
 
