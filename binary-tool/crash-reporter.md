@@ -63,7 +63,7 @@ Any other ID is shown as **Unknown Ascendara Tool**.
 
 The individual codes are listed in [Error Codes](/docs/troubleshooting/error-codes#error-code-categories) and defined in `ErrorCodes::get_error_description` in `main.rs`.
 
-> **Note:** The Python helpers currently pass the generic code `1`, which is shown as **Unrecognized error code**, so the message argument carries the useful information. Pass a specific code from the table when you add new error handling.
+> **Note:** The Python helpers and the Rust Downloader currently pass the generic code `1`, which is shown as **Unrecognized error code**, so the message argument carries the useful information. Pass a specific code from the table when you add new error handling.
 
 ### Layouts
 
@@ -79,7 +79,9 @@ A 600×550 window titled **⚠️ Ascendara Core Utility Crash**. It shows the *
 - Ascendara's main process calls the reporter with only two arguments (an error type and a message) for uncaught exceptions, so the reporter exits without showing the critical layout.
 
 ### Integration
-Python helpers register the reporter to open when the process exits, so the error is shown after the tool has cleaned up:
+The Rust Downloader starts the reporter, from next to its own executable, when it panics or a fatal error ends the process. It passes `maindownloader`, code `1`, and the error message.
+
+Python helpers (and the Game Handler, which follows the same pattern in Rust) register the reporter to open when the process exits, so the error is shown after the tool has cleaned up:
 
 ```python
 def _launch_crash_reporter_on_exit(error_code, error_message):

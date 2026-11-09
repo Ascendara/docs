@@ -5,6 +5,8 @@ The Torrent Handler downloads games from magnet links through qBittorrent and in
 
 Source: `binaries/AscendaraTorrentHandler/src/AscendaraTorrentHandler.py`
 
+> **Note:** Ascendara now downloads magnet and `.torrent` links with the [Downloader](/docs/binary-tool/downloader#torrents), which has a built-in BitTorrent client. The Torrent Handler is still included with the app, but the app no longer starts it for new downloads. This page describes how it works for reference.
+
 > **Note:** If a [debrid service](/docs/downloads/debrid-services) is connected with **Cloud torrents** on, magnet links are sent to that service instead and this tool isn't used (unless TorBox fails and its **Fall back to qBittorrent** option is on).
 
 ## Features
