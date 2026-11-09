@@ -134,5 +134,6 @@ If a game only works when launched directly, create a shortcut to the game's exe
 | App (`debug.log`) | `%APPDATA%\Ascendara by tagoWorks\` | `~/Library/Application Support/Ascendara by tagoWorks/` | `~/.config/Ascendara by tagoWorks/` |
 | Downloads (`downloadmanager.log`) | `%APPDATA%\Ascendara by tagoWorks\` | `~/.config/Ascendara by tagoWorks/` | `~/.config/Ascendara by tagoWorks/` |
 | Game launches (`gamehandler.log`) | `%APPDATA%\Ascendara by tagoWorks\` | `~/Library/Application Support/ascendara/` | `~/.ascendara/` |
+| Installer (`installer.log`) | `%LOCALAPPDATA%\Ascendara\InstallerLogs\` | Not applicable | Not applicable |
 
 You can also open the download log from the Downloads page with **View Live Log**. Remove private download links before sharing logs.
