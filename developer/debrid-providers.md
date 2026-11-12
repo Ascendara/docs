@@ -31,7 +31,7 @@ Adapters may also expose:
 - `hasDownloadsPage: false` for providers without an account page. Their torrents are listed on the local Downloads page, and the settings card links there.
 - `pollIntervalMs` to poll the handoff less often than the default 5-second pass (30 seconds for AllDebrid, Premiumize, and Debrid-Link).
 - `removeTorrent(apiKey, id)` with `removeAfterDoneSetting`, for the opt-in cleanup of torrents whose game is on the PC. `removeTorrent` also backs the **Remove** button in the cloud list, and must treat an already-deleted torrent as success.
-- `torrentFallbackSetting` for an explicitly enabled qBittorrent fallback after magnet submission fails (TorBox only).
+- `torrentFallbackSetting` for an explicitly enabled fallback to the built-in torrent client after magnet submission fails (TorBox only). The setting key keeps its old name, `fallbackToQbittorrentOnTorboxFailure`, so saved settings still work.
 - `resumePendingTorrents(apiKey)` for providers that need a separate startup step. It runs after submission and is polled by `DebridBackgroundTasks` independently of account pages. Real-Debrid uses it to select files once magnet metadata is ready, with persistent pending markers and concurrent-call deduplication.
 - `getTorrentGame(entry)`, reading the adapter's stored game metadata.
 

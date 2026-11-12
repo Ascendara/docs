@@ -1,6 +1,6 @@
 # External Sources and Game Index
 
-Ascendara keeps a game index on your computer for fast browsing and offline access. By default it uses the official Ascendara index. External Sources Mode lets you load games from a community source bucket, imported JSON lists, or your own self-hosted library instead.
+Ascendara keeps a game index on your computer for fast browsing and offline access. By default it uses the official Ascendara index. External Sources Mode lets you load games from a community source bucket, imported JSON lists, or your own self-hosted library instead, or use them alongside the official index.
 
 For how the official index works and stays up to date, see [Your Game Index](/docs/downloads/refreshing-index).
 
@@ -17,7 +17,7 @@ The game index is a local list containing:
 
 ## Choosing a Game Source
 
-Ascendara supports two source modes. Each offers a different balance of features and flexibility. You can switch between them at any time on the **External Sources** page: open **Settings → Game Index** and select **Manage sources**, then turn **Use external sources** on or off. While an external source is active, **Settings → Game Index** also offers **Use Ascendara index** to switch back in one click.
+Ascendara can use the official index, an external source in its place, or both at once. Each offers a different balance of features and flexibility. You can switch between them at any time on the **External Sources** page: open **Settings → Game Index** and select **Manage sources**, then turn **Use external sources** on or off. While an external source is active, **Settings → Game Index** also offers **Use Ascendara index** to switch back in one click.
 
 ### Official Ascendara Index (Recommended)
 
@@ -57,6 +57,18 @@ This mode is designed for flexibility and custom sourcing. You can point Ascenda
 **Best for**
 Users who want to use a different catalog.
 
+### Using Several Sources at Once
+
+Turn on **Use several sources at once** in **Settings → Game Index** to keep the Ascendara index and add external sources to it, instead of switching between them. Community sources, imported lists, and self-hosted sources can all be part of the set.
+
+- Every source you pick joins the set instead of replacing the last one. The Game Index section shows how many sources are in use together.
+- Games from the Ascendara index are marked **Official**. Games from external sources aren't checked by Ascendara and come without covers, categories, or ratings.
+- The same game can show up more than once when several sources have it.
+- Select **Stop using** on a source to take it out of the set, or **Use only the Ascendara index** to drop every external source.
+- The Ascendara index keeps updating in the background.
+
+Ascendara asks you to confirm before turning it on. Only download from sources you trust.
+
 ---
 
 ## Source Buckets
@@ -71,7 +83,7 @@ A source bucket is a URL that hosts a collection of sources. Ascendara asks the 
 4. Select **Browse sources**, search the list, and pick a source.
 5. Ascendara loads the source and builds your game list from it.
 
-Use **Sync Now** to reload the selected source and **Change** to pick a different one. Sources you've used before appear under **Your sources** so you can switch back without browsing the bucket again.
+Use **Sync Now** to reload the selected source and **Change** to pick a different one. Sources you've used before appear under **Your sources** so you can switch back without browsing the bucket again. With [several sources at once](#using-several-sources-at-once) on, a picked source is added to the set instead.
 
 ### Source Badges
 
@@ -85,7 +97,7 @@ Some source links are protected by a browser challenge that Ascendara can't solv
 
 ### Torrent-Only Sources
 
-Some sources only publish magnet links. To select one, you need to enable torrenting in **Settings**, which requires qBittorrent. Torrenting exposes your IP address to peers, so using a VPN is strongly recommended. While a torrent-only source is selected, torrenting can't be turned off; change the external source first.
+Some sources only publish magnet links. To select one, you need to enable torrenting in **Settings**. Torrents download in Ascendara's built-in client, or in a debrid service's cloud. Torrenting exposes your IP address to peers, so using a VPN is strongly recommended. While a torrent-only source is selected, torrenting can't be turned off; change the external source first.
 
 ---
 
@@ -143,7 +155,7 @@ Choose a library destination on the game details page. **Download / Queue** queu
 
 Use the refresh button beside a source after changing its files or index. A failed refresh shows an offline status and an error; previously indexed games remain available to browse. Restart the server or reconnect the share, then refresh again.
 
-**Browse games** switches to a source. The edit button changes its settings, and the export button saves its portable index. Removing a source removes its configuration, not downloaded games. To return to the public catalog, select **Use Ascendara index** in Game Index settings.
+**Browse games** switches to a source. The edit button changes its settings, and the export button saves its portable index. Removing a source removes its configuration, not downloaded games. To return to the public catalog, select **Use Ascendara index** in Game Index settings. To keep a self-hosted source next to the public catalog, turn on [Use several sources at once](#using-several-sources-at-once).
 
 ### Private Index Format (Version 1)
 

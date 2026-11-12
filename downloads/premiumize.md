@@ -24,7 +24,7 @@ Turn on **Prefer over direct downloads** to also send links from [Magic Link](/d
 
 ## Torrents
 
-With **Cloud torrents** on, magnet links are added to your Premiumize transfers instead of qBittorrent. When the transfer finishes (or is seeding), every file continues to your PC and installs like any other download.
+With **Cloud torrents** on, magnet links are added to your Premiumize transfers instead of the built-in torrent client. When the transfer finishes (or is seeding), every file continues to your PC and installs like any other download.
 
 While a torrent is in the cloud, it's listed in **Downloads** under **Waiting at your debrid service**. Premiumize has no page of its own in Ascendara. Ascendara checks on each torrent every 30 seconds.
 

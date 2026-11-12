@@ -63,14 +63,14 @@ Free up disk space on the download drive. You need room for both the downloaded 
 Ascendara can't resume or retry this download because its data is missing. Delete the download and start it again from the game's page.
 
 ### Torrent Downloads Don't Start
-Make sure qBittorrent is running with its Web UI enabled, and that the host, port, username, and password in **Settings** match qBittorrent. If the credentials are correct but Ascendara still can't connect:
+Torrents download in Ascendara's built-in client, so no other torrent app is needed. If a torrent doesn't start:
 
-1. Open qBittorrent and go to **Tools** → **Options** → **Web UI**.
-2. Under **Authentication**, check **Bypass authentication for clients on localhost**.
-3. Check **Bypass authentication for clients in whitelisted IP subnets** and add `127.0.0.1/32`.
-4. Click **Apply**, then fully close and restart both qBittorrent and Ascendara.
+1. Make sure **Torrent on Ascendara** is on in **Settings**.
+2. Check that the torrent has seeders. A torrent nobody is sharing stays at 0%.
+3. If you use a VPN, make sure it allows peer-to-peer traffic. Some firewalls and networks block torrent connections.
+4. If a `.torrent` link fails with an error about a web page, the host returned a page instead of the torrent file. Open the link in your browser to check it, or pick another link.
 
-If you use a VPN, proxy, or a tool like ExitLag, make sure it isn't rerouting localhost traffic.
+A [debrid service](/docs/downloads/debrid-services) with **Cloud torrents** on downloads torrents in its cloud instead.
 
 ## Extraction Difficulties
 When you see "Cannot open file as archive" or **Archive extraction failed**, the download may be incomplete or corrupted. Use **Retry Extraction** on the Downloads page to extract the retained archive again without downloading it. If it fails again, the archive itself is damaged: delete the download and try a different provider.
@@ -90,8 +90,8 @@ If files are removed after a game was already installed and verified, the origin
 ## Game Launch Failures
 If a game fails to start, check that your system meets the minimum requirements and that all game files are present. For black screens, update your graphics drivers and make sure the game dependencies are installed (**Settings** → **Application Components** → **Reinstall Dependencies**). If the game crashes on startup, try running it in compatibility mode and close conflicting applications.
 
-### "Cannot run games in developer mode"
-Games can't be launched when Ascendara is run from source. Use a packaged build.
+### "Developer mode runs the game handler built from source"
+When Ascendara is run from source, it launches games with the Game Handler built from the repository. Run `cargo build --release` in `binaries/AscendaraGameHandler`, then try again.
 
 ### Executable Not Found Launch Error
 This error occurs when Ascendara can't find the game's executable. Game executables aren't always named after the game, and many games keep them in subfolders such as `bin`, `x64`, `x86`, or `Binaries`.

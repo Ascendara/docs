@@ -42,7 +42,7 @@ AscendaraNotificationHelper.exe --is-achievement --theme dark --game "Example Ga
 
 ## Who Calls It
 - **Ascendara** (main process) for desktop notifications, when **Desktop Notifications** is on in Settings
-- **Downloader** and **Torrent Handler**, when started with `--withNotification <theme>`
+- **Downloader**, when started with `--withNotification <theme>`
 - **Achievement Watcher**, for unlocked achievements, using the theme from your settings
 
 ## Logs

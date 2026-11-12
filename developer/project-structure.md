@@ -8,13 +8,11 @@ This document walks through how Ascendara's codebase is organized.
 ascendara/
 ├── electron/             # Electron main process
 ├── src/                  # React renderer
-├── binaries/             # Helper tools (Python, Rust, Node.js)
+├── binaries/             # Helper tools (Rust, Python, Node.js)
 ├── scripts/              # Build, release, and maintenance scripts
 ├── tests/                # Python tests for build and release scripts
-├── docs/                 # Maintainer docs (BUILD_AUTOMATION.md)
-├── packaging/winget/     # Windows Package Manager manifests
 ├── readme/               # README images and app icons (ico, icns, png)
-├── .github/workflows/    # CI: source checks, releases, release notes, WinGet
+├── .github/workflows/    # CI: source checks, releases, testing builds, release notes
 ├── build/                # Vite output (generated)
 ├── dist/                 # Packaged app output (generated)
 ├── package.json          # Dependencies, scripts, electron-builder config
@@ -43,48 +41,54 @@ electron/
 ├── sounds/, assets/         # Copied from the renderer build when packaging
 └── modules/
     ├── index.js             # Loads modules, installs the IPC guard, lazy loading
-    ├── config.js            # Version, branch, platform, paths, helper paths
-    ├── settings.js          # SettingsManager
-    ├── encryption.js        # AES-256-CBC for sensitive settings
-    ├── security.js          # Trusted-sender guard for every ipcMain.handle
-    ├── preload-bridge.js    # Event subscriptions and the legacy IPC bridge
-    ├── renderer-network.js  # Restricted HTTP requests for the renderer
-    ├── local-api-proxy.js   # Proxy routes on the local server (TorBox, KHInsider, FLiNG)
-    ├── local-server-security.js
-    ├── auth-helper.js       # Signed API request headers
-    ├── build-signature-loader.js
-    ├── logger.js            # debug.log
-    ├── utils.js
-    ├── window.js            # Window, tray, close behavior
-    ├── protocol.js          # ascendara:// handling, single instance
-    ├── ipc-handlers.js      # Miscellaneous handlers
-    ├── downloads.js         # Downloader / torrent handler processes
-    ├── downloaderRuntime.js
-    ├── games.js             # Library, launching, executables, shortcuts
-    ├── gameDirectories.js   # De-duplicates download directories
-    ├── launcher-discovery.js, launcher-import.js   # Import from other launchers
-    ├── local-refresh.js     # Game index IPC
-    ├── community-index.js   # Game index sync and covers
-    ├── index-relay.js       # Helps the API refresh a blocked index
-    ├── steamgrid.js         # SteamGridDB artwork (via API proxy)
-    ├── hltb.js              # HowLongToBeat
-    ├── ludusavi.js          # Save backups
-    ├── steamcmd.js          # Workshop Downloader
-    ├── tools.js             # Sidecar installation
-    ├── system.js            # Specs, drive space, dependencies, Defender exclusions
-    ├── system-power.js      # Lock, sleep, shutdown after downloads
-    ├── dependency-installer.js
-    ├── proton.js            # Linux runners, prefixes, Proton/UMU downloads
-    ├── umu-database.js      # UMU game IDs
-    ├── wine-setup.js        # macOS Wine detection and setup
-    ├── updates.js           # Update checks and downloads, branch switching
-    ├── install-update.js    # Installs updates on each platform
-    ├── recovery.js          # Settings recovery points, version rollback
-    ├── onboarding.js        # Setup completion state
-    ├── themes.js            # Theme import/export
-    ├── translations.js      # Language downloads and translation tool
-    ├── discord-rpc.js       # Discord Rich Presence
-    ├── qrcode.js            # Companion QR codes
+    ├── core/
+    │   ├── config.js        # Version, branch, platform, paths, helper paths
+    │   ├── settings.js      # SettingsManager
+    │   ├── encryption.js, secret-store.js   # Sensitive settings
+    │   ├── security.js      # Trusted-sender guard for every ipcMain.handle
+    │   ├── local-api-proxy.js, local-server-security.js   # Local server (TorBox, KHInsider, FLiNG proxies)
+    │   ├── auth-helper.js, build-signature-loader.js      # Signed API request headers
+    │   ├── onboarding.js    # Setup completion state
+    │   └── logger.js, log-safe.js, machine-id.js, utils.js
+    ├── app/
+    │   ├── window.js        # Window, tray, close behavior
+    │   ├── protocol.js      # ascendara:// handling, single instance
+    │   ├── ipc-handlers.js  # Miscellaneous handlers
+    │   ├── preload-bridge.js    # Event subscriptions and the legacy IPC bridge
+    │   ├── renderer-network.js  # Restricted HTTP requests for the renderer
+    │   ├── recovery.js      # Settings recovery points, version rollback
+    │   ├── system-power.js  # Lock, sleep, shutdown after downloads
+    │   ├── themes.js, soundPacks.js, translations.js, qrcode.js
+    │   └── discord-rpc.js, analytics.js
+    ├── downloads/
+    │   ├── downloads.js     # Starts the Downloader, queue, retries
+    │   ├── downloadControl.js, downloadLiveness.js, downloaderRuntime.js
+    │   ├── torrentLink.js   # Magnet and .torrent classification
+    │   ├── privateSources.js, privateSourceCore.js   # Self-hosted sources
+    │   └── downloadManifest.js, gameUpdateBackup.js, dllRepair.js
+    ├── library/
+    │   ├── games.js         # Library, launching, executables, shortcuts
+    │   ├── gameExitMonitor.js, gameDirectories.js, installSize.js
+    │   ├── launcher-discovery.js, launcher-import.js   # Import from other launchers
+    │   ├── ludusavi.js      # Save backups
+    │   └── steamgrid.js, hltb.js, khinsider.js, achievementFolderSearch.js, …
+    ├── sources/
+    │   ├── local-refresh.js # Game index IPC
+    │   ├── community-index.js   # Game index sync and covers
+    │   └── index-relay.js   # Helps the API refresh a blocked index
+    ├── compat/
+    │   ├── proton.js        # Linux runners, prefixes, Proton/UMU downloads
+    │   ├── umu-database.js  # UMU game IDs
+    │   ├── wine-setup.js    # macOS Wine detection and setup
+    │   └── highball.js, highball-db.js   # Highball on Apple Silicon
+    ├── system/
+    │   ├── updates.js       # Update checks and downloads, branch switching
+    │   ├── install-update.js, differential-update.js, mac-updates.js
+    │   ├── system.js        # Specs, drive space, dependencies, Defender exclusions
+    │   ├── tools.js         # Sidecar installation
+    │   ├── steamcmd.js      # Workshop Downloader
+    │   └── dependency-installer.js
+    ├── store-accounts/      # Steam, Epic, and GOG account connections
     └── retro/               # Ascendara Retro
         ├── index.js         # IPC, library state, launching
         ├── platforms.js     # Console definitions and launch presets
@@ -104,9 +108,9 @@ electron/
 - Registers handlers for uncaught errors
 
 #### `preload.js`
-Exposes the `window.electron` API with `contextBridge`. Methods are grouped by area (window, settings, games, downloads, retro, recovery, and so on). A separate `window.qbittorrentApi` object is exposed for qBittorrent checks. See the [IPC Reference](/docs/developer/ipc-reference).
+Exposes the `window.electron` API with `contextBridge`. Methods are grouped by area (window, settings, games, downloads, retro, recovery, and so on). See the [IPC Reference](/docs/developer/ipc-reference).
 
-#### `modules/settings.js`
+#### `modules/core/settings.js`
 The `SettingsManager` loads and saves `ascendarasettings.json`, fills in default values, encrypts sensitive keys, and notifies the renderer with a `settings-updated` event when settings change.
 
 ---
@@ -121,9 +125,9 @@ src/
 ├── pages/
 │   ├── Home.jsx, Search.jsx, Download.jsx
 │   ├── Library.jsx, FolderView.jsx, GameScreen.jsx
-│   ├── Downloads.jsx, TorboxDownloads.jsx
-│   ├── Settings.jsx, SidecarAndDependencies.jsx, ExtraLanguages.jsx
-│   ├── LocalRefresh.jsx  # Your Game Index
+│   ├── Downloads.jsx, TorboxDownloads.jsx, RealDebridDownloads.jsx, DebridDownloads.jsx
+│   ├── Settings.jsx, SidecarAndDependencies.jsx, ExtraLanguages.jsx, ThemeStudio.jsx
+│   ├── ExternalSources.jsx  # External and self-hosted sources
 │   ├── Retro.jsx, Profile.jsx, WorkshopDownloader.jsx
 │   ├── Welcome.jsx       # First-run setup
 │   ├── Ascend.jsx + ascend/        # Ascend sections and settings cards
@@ -207,12 +211,8 @@ binaries/
 │       ├── state.rs                  # The game's .ascendara.json
 │       └── system.rs, util.rs        # Settings, notifications, paths, logging
 ├── AscendaraGameHandler/             # Rust (Cargo.toml, src/main.rs, execute.rs, runners.rs, …)
-├── AscendaraTorrentHandler/src/AscendaraTorrentHandler.py
 ├── AscendaraNotificationHelper/src/AscendaraNotificationHelper.py
 ├── AscendaraLanguageTranslation/src/AscendaraLanguageTranslation.py
-├── AscendaraLocalRefresh/src/        # Index scraper (not shipped)
-│   ├── AscendaraLocalRefresh.py, base_scraper.py
-│   ├── steamrip_scraper.py, goggames_scraper.py, utils.py
 ├── AscendaraCrashReporter/           # Rust (Cargo.toml, src/main.rs, build.rs)
 ├── Highball/dist/                    # Bundled Highball CLI and compatibility data (macOS)
 └── AscendaraAchievementWatcher/      # Node.js (src/watchdog.js, monitor.js, …)
@@ -224,7 +224,7 @@ Each Python tool has its own `requirements.txt`. Built executables go to `binari
 
 Tools communicate with the app through:
 
-1. **JSON files**: The Downloader and Torrent Handler write progress to the `downloadingData` object in `{game}.ascendara.json`. The Game Handler updates `isRunning`, `playTime`, and `launchCount` there (or in `games.json` for custom games).
+1. **JSON files**: The Downloader writes progress to the `downloadingData` object in `{game}.ascendara.json`. The Game Handler updates `isRunning`, `playTime`, and `launchCount` there (or in `games.json` for custom games).
 2. **Command-line arguments**: The app passes everything a tool needs when it starts it.
 3. **Exit codes and logs**: For errors and diagnostics.
 
@@ -258,12 +258,12 @@ See the [Downloader](/docs/binary-tool/downloader#state-and-files) documentation
 | `build_windows_helpers.py` | Builds the Windows helper executables |
 | `build_ascendara_linux.py` | Linux build, including helpers (`yarn dist-linux`) |
 | `build_ascendara_mac.py` | macOS build (`yarn dist-mac`) |
-| `setup_macos_tools.py` | Downloads the official macOS 7-Zip (`yarn setup-mac`) |
+| `build_highball.py` | Builds the pinned Highball CLI for Apple Silicon (`yarn setup-highball`) |
 | `build_support.py` | Shared resource validation and build registration |
 | `generate_build_signature.js` | Creates `electron/build-signature.json` |
 | `register_build.py` | Registers a build with the backend (maintainers only) |
 | `ci_build.py`, `ci_release.py` | Used by the release workflow |
-| `release_notes.py`, `winget_release.py` | Release descriptions and WinGet submissions |
+| `release_notes.py` | Release descriptions |
 | `copy_debian_scripts.py` | Copies Python sources for Linux packaging |
 | `check_unused_translations.py` | Finds unused translation keys |
 | `count_lines.py` | Code statistics |
@@ -306,7 +306,7 @@ Ascendara stores user data in these locations:
 | Data | Windows | macOS | Linux |
 | --- | --- | --- | --- |
 | Settings (`ascendarasettings.json`) | `%APPDATA%\ascendara\` | `~/Library/Application Support/ascendara/` | `~/.config/ascendara/` |
-| App state (`timestamp.ascendara.json`) | `%USERPROFILE%\` | `~/` | `~/` |
+| App state (`timestamp.ascendara.json`, `branch.ascendara.json`) | `%APPDATA%\ascendara\` | `~/.ascendara/` | `~/.ascendara/` |
 | App log (`debug.log`) | `%APPDATA%\Ascendara by tagoWorks\` | `~/Library/Application Support/Ascendara by tagoWorks/` | `~/.config/Ascendara by tagoWorks/` |
 | Extra languages | `%LOCALAPPDATA%\Ascendara\languages\` | `~/Library/Application Support/ascendara/languages/` | `~/.ascendara/languages/` |
 | Game index | `%APPDATA%\ascendara\localindex\` | `~/Library/Application Support/ascendara/localindex/` | `~/.config/ascendara/localindex/` |

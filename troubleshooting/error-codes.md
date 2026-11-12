@@ -61,7 +61,9 @@ These codes belong to the former GoFile Helper. Gofile support is now built into
 - **1407**: Error reading or writing the games file
 - **1408**: Failed to launch helper process
 
-### Torrent Handler Errors (1500-1506)
+### Torrent Handler Errors (1500-1506, legacy)
+These came from the Torrent Handler, which older versions of Ascendara used with qBittorrent. Torrents now download in the built-in client, so current versions don't show these codes.
+
 - **1500**: Torrent API error
 - **1501**: Failed to add torrent
 - **1502**: Failed to remove torrent

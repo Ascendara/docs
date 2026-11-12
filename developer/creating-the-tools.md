@@ -11,11 +11,9 @@ Each platform has a build script that builds the tools for you. You normally don
 | AscendaraDownloader (Rust) | Bundled | Bundled | Bundled |
 | AscendaraGameHandler (Rust) | Bundled | Bundled | Bundled |
 | AscendaraNotificationHelper | Bundled | Bundled | Bundled |
-| AscendaraTorrentHandler | Bundled | Bundled | Bundled |
 | AscendaraCrashReporter (Rust) | Bundled | Bundled | Bundled |
 | AscendaraAchievementWatcher (Node.js) | Bundled | Bundled | Bundled |
 | AscendaraLanguageTranslation | Downloaded on demand | Bundled | Bundled |
-| AscendaraLocalRefresh | Not shipped | Not shipped | Not shipped |
 | Highball | — | — | Bundled (Apple Silicon only) |
 | Ludusavi | Downloaded on demand | Downloaded on demand | Downloaded on demand, or found on `PATH` |
 
@@ -27,22 +25,10 @@ On-demand tools ("sidecars") are downloaded from `cdn.ascendara.app` the first t
 python scripts/build_windows_helpers.py
 ```
 
-Run this on a native Windows x64 machine with Cargo, Yarn, and 7-Zip x64 installed in `C:\Program Files\7-Zip`. The script:
+Run this on a native Windows x64 machine with Cargo and Yarn installed. The script:
 
-1. Creates a virtual environment in `.build_venv` and installs PyInstaller and the requirements of the Notification Helper and Torrent Handler.
-2. Builds those two Python tools as single windowed executables (so Windows doesn't open a console window when Ascendara starts them):
-   ```bash
-   python -m PyInstaller --onefile --noconfirm --clean --windowed \
-     --name AscendaraTorrentHandler \
-     --icon binaries/AscendaraTorrentHandler/src/ascendara.ico \
-     --distpath binaries/AscendaraTorrentHandler/dist \
-     --add-data "binaries/AscendaraTorrentHandler/src/ascendara.ico;." \
-     --add-binary "C:\Program Files\7-Zip\7z.exe;." \
-     --add-binary "C:\Program Files\7-Zip\7z.dll;." \
-     --add-data "C:\Program Files\7-Zip\License.txt;licenses/7zip" \
-     binaries/AscendaraTorrentHandler/src/AscendaraTorrentHandler.py
-   ```
-   The Torrent Handler bundles 7-Zip and its license. The Notification Helper bundles its `sounds` folder and adds `--hidden-import PyQt6.QtMultimedia` so it can play notification sounds.
+1. Creates a virtual environment in `.build_venv` and installs PyInstaller and the Notification Helper's requirements.
+2. Builds the Notification Helper as a single windowed executable (so Windows doesn't open a console window when Ascendara starts it). It bundles its `sounds` folder and adds `--hidden-import PyQt6.QtMultimedia` so it can play notification sounds. Language Translation isn't built here; on Windows it's downloaded on demand.
 3. Builds the Rust tools: `cargo build --release --locked` in `binaries/AscendaraCrashReporter`, `binaries/AscendaraGameHandler`, and `binaries/AscendaraDownloader`. The Downloader extracts archives itself, so it needs no bundled 7-Zip or UnRAR.
 4. Builds the Achievement Watcher: `yarn install --frozen-lockfile` and `yarn build-win` in `binaries/AscendaraAchievementWatcher`.
 5. Checks that every resource listed in `package.json` exists and is a Windows x64 executable.
@@ -61,13 +47,12 @@ The outputs are placed where `package.json` expects them:
 
 `yarn dist-linux` builds the tools as part of the app build:
 
-- Creates `.build_venv`, installs PyInstaller and every tool's requirements, and builds Language Translation, the Torrent Handler, and the Notification Helper as single-file executables.
-- Bundles the system `unrar` and p7zip's `7z` and `7z.so` (with their license notices) into the Torrent Handler. The script uses Debian/Ubuntu paths; other distributions may need adjustments.
+- Creates `.build_venv`, installs PyInstaller and the tools' requirements, and builds Language Translation and the Notification Helper as single-file executables.
 - Builds the Downloader, Crash Reporter, and Game Handler with Cargo and the Achievement Watcher with `yarn build-linux`.
 
 ## macOS
 
-`yarn dist-mac` builds the tools for each target architecture in its own virtual environment (`.build_venv_mac/<arch>`), builds the Downloader, Game Handler, and Crash Reporter with an explicit Rust target, and bundles the official macOS `7zz` (downloaded by `yarn setup-mac`) into the Torrent Handler. Apple Silicon builds also build the pinned Highball CLI (`yarn setup-highball`, or `scripts/build_highball.py`) and bundle it in `Contents/Resources/Highball` with its engine manifest, compatibility data, and license notices. Intel builds don't include Highball and use the system Wine. See `README_MAC_BUILD.md` in the repository.
+`yarn dist-mac` builds the tools for each target architecture in its own virtual environment (`.build_venv_mac/<arch>`), and builds the Downloader, Game Handler, and Crash Reporter with an explicit Rust target. No 7-Zip or UnRAR setup is needed: the Downloader extracts ZIP, 7z, and RAR archives itself. Apple Silicon builds also build the pinned Highball CLI (`yarn setup-highball`, or `scripts/build_highball.py`) and bundle it in `Contents/Resources/Highball` with its engine manifest, compatibility data, and license notices. Intel builds don't include Highball and use the system Wine. See `README_MAC_BUILD.md` in the repository.
 
 ## Achievement Watcher
 

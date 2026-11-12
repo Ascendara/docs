@@ -96,7 +96,7 @@ On Intel Macs, Windows games run through Wine installed on your system. During t
 - Windows game dependency installers and Defender protection
 - Importing from launchers other than Steam
 
-Torrent downloads still require qBittorrent with its Web UI enabled. Ludusavi for game backups is downloaded by Ascendara, or Ascendara uses a `ludusavi` binary on your `PATH`.
+Torrent downloads use the built-in torrent client, the same as on Windows. Ludusavi for game backups is downloaded by Ascendara, or Ascendara uses a `ludusavi` binary on your `PATH`.
 
 Settings are stored in `~/Library/Application Support/ascendara/ascendarasettings.json`.
 

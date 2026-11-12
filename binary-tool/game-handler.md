@@ -109,7 +109,12 @@ All JSON files are written atomically (to a temporary file that replaces the ori
 With UMU-Launcher, the handler sets `GAMEID`, `WINEPREFIX`, `STEAM_COMPAT_DATA_PATH`, and optionally `PROTONPATH`, and installs the x86 and x64 Visual C++ redistributables into the prefix through `umu-run`.
 
 ### Launch Options
-On Windows, launch options are appended to the executable's command line. With UMU, Proton, or Wine, tokens in the form `NAME=value` become environment variables, `%command%` is dropped, and the remaining tokens are passed as arguments, so Steam-style launch options such as `PROTON_LOG=1 %command% -windowed` work.
+On Windows, launch options are appended to the executable's command line. With UMU, Proton, or Wine, launch options are parsed the way Steam does:
+
+- With `%command%`: leading `NAME=value` tokens become environment variables, anything else before `%command%` is a wrapper that runs the game (such as `gamemoderun`, `mangohud`, or `lsfg`), and tokens after `%command%` are passed to the game.
+- Without `%command%`: `NAME=value` tokens become environment variables and the rest are passed to the game.
+
+For example, `PROTON_LOG=1 gamemoderun %command% -windowed` sets `PROTON_LOG`, runs the game through `gamemoderun`, and passes `-windowed` to the game.
 
 ### Playtime Tracking
 The handler adds 180 seconds to `playTime` every 3 minutes while the game runs, and adds the remaining seconds when the game closes, so short sessions are counted too. `playTime` is stored in seconds in `{game}.ascendara.json`, or in the game's entry in `games.json` for custom games.

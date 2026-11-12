@@ -106,7 +106,6 @@ unsubscribe();
 | `getIndexCover(imgID)` | Get a cover as a data URL, downloading it if needed |
 | `getIndexStatus()` | The API's index status (`serverRefresh`, `blocked`, `lastSuccess`, …) |
 | `startIndexRelay()` | Help the API refresh a blocked index, then sync |
-| `getLocalRefreshProgress(outputPath)` | Read `progress.json` in the index folder |
 
 **Events**: `onPublicIndexDownloadStarted`, `onPublicIndexDownloadProgress`, `onPublicIndexDownloadComplete`, `onPublicIndexDownloadError`, each with a matching `off…` method to remove all listeners. The renderer also receives a `window` `index-refreshed` DOM event when the index changes.
 
@@ -395,15 +394,6 @@ unsubscribe();
 | `getPendingCheckouts()` / `acknowledgeCheckout(sessionId)` | Ascend checkout sessions received through `ascendara://` |
 
 **Events**: `onCheckoutSuccess(callback)`, `onCheckoutCanceled(callback)`
-
----
-
-## qBittorrent (`window.qbittorrentApi`)
-
-| Method | Description |
-|--------|-------------|
-| `login(credentials)` | Log in to the qBittorrent Web UI |
-| `getVersion()` | Get the qBittorrent version (used to check the connection) |
 
 ---
 

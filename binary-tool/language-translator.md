@@ -89,8 +89,8 @@ Manages and persists translation progress with phase monitoring:
 ```python
 class TranslationProgress:
     def __init__(self, language_code):
-        self.progress_file = os.path.join(os.path.expanduser("~"), 
-                                        "translation_progress.ascendara.json")
+        # %APPDATA%\ascendara on Windows, ~/.ascendara elsewhere
+        self.progress_file = default_progress_path()
         self.language_code = language_code
         self.lock = Lock()
         self.total_strings = 0
@@ -138,11 +138,14 @@ def translate_text(text, target_lang):
 ```
 
 ### Configuration
-Progress and version data are stored in the user's home directory:
-```python
-progress_file = os.path.join(os.path.expanduser("~"), "translation_progress.ascendara.json")
-timestamp_path = os.path.join(os.path.expanduser("~"), "timestamp.ascendara.json")
-```
+Progress and version data are stored in Ascendara's config folder, next to the timestamp file:
+
+| Platform | Folder |
+| --- | --- |
+| Windows | `%APPDATA%\ascendara\` |
+| macOS and Linux | `~/.ascendara/` |
+
+The folder holds `translation_progress.ascendara.json` (progress while a translation runs) and `timestamp.ascendara.json`.
 
 After a successful translation, the tool saves the current language version (from `GET /language/version`) as `extraLangVer` in the timestamp file. Ascendara compares it with the API to know when extra languages need updating.
 

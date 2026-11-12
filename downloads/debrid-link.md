@@ -22,7 +22,7 @@ Turn on **Prefer over direct downloads** to also send links from [Magic Link](/d
 
 ## Torrents
 
-With **Cloud torrents** on, magnet links are added to your Debrid-Link seedbox instead of qBittorrent. When every file in the torrent reaches 100%, the files continue to your PC and install like any other download.
+With **Cloud torrents** on, magnet links are added to your Debrid-Link seedbox instead of the built-in torrent client. When every file in the torrent reaches 100%, the files continue to your PC and install like any other download.
 
 While a torrent is in the cloud, it's listed in **Downloads** under **Waiting at your debrid service**. Debrid-Link has no page of its own in Ascendara. Ascendara checks on each torrent every 30 seconds.
 

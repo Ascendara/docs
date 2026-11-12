@@ -33,8 +33,8 @@ The game index is served by a public API at `api.ascendara.app` that is free for
 - **[Ascendara Magic Links](/docs/features/magic-links)**: Supported hosts download inside the app with no browser, ads, or CAPTCHA (previously called Seamless Downloads).
 - **Browser Downloads**: The Ascendara Download Handler extension sends downloads from your browser to Ascendara, including games that aren't in the index.
 - **Download Manager**: Downloads, extracts, verifies, and installs games, with a download queue, speed limits, and resumable transfers. See [Downloading Games](/docs/downloads/downloading).
-- **Debrid and Torrents**: Optional TorBox, Real-Debrid, AllDebrid, Premiumize, Debrid-Link, and qBittorrent support. See [Debrid Services](/docs/downloads/debrid-services).
-- **External Sources**: Load games from a community source bucket instead of the official index. See [External Sources](/docs/downloads/external-sources).
+- **Debrid and Torrents**: Optional TorBox, Real-Debrid, AllDebrid, Premiumize, and Debrid-Link support, and a built-in torrent client. See [Debrid Services](/docs/downloads/debrid-services).
+- **External Sources**: Load games from a community source bucket, imported lists, or your own self-hosted library, instead of the official index or alongside it. See [External Sources](/docs/downloads/external-sources).
 
 ### Library and Play
 - **One Library**: Downloaded games, custom games, and games [imported](/docs/features/importing) from Steam, Epic Games, GOG Galaxy, Ubisoft Connect, and Battle.net.

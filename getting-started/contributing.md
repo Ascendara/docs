@@ -204,7 +204,7 @@ Before submitting a PR, verify:
 
 ### Testing Downloads and Game Launches
 
-> **Note**: Games can't be launched in development mode, and some API features are unavailable in source builds. Use a packaged build to test these flows.
+> **Note**: In development mode, Ascendara uses the helper tools built from source. Run `cargo build --release` in `binaries/AscendaraGameHandler` before testing game launches, and in `binaries/AscendaraDownloader` before testing downloads. Some API features are unavailable in source builds; use a packaged build to test those.
 
 Build the app (see [Building from Source](/docs/developer/build-from-source)), then run it from `dist/win-unpacked/` on Windows, or from the AppImage or `.app` on Linux and macOS.
 

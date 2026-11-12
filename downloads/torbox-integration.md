@@ -12,7 +12,7 @@ When TorBox is connected:
 
 - **Hoster downloads**: Links from hosts that TorBox supports go through TorBox automatically. TorBox processes the link in its cloud first, even if a local download is already running, and you then download it to your PC from the **Debrid Downloads** page.
 - **Magic Link hosts (optional)**: GoFile, PixelDrain, and BuzzHeavier keep using [Magic Links](/docs/features/magic-links) by default. Turn on **Prefer over direct downloads** to use TorBox for them too, whenever TorBox supports the link.
-- **Torrents**: With **Cloud torrents** on (the default), magnet links are sent to TorBox instead of being downloaded through qBittorrent. You don't need qBittorrent for torrent downloads when TorBox handles them. When a torrent finishes in the cloud, it continues to your PC automatically and is extracted like any other download.
+- **Torrents**: With **Cloud torrents** on (the default), magnet links are sent to TorBox instead of being downloaded by the built-in torrent client, so nothing downloads over peer-to-peer on your PC. When a torrent finishes in the cloud, it continues to your PC automatically and is extracted like any other download.
 - **Debrid Downloads page**: A **Debrid Downloads** page appears in the navigation bar. Choose **TorBox** to see your account, plan, downloads in progress, and completed downloads ready to download to your PC.
 
 ## Supported Hosts
@@ -62,8 +62,8 @@ These options appear on the **TorBox** card in **Settings → Debrid**:
 | --- | --- | --- |
 | **API key** | Empty | Connects TorBox. |
 | **Prefer over direct downloads** | Off | Uses TorBox even for Magic Link hosts. |
-| **Cloud torrents** | On | Sends magnet links to TorBox instead of qBittorrent. |
-| **Fall back to qBittorrent** | Off | If TorBox can't add a magnet, retries it through your qBittorrent WebUI. Requires local torrenting to be on. This may send torrent traffic outside TorBox, so make sure your VPN is active. |
+| **Cloud torrents** | On | Sends magnet links to TorBox instead of the built-in torrent client. |
+| **Fall back to local torrenting** | Off | If TorBox can't add a magnet, retries it in the built-in torrent client. Requires local torrenting to be on. This may send torrent traffic outside TorBox, so make sure your VPN is active. |
 
 ## Troubleshooting TorBox
 

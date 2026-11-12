@@ -18,6 +18,8 @@ When you need to type, such as when searching, Big Picture Mode shows a virtual 
 
 ## What You Can Do
 
+A navigation bar along the top switches between these pages. Each page opens with artwork from your games, which crossfades as you move between them.
+
 - **Home**: Recently played games and quick access to your library. Choose between the full **Ascendara** dashboard and the **Classic** carousel with **Home style** in Big Picture preferences.
 - **Library**: Browse and launch your installed games, and view game details, screenshots, and media.
 - **Search**: Browse the game catalog, see game details, and add games to Play Later.

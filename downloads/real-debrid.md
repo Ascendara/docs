@@ -33,7 +33,7 @@ Queued links are checked again when the queue starts them, using your current AP
 
 ## Torrents
 
-With **Cloud torrents** on, magnet links are sent to Real-Debrid instead of qBittorrent.
+With **Cloud torrents** on, magnet links are sent to Real-Debrid instead of the built-in torrent client.
 
 Ascendara selects all of the torrent's files and starts the cloud download as soon as Real-Debrid has the torrent's metadata. This keeps running in the background when you leave the downloads page, and pending torrents resume after you restart Ascendara.
 
