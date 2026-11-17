@@ -15,6 +15,8 @@ The base console profiles, available to everyone:
 
 The suggested emulator is a launch preset. You may choose a custom emulator and custom arguments when a preset does not fit your setup.
 
+For a console that isn't listed, use [Other console](#other-consoles).
+
 ## Expanded consoles (Ascend)
 
 An active Ascend subscription or verified access unlocks additional console profiles and alternate emulator presets:
@@ -55,6 +57,26 @@ Choose the **Custom** launch preset, enter one argument per line, and use `{rom}
 ## Scanning and library matching
 
 Choose **Scan** after adding or changing ROM folders. Ascendara checks the supported file extensions for that console, records discs and related files, and keeps the scan running in the background if you leave the page.
+
+### Extra file types
+
+Each console's setup lists the file types it scans for. To scan other types, for example when your emulator reads a format Retro doesn't list, enter them under **Extra file types**, separated by commas: `nsp, xci`. The leading dot is optional. You can add up to 32 types, using letters and numbers only. Extra file types work with any emulator preset, including **Custom emulator**.
+
+When a scan finds no games, Ascendara tells you which file types it did find in the folders and which consoles read them. For example, a folder of `.nsp` files scanned as NES shows that they're Nintendo Switch games.
+
+## Other consoles
+
+**Other console**, under **Other systems** in the console list, is for any system Retro doesn't list, such as the Nintendo Switch 2. It's available to everyone.
+
+1. Select **Other console** and open its setup.
+2. Optionally give it a name, such as `Nintendo Switch 2`. The name replaces "Other console" in the console list.
+3. Choose your emulator's executable. Keep the **Custom emulator** preset, and add [launch arguments](#custom-emulator-arguments) if the emulator needs them.
+4. Enter the file types your emulator opens under **Extra file types**, for example `xci, nsp`. Other console has no file types of its own, so a scan finds nothing until you add some.
+5. Add your game folders and choose **Save and scan**.
+
+Games on Other console aren't matched against the metadata catalogue. Set their titles and covers yourself from the game details.
+
+Use Other console for one system at a time. Games for a console Retro does list belong under that console, so they get the right launch preset and catalogue matches.
 
 If the local catalogue has one unambiguous match, Ascendara fills in the title, year, genres, description, developer, and cover automatically. You can update the catalogue from the Retro tab by downloading the catalogue or importing a LaunchBox `Metadata.xml` or `Metadata.zip` file.
 
@@ -107,7 +129,7 @@ The ROMs, emulator installation, save folder, and cloud backup data remain separ
 
 ## Common problems
 
-**The scan finds no games.** Check that the selected folder contains supported file extensions for the selected console. For PS3, use the installed game folder format expected by RPCS3; it does not use the same file-extension scan as disc-based consoles.
+**The scan finds no games.** Read the message shown after the scan: it lists the file types in the folder and the consoles they belong to. Set up the matching console, or add the file type under [Extra file types](#extra-file-types). For a console Retro doesn't list, use [Other console](#other-consoles). For PS3, use the installed game folder format expected by RPCS3; it does not use the same file-extension scan as disc-based consoles.
 
 **The emulator will not launch.** Reopen setup and select the actual emulator executable. For RetroArch, select a core. Check the emulator's own BIOS, firmware, and compatibility requirements.
 
