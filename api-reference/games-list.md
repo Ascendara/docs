@@ -64,7 +64,7 @@ The response is `Cache-Control: public, max-age=60`. Checking more often than ev
 | Key | Type | Description |
 | --- | --- | --- |
 | `game` | string | Game title |
-| `gameID` | string | Unique 6-character ID (see [Game ID encoding](/docs/binary-tool/local-refresh#game-id-encoding)). Used by the other endpoints, blacklists, verified games, ratings, and `ascendara://game?<gameID>` links. |
+| `gameID` | string | Unique 6-character ID (see [Game ID encoding](#game-id-encoding)). Used by the other endpoints, blacklists, verified games, ratings, and `ascendara://game?<gameID>` links. |
 | `imgID` | string | Cover image ID, for [`/v2/image/{imgID}`](/docs/api-reference/endpoints#cover-image) |
 | `size` | string | Download size, for example `"21.1 GB"` |
 | `version` | string | Version from the source. Some games use build numbers. |
@@ -108,11 +108,31 @@ Each key is a provider and each value is a list of URLs on that provider. Curren
 | `getDate` | string | When the list was generated, in a readable form |
 | `games` | string | Number of games |
 | `source` | string | How the list was produced |
-| `local` | boolean | The list uses the [Local Refresh](/docs/binary-tool/local-refresh) format |
+| `local` | boolean | The list uses the local index format |
 | `listVersion` | string | Format version |
 | `timemachine` | boolean | `hasHistory` is reliable for every game |
 
 The `metadata` object may gain new fields, so ignore keys you don't recognize.
+
+## Game ID Encoding
+
+Numeric post IDs are converted to 6-character IDs in base 46, after multiplying by a prime to spread out sequential IDs:
+
+```python
+GAME_ID_CHARS = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz"  # 46 chars (no I, L, O, i, l, o)
+GAME_ID_LENGTH = 6
+SCRAMBLE_MULT = 2971
+SCRAMBLE_MOD = 46 ** 6
+
+def encode_game_id(post_id):
+    scrambled = (int(post_id) * SCRAMBLE_MULT) % SCRAMBLE_MOD
+    # convert to 6 base-46 digits
+
+def decode_game_id(game_id):
+    # convert from base 46, then multiply by the modular inverse
+    inv = pow(SCRAMBLE_MULT, -1, SCRAMBLE_MOD)
+    return str((num * inv) % SCRAMBLE_MOD)
+```
 
 ## Notes
 

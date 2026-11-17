@@ -73,6 +73,25 @@ The Ascendara Download Handler sends downloads from your browser straight to Asc
 
 Visit [ascendara.app/extension](https://ascendara.app/extension) to be directed to the correct store for your browser. The extension supports Chromium-based browsers (Chrome, Edge, Opera, Brave) and Firefox. To load it manually from source, see [Importing the Extension](/docs/developer/importing-from-source).
 
+## App Branches
+
+Ascendara has three release channels. Choose one in **Settings** under **App Branch**. Switching downloads and runs the installer for that branch.
+
+| Branch | What it is | How it updates |
+| --- | --- | --- |
+| **Live** | The stable release. Recommended for everyone. | Updates to each new release. |
+| **Public Testing** | Upcoming features before they ship to Live. Generally stable, but may have minor bugs. | Updates whenever a new testing build is promoted to Public Testing. |
+| **Experimental** | Built from the latest development commit. May be unstable. Switching in the app requires [Ascend](/docs/features/ascend). Not available on macOS. | Updates after every new development build. |
+
+Testing builds are numbered after the release they're based on, for example `12.2.4-111`. You stay on your branch until you switch.
+
+### When Live Passes Your Branch
+
+When a new Live release comes out before your branch has a build based on it, Ascendara tells you **A New Public Build Is Out** and offers two choices:
+
+- **Switch to Live** installs the new Live release and moves you to the Live branch.
+- **Stay on** your branch keeps you where you are. Your branch keeps updating as its next builds come out, and Ascendara won't ask again until the next Live release.
+
 ## After Installing
 1. Complete the welcome setup (download folder, theme, game index, and dependencies).
 2. Install the browser extension for your preferred browser.

@@ -13,20 +13,19 @@ To run Ascendara in development mode:
 To build installers, you also need:
 
 - **Rust and Cargo** (Rust 1.90 or newer), for the Downloader, Game Handler, and Crash Reporter
-- **Windows**: [7-Zip](https://www.7-zip.org) x64 installed in `C:\Program Files\7-Zip` (it's bundled into the Torrent Handler)
-- **Linux**: `unrar`, `p7zip-full`, `libfuse2`, and the FLTK/X11/OpenGL development packages (Debian/Ubuntu package names)
+- **Linux**: `libfuse2` and the FLTK/X11/OpenGL development packages (Debian/Ubuntu package names)
 - **macOS**: Xcode Command Line Tools and Python 3 with `venv`
 
 ## Important Limitations
 
 When you run Ascendara from source, it runs in **development mode**, and some features are restricted:
 
-- **Game execution**: Games can't be launched in development mode. Build and run a packaged version to play games.
+- **Helper tools**: Development mode runs the helper tools built from source instead of bundled copies. To launch games, build the Game Handler first with `cargo build --release` in `binaries/AscendaraGameHandler`; to download games, build the Downloader the same way in `binaries/AscendaraDownloader`.
 - **Ascend**: Ascend features are disabled unless you configure Firebase credentials (see below). The Ascend page shows a **Development Mode** notice.
 - **Protected API features**: Official builds sign their requests to the Ascendara API with a private secret that isn't in the repository. Without it, protected endpoints such as game reports, ratings, feature reporting, analytics, and the [index relay](/docs/downloads/refreshing-index#helping-refresh-the-index) may reject requests. Public endpoints such as the game index keep working.
 - **Build registration**: Official builds are registered with the Ascendara backend. Builds you make yourself aren't registered, so features that require an authorized build won't work in them.
 
-These limitations protect Ascendara's infrastructure from abuse. The reporting and analytics services are essential for monitoring health, detecting issues, and keeping Ascendara secure, so they're restricted to official builds. You can still play games with the official release of Ascendara.
+These limitations protect Ascendara's infrastructure from abuse. The reporting and analytics services are essential for monitoring health, detecting issues, and keeping Ascendara secure, so they're restricted to official builds.
 
 ## Getting the Source Code
 
@@ -134,7 +133,7 @@ python scripts/build_windows_helpers.py
 yarn dist --skip-registration
 ```
 
-`build_windows_helpers.py` must run on a native Windows x64 machine. It creates a virtual environment in `.build_venv`, builds the Notification Helper and Torrent Handler with PyInstaller, builds the Downloader, Game Handler, and Crash Reporter with Cargo, and builds the Achievement Watcher with `pkg`. See [Creating the Tools](/docs/developer/creating-the-tools).
+`build_windows_helpers.py` must run on a native Windows x64 machine. It creates a virtual environment in `.build_venv`, builds the Notification Helper with PyInstaller, builds the Downloader, Game Handler, and Crash Reporter with Cargo, and builds the Achievement Watcher with `pkg`. See [Creating the Tools](/docs/developer/creating-the-tools).
 
 The packaged app is created in `dist/`, with an NSIS installer and an unpacked version in `dist/win-unpacked/`.
 
@@ -149,7 +148,6 @@ The Linux script builds all helpers, the renderer, and an AppImage in `dist/`. I
 ### macOS
 
 ```bash
-yarn setup-mac                 # download the official 7-Zip for macOS
 yarn dist-mac --check          # check prerequisites
 yarn dist-mac --skip-registration
 ```

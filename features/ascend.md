@@ -14,6 +14,7 @@ Subscription revenue keeps the servers running, maintains the API that powers th
 - **Profile and Bio**: A public profile with a bio, country, social links, level, playtime, and achievements. You can make your account private.
 - **Public Leaderboard**: Compare your stats with the community.
 - **Cloud Library Sync**: Sync your game list, playtime, and achievements to your Ascend profile, and restore them after reinstalling Ascendara or moving to a new PC.
+- **Achievement Sync**: Achievements sync across your devices automatically. New unlocks are uploaded within about 30 seconds, and achievements unlocked on another device, or before reinstalling a game, are restored once Ascendara picks the game up again.
 - **Cloud Save Backups**: Upload [game save backups](/docs/features/game-backups#cloud-backups) and restore them on another PC.
 - **Library Backups**: Back up and restore saves for your whole library with Ludusavi, and import cloud backups on another device.
 - **Retro Cloud Saves**: Back up your [Retro](/docs/features/retro#ascend-cloud-saves) memory cards and save folders to the cloud.

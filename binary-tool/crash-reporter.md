@@ -44,7 +44,7 @@ AscendaraCrashReporter.exe maindownloader 1404 "Failed to extract archive: CRC e
 | `maindownloader` | Ascendara Downloader | Utility |
 | `gamehandler` | Ascendara Game Handler | Utility |
 | `languagetranslation` | Ascendara Language Translation | Utility |
-| `torrenthandler` | Ascendara Torrent Handler | Utility |
+| `torrenthandler` | Ascendara Torrent Handler (legacy) | Utility |
 | `notificationhelper` | Ascendara Notification Helper | Utility |
 | `gofilehelper` | Ascendara GoFile Helper (legacy) | Utility |
 
@@ -58,12 +58,12 @@ Any other ID is shown as **Unknown Ascendara Tool**.
 | 1200–1202 | Language Translation |
 | 1300–1305 | GoFile Helper (legacy) |
 | 1400–1408 | Downloader |
-| 1500–1506 | Torrent Handler |
+| 1500–1506 | Torrent Handler (legacy) |
 | 1600–1604 | Notification Helper |
 
 The individual codes are listed in [Error Codes](/docs/troubleshooting/error-codes#error-code-categories) and defined in `ErrorCodes::get_error_description` in `main.rs`.
 
-> **Note:** The Python helpers and the Rust Downloader currently pass the generic code `1`, which is shown as **Unrecognized error code**, so the message argument carries the useful information. Pass a specific code from the table when you add new error handling.
+> **Note:** The Torrent Handler and GoFile Helper were removed from Ascendara; their IDs and codes are kept so reports from older versions still display. The Python helpers and the Rust Downloader currently pass the generic code `1`, which is shown as **Unrecognized error code**, so the message argument carries the useful information. Pass a specific code from the table when you add new error handling.
 
 ### Layouts
 

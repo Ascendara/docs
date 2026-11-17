@@ -52,6 +52,7 @@ If the same game is in your library more than once (for example, downloaded thro
 
 Open a game and select **Play**. Ascendara launches the game through the [Game Handler](/docs/binary-tool/game-handler), tracks your playtime, and updates Discord Rich Presence. By default, Ascendara hides its window while you play (**Hide on Game Launch** in **Settings**).
 
+- While a game is running, its page shows the current session time and a **Stop Game** button. Stopping closes the game right away, so unsaved progress is lost. This is also available in Big Picture Mode.
 - If a game has several executables, Ascendara asks which one to run.
 - If a game closes right after launching, Ascendara suggests running the executable directly from the game folder to check whether it works outside of Ascendara.
 - Online-Fix games require Steam to be running and signed in. Ascendara offers to start Steam.
@@ -69,7 +70,7 @@ Select **Change or Add Executable** to open the executable manager. A game can h
 
 ### Launch Options
 
-Enter launch arguments that are passed to the game executable. On Linux, when a game runs through Proton, UMU-Launcher, or Wine, arguments in the form `NAME=value` are set as environment variables and `%command%` is ignored, so Steam-style launch options generally work.
+Enter launch arguments that are passed to the game executable. On Linux, when a game runs through Proton, UMU-Launcher, or Wine, launch options work like Steam's: `NAME=value` arguments are set as environment variables, tools placed before `%command%` (such as `gamemoderun` or `mangohud`) wrap the game, and arguments after `%command%` go to the game. See [Launch Options](/docs/binary-tool/game-handler#launch-options).
 
 ### Shortcuts
 

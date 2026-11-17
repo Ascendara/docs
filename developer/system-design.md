@@ -11,8 +11,8 @@ A technical look at how Ascendara's processes, data, and services fit together.
 │  electron/modules/ — settings, downloads, games, updates, …    │
 │                                                                │
 │                    Child processes (spawn)                     │
-│  Downloader · TorrentHandler · GameHandler · NotificationHelper│
-│  AchievementWatcher · CrashReporter · Ludusavi · SteamCMD      │
+│  Downloader · GameHandler · NotificationHelper · CrashReporter │
+│  AchievementWatcher · Ludusavi · SteamCMD                      │
 └───────────────────────────────┬────────────────────────────────┘
                                 │ contextBridge (preload.js)
 ┌───────────────────────────────┴────────────────────────────────┐
@@ -64,8 +64,8 @@ Subscription methods return a function that removes the listener. Listeners neve
 │ downloads.js                                                 │
 │  • Validates the link and the download directory             │
 │  • Writes {game}.ascendara.json                              │
-│  • Spawns AscendaraDownloader (HTTP, Gofile)                 │
-│    or AscendaraTorrentHandler (magnet links)                 │
+│  • Spawns AscendaraDownloader (HTTP, Gofile, magnet and      │
+│    .torrent links)                                           │
 │  • Handles stop, kill, resume, retry, and retry extraction   │
 └─────────────────────────────┬────────────────────────────────┘
                               │ spawn with positional arguments
@@ -167,7 +167,7 @@ The helper tools read the same file to get settings such as the download speed l
 
 ### App State
 
-`timestamp.ascendara.json` in the user's home folder stores app state that isn't a setting, such as whether the index has been set up (`hasIndexBefore`), installed sidecars (`installedTools`), the extra-language version, and whether the Achievement Watcher is running.
+`timestamp.ascendara.json` in the app's config folder (`%APPDATA%\ascendara` on Windows, `~/.ascendara` on macOS and Linux) stores app state that isn't a setting, such as whether the index has been set up (`hasIndexBefore`), installed sidecars (`installedTools`), the extra-language version, and whether the Achievement Watcher is running.
 
 ### Settings Recovery Points
 
@@ -234,7 +234,6 @@ Optional tools are installed on demand ("sidecars"). Their status is shown on th
 | Sidecar | Source | Used for |
 | --- | --- | --- |
 | Language Translation (Windows) | `cdn.ascendara.app/files/AscendaraLanguageTranslation.exe` | Extra languages |
-| Torrent Handler (Windows) | `cdn.ascendara.app/files/AscendaraTorrentHandler.exe` | Torrent downloads |
 | Ludusavi | `cdn.ascendara.app/files/ludusavi.exe` (or `linux/`, `mac/`) | Save backups |
 | SteamCMD | Installed by `steamcmd.js` | Workshop Downloader |
 
@@ -253,7 +252,7 @@ On Windows, installed sidecars are recorded in `installedTools` in the timestamp
 ```
 Helper tool error
     │
-    ├─► Downloader/TorrentHandler: write error + message to downloadingData
+    ├─► Downloader: write error + message to downloadingData
     │       → shown on the download card
     │
     └─► Unhandled exception: register the Crash Reporter to open on exit

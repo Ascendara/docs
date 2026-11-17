@@ -47,10 +47,10 @@ Each card has its own **Download options**. They only apply to that service.
 
 | Option | Default | What it does |
 | --- | --- | --- |
-| **Cloud torrents** | On | Lets this service handle magnet links instead of qBittorrent. |
+| **Cloud torrents** | On | Lets this service handle magnet links instead of the built-in torrent client. |
 | **Prefer over direct downloads** | Off | Also uses this service for [Magic Link](/docs/features/magic-links) hosts, which Ascendara can already download on its own. |
 | **Remove from the service when done** | Off | AllDebrid, Premiumize, and Debrid-Link only. Deletes a torrent from your account once its game is on your PC. |
-| **Fall back to qBittorrent** | Off | TorBox only. Retries a magnet through qBittorrent if TorBox can't add it. Needs local torrenting on. |
+| **Fall back to local torrenting** | Off | TorBox only. Retries a magnet in the built-in torrent client if TorBox can't add it. Needs local torrenting on. |
 
 ## Download Order
 
@@ -79,7 +79,7 @@ By default, [Magic Link](/docs/features/magic-links) hosts (GoFile, PixelDrain, 
 
 ## Torrents
 
-With a service's **Cloud torrents** option on, magnet links are sent to that service's cloud instead of qBittorrent, so you don't need qBittorrent for those downloads.
+With a service's **Cloud torrents** option on, magnet links are sent to that service's cloud instead of the built-in torrent client, so nothing downloads over peer-to-peer on your PC.
 
 When a torrent submitted through Ascendara finishes in the cloud, it automatically continues to your PC:
 

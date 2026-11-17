@@ -98,7 +98,11 @@ With a debrid service such as [TorBox](/docs/downloads/torbox-integration), [Rea
 
 ### Torrents
 
-Torrent downloads are off by default. To enable them, turn on **Torrent on Ascendara** in **Settings** and read the warning. Torrenting requires qBittorrent with its Web UI enabled (or a [debrid service](/docs/downloads/debrid-services)), and using a VPN is strongly recommended because peers can see your IP address. See the [Torrent Handler](/docs/binary-tool/torrent-handler) for setup details.
+Torrent downloads are off by default. To enable them, turn on **Torrent on Ascendara** in **Settings** and read the warning. Magnet and `.torrent` links download in Ascendara's built-in torrent client, so you don't need to install anything else. A [debrid service](/docs/downloads/debrid-services) can download them in its cloud instead. Using a VPN is strongly recommended for local torrents because peers can see your IP address. See [Torrents](/docs/binary-tool/downloader#torrents) for how the built-in client works.
+
+### When Your Drive Is the Bottleneck
+
+If data arrives faster than your drive can write it, the download card shows **Your drive can't keep up**. The speed rises and drops as the drive catches up, and the downloader holds the download to the drive's write speed. This comes from the drive, not your connection. Hard drives slow down during long writes; downloading to an SSD avoids it.
 
 ## Following Your Downloads
 
@@ -151,8 +155,8 @@ These settings are in **Settings**, most of them in the **Download Manager** sec
 | --- | --- |
 | **Default Download Location** and **Additional Locations** | Where games are installed. Each new location runs the [download folder check](#download-folder-check). |
 | **Protect Directories from Defender** | Excludes your download directories from Windows Defender (Windows only). See [Protecting Directories](/docs/features/overview#protecting-directories-from-windows-defender). |
-| **Single Stream Download** | Uses one connection per file. On by default; more stable for large files. |
-| **Download Threads** | When Single Stream is off, how many connections to use. The downloader uses at most 16 connections per file. |
+| **Single Stream Download** | Uses one connection per file. Off by default; can be more stable with some hosts and connections. |
+| **Download Threads** | When Single Stream is off, how many connections to use. The default is 16, which is also the most the downloader uses per file. |
 | **Download Speed Limit** | A maximum download speed. `0` means unlimited. |
 | **Behavior After Download** | Do nothing, lock, sleep, or shut down the computer when a download finishes. |
 | **Automatically Create Shortcuts** | Creates a desktop shortcut when a game finishes downloading (Windows). |

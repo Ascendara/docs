@@ -25,8 +25,8 @@ Ascendara is an Electron + React app. The React renderer talks to the Electron m
 ┌────────────────────────────────┴────────────────────────────────┐
 │                         Helper Binaries                         │
 │  Downloader, GameHandler, CrashReporter (Rust)  ·               │
-│  TorrentHandler, NotificationHelper, LanguageTranslation        │
-│  (Python)  ·  Highball (macOS, Apple Silicon)                   │
+│  NotificationHelper, LanguageTranslation (Python)  ·            │
+│  Highball (macOS, Apple Silicon)                                │
 │  AchievementWatcher (Node.js)  ·  Ludusavi, SteamCMD (external) │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -42,21 +42,21 @@ In packaged builds, the renderer is served from a local HTTP server at `http://l
 | `app.js` | Entry point: window creation, tray, local server, protocol registration, app lifecycle |
 | `preload.js` | Exposes the `window.electron` API to the renderer |
 | `modules/index.js` | Loads modules; installs the IPC security guard first; lazy-loads non-critical modules |
-| `modules/config.js` | App version and branch, platform detection, paths, helper paths |
-| `modules/settings.js` | `SettingsManager`: loads, saves, and encrypts settings |
-| `modules/security.js` | Rejects IPC calls that don't come from Ascendara's own window |
-| `modules/downloads.js` | Starts the downloader and torrent handler, tracks progress, retries, queue |
-| `modules/games.js` | Library, game launching, executables, shortcuts, assets |
-| `modules/local-refresh.js`, `community-index.js`, `index-relay.js` | Local game index sync, covers, and index relay |
-| `modules/launcher-discovery.js`, `launcher-import.js` | Importing games from other launchers |
+| `modules/core/config.js` | App version and branch, platform detection, paths, helper paths |
+| `modules/core/settings.js` | `SettingsManager`: loads, saves, and encrypts settings |
+| `modules/core/security.js` | Rejects IPC calls that don't come from Ascendara's own window |
+| `modules/downloads/downloads.js` | Starts the downloader (direct links, file hosts, and torrents), tracks progress, retries, queue |
+| `modules/library/games.js` | Library, game launching, executables, shortcuts, assets |
+| `modules/sources/local-refresh.js`, `community-index.js`, `index-relay.js` | Local game index sync, covers, and index relay |
+| `modules/library/launcher-discovery.js`, `launcher-import.js` | Importing games from other launchers |
 | `modules/retro/` | Ascendara Retro library, scanning, catalogue, launching, saves |
-| `modules/proton.js`, `umu-database.js`, `wine-setup.js` | Linux and macOS compatibility layers |
-| `modules/ludusavi.js` | Save backup and restore |
-| `modules/updates.js`, `install-update.js` | App updates and branch switching |
-| `modules/recovery.js` | Settings recovery points and version rollback |
-| `modules/protocol.js` | `ascendara://` URL handling |
-| `modules/discord-rpc.js` | Discord Rich Presence |
-| `modules/system.js` | System info, drive space, dependencies, Defender exclusions |
+| `modules/compat/proton.js`, `umu-database.js`, `wine-setup.js`, `highball.js` | Linux and macOS compatibility layers |
+| `modules/library/ludusavi.js` | Save backup and restore |
+| `modules/system/updates.js`, `install-update.js` | App updates and branch switching |
+| `modules/app/recovery.js` | Settings recovery points and version rollback |
+| `modules/app/protocol.js` | `ascendara://` URL handling |
+| `modules/app/discord-rpc.js` | Discord Rich Presence |
+| `modules/system/system.js` | System info, drive space, dependencies, Defender exclusions |
 
 See [Project Structure](/docs/developer/project-structure) for the full list.
 
@@ -76,14 +76,12 @@ See [Project Structure](/docs/developer/project-structure) for the full list.
 
 | Tool | Language | Purpose |
 |------|----------|---------|
-| [AscendaraDownloader](/docs/binary-tool/downloader) | Rust | Download, extract, verify, and install games (including Gofile, file hosts, and torrents) |
+| [AscendaraDownloader](/docs/binary-tool/downloader) | Rust | Download, extract, verify, and install games (including Gofile, file hosts, and torrents with its built-in client) |
 | [AscendaraGameHandler](/docs/binary-tool/game-handler) | Rust | Launch games, track playtime, Discord RPC, backups on close |
-| [AscendaraTorrentHandler](/docs/binary-tool/torrent-handler) | Python | Older qBittorrent torrent handler; torrents now download in the Downloader |
 | [AscendaraNotificationHelper](/docs/binary-tool/notification-helper) | Python (PyQt6) | Desktop and achievement notifications |
 | [AscendaraLanguageTranslation](/docs/binary-tool/language-translator) | Python | Translates the UI into extra languages |
 | [AscendaraCrashReporter](/docs/binary-tool/crash-reporter) | Rust (FLTK) | Error reporting window |
 | [AscendaraAchievementWatcher](/docs/binary-tool/achievement-watcher) | Node.js | Watches achievement files |
-| [AscendaraLocalRefresh](/docs/binary-tool/local-refresh) | Python | Game index scraper (not shipped with the app) |
 
 ## IPC Communication
 
@@ -112,7 +110,7 @@ Renderer: window.electron.downloadFile(...)
         │ IPC: download-file
         ▼
 Main: create game folder + {game}.ascendara.json,
-      spawn AscendaraDownloader (or TorrentHandler for magnets)
+      spawn AscendaraDownloader
         │
         ▼
 Helper: transfer → extract → verify → install,
@@ -147,7 +145,7 @@ Main: game-closed event → show window, reset Discord RPC
 ## Development Mode Limitations
 
 When running from source (`yarn start`):
-- **Games** can't be launched.
+- **Games** launch with the Game Handler built from source, so run `cargo build --release` in `binaries/AscendaraGameHandler` first.
 - **Ascend** features are disabled unless you configure Firebase credentials.
 - **Protected API endpoints** (such as reports, ratings, and authenticated requests) may reject requests, because source builds don't include the private request-signing secret.
 

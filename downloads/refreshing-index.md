@@ -4,7 +4,7 @@ Ascendara keeps a copy of the game index on your computer. Searching, filtering,
 
 You don't need to build or refresh the index yourself. Ascendara downloads the official index during setup and keeps it up to date in the background.
 
-> **What changed?** Earlier versions of Ascendara asked you to build your index by scraping SteamRIP on your own computer with a Cloudflare cookie, or to download a community-shared index. Both flows have been removed. The Ascendara API now refreshes the official index on a schedule, and the app syncs it automatically. The scraping tool still exists for developers; see [Local Refresh](/docs/binary-tool/local-refresh).
+> **What changed?** Earlier versions of Ascendara asked you to build your index by scraping SteamRIP on your own computer with a Cloudflare cookie, or to download a community-shared index. Both flows have been removed. The Ascendara API now refreshes the official index on a schedule, and the app syncs it automatically.
 
 ## Opening Your Game Index
 
@@ -14,7 +14,7 @@ The **Ascendara Index** card shows how many games your index contains, when it w
 
 ## Choosing an Index
 
-You can use one of two sources. The Ascendara Index is used unless you turn on External Sources.
+The Ascendara Index is used unless you turn on External Sources. You can also use external sources alongside it; see [Using Several Sources at Once](/docs/downloads/external-sources#using-several-sources-at-once).
 
 ### Ascendara Index (Recommended)
 
@@ -29,7 +29,7 @@ This is the default, and it supports every Ascendara feature.
 
 ### External Sources
 
-External Sources Mode loads games from a community source bucket or from your own imported JSON lists instead of the official index. External sources don't include cover images, categories, or popularity data.
+External Sources Mode loads games from a community source bucket, your own imported JSON lists, or a self-hosted source instead of the official index, or together with it when **Use several sources at once** is on. External sources don't include cover images, categories, or popularity data.
 
 To use one, select **Manage sources** at the bottom of the Settings card in **Settings → Game Index**. This opens the **External Sources** page. See [External Sources](/docs/downloads/external-sources).
 
@@ -47,7 +47,7 @@ If a check fails, Ascendara retries up to 5 times, one minute apart. When the in
 
 To update right away, select **Refresh now** on the Ascendara Index card in **Settings → Game Index**. If you don't have an index yet, the button says **Get the index**.
 
-Automatic syncing is paused while External Sources Mode is on.
+Automatic syncing is paused while an external source replaces the Ascendara Index. When **Use several sources at once** is on, the Ascendara Index stays in use and keeps syncing.
 
 ### Cover Images
 

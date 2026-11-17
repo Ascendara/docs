@@ -77,10 +77,8 @@ The desktop shell:
 
 | Tool | Key dependencies |
 |------|------------------|
-| Torrent Handler (older qBittorrent path) | `qbittorrent-api` |
 | Notification Helper | `PyQt6`, `requests` |
 | Language Translation | `requests` |
-| Local Refresh | `cloudscraper`, `requests`, `beautifulsoup4` |
 
 ### Rust Tools
 - **Rust** 2021 edition, built with Cargo
@@ -97,9 +95,7 @@ The desktop shell:
 |------|---------|
 | [Ludusavi](https://github.com/mtkennerly/ludusavi) | Save backups |
 | SteamCMD | Workshop Downloader |
-| qBittorrent (Web UI) | Torrent downloads |
 | Proton-GE, Proton CachyOS, UMU-Launcher, Wine | Running Windows games on Linux and macOS |
-| 7-Zip | Archive extraction for the Torrent Handler (bundled) |
 
 ---
 
