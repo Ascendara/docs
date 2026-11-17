@@ -49,7 +49,7 @@ In packaged builds, the renderer is served from a local HTTP server at `http://l
 | `modules/library/games.js` | Library, game launching, executables, shortcuts, assets |
 | `modules/sources/local-refresh.js`, `community-index.js`, `index-relay.js` | Local game index sync, covers, and index relay |
 | `modules/library/launcher-discovery.js`, `launcher-import.js` | Importing games from other launchers |
-| `modules/retro/` | Ascendara Retro library, scanning, catalogue, launching, saves |
+| `modules/retro/` | Ascendara Retro library, scanning, game info lookups, launching, saves |
 | `modules/compat/proton.js`, `umu-database.js`, `wine-setup.js`, `highball.js` | Linux and macOS compatibility layers |
 | `modules/library/ludusavi.js` | Save backup and restore |
 | `modules/system/updates.js`, `install-update.js` | App updates and branch switching |

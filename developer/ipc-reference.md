@@ -286,8 +286,7 @@ unsubscribe();
 | `pick(kind)` | Pick an emulator, core, ROM folder, or save folder |
 | `saveProfile(id, profile)` | Save a console setup |
 | `scan(id)` | Scan a console's ROM folders |
-| `updateCatalogue(source)` | Download or import the LaunchBox catalogue |
-| `search(id, query)` | Search the catalogue |
+| `search(id, query)` | Search the LaunchBox catalogue for a console on the Ascendara API |
 | `updateGame(id, data)` / `setCover(id, file)` / `remove(id)` / `reveal(id)` | Edit, set a cover, remove, or show a game's files |
 | `website(id, emulatorId)` | Open an emulator's website |
 | `launch(id, disc)` | Launch a game |

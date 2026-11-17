@@ -91,7 +91,7 @@ Games on Other console aren't matched against the metadata catalogue. Set their 
 
 Use Other console for one system at a time. Games for a console Retro does list belong under that console, so they get the right launch preset and catalogue matches.
 
-If the local catalogue has one unambiguous match, Ascendara fills in the title, year, genres, description, developer, and cover automatically. You can update the catalogue from the Retro tab by downloading the catalogue or importing a LaunchBox `Metadata.xml` or `Metadata.zip` file.
+When games are added, Ascendara looks each one up in the LaunchBox games database and fills in the title, year, genres, description, developer, and cover automatically. Only the games in your library are looked up, so there's nothing to download first. Games without a match are checked again after a week. The **Catalogue** tab searches the same database online.
 
 For a game with an incorrect or missing match:
 
@@ -136,7 +136,7 @@ Cloud backups are limited to 256 MB. Restore validates that the backup belongs t
 
 ## Catalogue and library files
 
-Retro stores its library and profiles in Ascendara's application-data directory under `retro/library.json`. The downloaded metadata catalogue is cached separately. Do not edit these files while Ascendara is running. If the library cannot be loaded, Ascendara preserves the original file and reports its path.
+Retro stores its library and profiles in Ascendara's application-data directory under `retro/library.json`. Game metadata is saved with each game in the library. Do not edit these files while Ascendara is running. If the library cannot be loaded, Ascendara preserves the original file and reports its path.
 
 The ROMs, emulator installation, save folder, and cloud backup data remain separate from the Retro library record. Moving any of them requires returning to console setup and selecting the new path.
 
@@ -152,6 +152,6 @@ The ROMs, emulator installation, save folder, and cloud backup data remain separ
 
 **A restore changed the wrong files.** Open **Recovery copies** in Save management. Ascendara keeps the previous local files before a restore so they can be recovered.
 
-**A task is still running after leaving Retro.** Scans and catalogue imports run in the main process and continue while you navigate elsewhere. Return to Retro to see progress and warnings.
+**A task is still running after leaving Retro.** Scans and metadata lookups run in the main process and continue while you navigate elsewhere. Return to Retro to see progress and warnings.
 
 **A console is locked or missing from the list.** Consoles under Expanded consoles (Ascend), and alternate presets such as FCEUX or DolphinXR, require an active Ascend subscription or verified access. Select the locked console, or open **All emulators**, to sign in or subscribe.

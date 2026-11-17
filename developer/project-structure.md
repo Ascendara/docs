@@ -96,7 +96,7 @@ electron/
         ├── index.js         # IPC, library state, launching
         ├── platforms.js     # Console definitions and launch presets
         ├── scanner.js       # ROM folder scanning
-        ├── catalogue-worker.js  # LaunchBox metadata import
+        ├── detect.js        # Console and emulator detection for Add games
         ├── saves.js         # Save backups and memory cards
         └── expanded-catalogue.json
 ```

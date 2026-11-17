@@ -50,7 +50,7 @@ The desktop shell:
 |---------|---------|---------|
 | `clsx`, `tailwind-merge`, `class-variance-authority` | — | Class name composition |
 | `qrcode` | ^1.5 | Companion pairing QR codes |
-| `jszip`, `unzipper` | — | ZIP handling (cloud save backups, dependency and catalogue archives) |
+| `jszip`, `unzipper` | — | ZIP handling (cloud save backups, dependency archives, plugin archives) |
 
 ---
 
@@ -64,7 +64,6 @@ The desktop shell:
 | `discord-rpc` | ^4 | Discord Rich Presence |
 | `node-machine-id` | ^1 | Machine ID for settings encryption |
 | `winreg` | ^1.2 | Windows registry checks (dependencies, launcher import) |
-| `sax` | ^1.2 | Streaming XML parsing of LaunchBox metadata for Retro |
 | `crypto` | built-in | AES-256-CBC encryption, HMAC request signing |
 
 ---
