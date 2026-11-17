@@ -37,7 +37,20 @@ These consoles and presets are configured from **All emulators** in the Retro ta
 
 **All emulators** also lists setup resources that are not console profiles themselves, such as PS3 system-software links, BIOS/setup guides for Azahar, Cemu, Eden, melonDS, and Mednafen, and ShadPKG for PS3. It additionally lists experimental, guide-only entries for PS4 and PS5 emulators (fpPS4, KytyPS5, RPCSX); these are not yet launchable consoles in Retro and only link to the emulator's own project pages.
 
+## Adding games
+
+The quickest way to start is **Add games** at the top of the Retro tab. You don't need to set up each console first:
+
+1. Choose **Add games** and add the folders your games are in.
+2. Retro looks through the folders and lists what it found, for example "12 files (.cue, .chd)", with the console it thinks they're for. Disc images (`.iso`) are identified from their headers, so GameCube, Wii, PSP, and PlayStation discs in the same folder are told apart. Change the console for any group, or choose **Don't add**. For a system Retro doesn't list, choose **Other console** and give it a name.
+3. Under **Emulators**, choose each console's emulator executable. Retro recognizes common emulators, such as DuckStation, PCSX2, Dolphin, PPSSPP, and RetroArch, and sets them up with the right launch preset. For RetroArch it also finds matching cores in its `cores` folder. Any other emulator is added as a custom emulator. One emulator is applied to every found console it supports, so you only pick RetroArch once.
+4. Choose **Add and scan**. Retro saves each console's setup, adds the file types it found, and scans everything.
+
+Consoles that are already set up keep their emulator unless you change it. You can skip choosing an emulator and set it up later from the console's setup.
+
 ## First-time setup
+
+To set up one console by hand instead:
 
 1. Open **Library** → **Retro** and select a console.
 2. Open that console's setup dialog.
