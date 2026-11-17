@@ -1,6 +1,6 @@
 # Publishing Plugins
 
-Official plugins appear for everyone under **Settings** → **Plugins** → **Browse**. They live in the [`plugins` folder of the Ascendara repository](https://github.com/Ascendara/ascendara/tree/main/plugins), and every version is reviewed by the Ascendara team before it's listed.
+Official plugins appear for everyone under **Settings** → **Plugins** → **Browse**. They live in the [`plugins` folder of the Ascendara repository](https://github.com/Ascendara/ascendara/tree/development/plugins), and every version is reviewed by the Ascendara team before it's listed.
 
 ## Before you submit
 
@@ -15,22 +15,34 @@ Make sure your plugin:
 
 ## Submitting
 
-1. Put your plugin's source somewhere public, such as a GitHub repository.
-2. Join the [Ascendara Discord](https://ascendara.app/discord) and post in the plugin submissions channel with:
-   - the plugin's name and what it does
-   - a link to the source
-   - the version you're submitting
+Plugins are submitted as pull requests to the `development` branch of the [Ascendara repository](https://github.com/Ascendara/ascendara). You need a GitHub account and Node.js 22.
+
+1. [Fork the repository](https://github.com/Ascendara/ascendara/fork) and create a branch from `development`.
+2. Copy your plugin's folder into `plugins/`. The folder name is your plugin's id, for example `plugins/compact-library/`.
+3. From the repository root, run:
+
+   ```bash
+   node scripts/build-plugin-index.cjs
+   ```
+
+   You don't need to install anything else. The script checks your manifest with the same rules Ascendara uses and adds your plugin, with a hash of every file, to `plugins/index.json`. Fix any error it reports and run it again.
+4. Commit your plugin's folder and `plugins/index.json`. Don't change any other files.
+5. Open a pull request against `development`. Use the plugin template by adding `?template=plugin.md` to the pull request URL, or copy [the template](https://github.com/Ascendara/ascendara/blob/development/.github/PULL_REQUEST_TEMPLATE/plugin.md) into the description. It asks for:
+   - the plugin's name, version, and what it does
    - which permissions it uses, and why
-3. A maintainer reviews it and may ask for changes.
-4. Once it's approved, the maintainer adds it to the `plugins` folder. It appears in **Browse** for everyone once that change reaches the `main` branch.
+   - how you tested it
+6. Automated checks run on the pull request. They fail if your manifest is invalid or `index.json` doesn't match your files, so make sure you ran the script after your last change.
+7. A maintainer reviews the code and may ask for changes. Push them to the same branch.
+
+Once the pull request is merged, the plugin appears in **Browse** for everyone within a few minutes.
 
 ## Updating your plugin
 
-1. Make your changes and **increase `version`** in `manifest.json`. See [Versioning](/docs/plugins/manifest#versioning).
-2. Post the update in the same Discord channel with a short list of what changed.
-3. After review, the new version replaces the old one in the official list, and users see an **Update** button.
+1. Change your plugin's files and **increase `version`** in `manifest.json`. See [Versioning](/docs/plugins/manifest#versioning).
+2. Run `node scripts/build-plugin-index.cjs` again.
+3. Open a pull request against `development` the same way, and list what changed.
 
-Users choose when to update, so make sure a new version works with whatever the previous one saved, such as `storage` values and files in the data folder.
+After it's merged, users see an **Update** button. Users choose when to update, so make sure a new version works with whatever the previous one saved, such as `storage` values and files in the data folder.
 
 ## How the official list works
 
@@ -38,16 +50,12 @@ This section is for maintainers, and for anyone curious about how Ascendara keep
 
 Each plugin is a folder in `plugins/`, named after its id. `plugins/index.json` lists every plugin's manifest, along with each of its files and that file's SHA-256 hash. Ascendara downloads `index.json` from GitHub, and when you install or update a plugin, it downloads each file and checks its hash. If any file doesn't match, the install stops and nothing changes, so users always get exactly the version that was reviewed.
 
-After adding or updating a plugin folder, regenerate the index from the repository root:
+`scripts/build-plugin-index.cjs` regenerates the index. It fails if a plugin is invalid, references a missing file, or is larger than 50 MB. The repository's `Source checks` workflow runs on every pull request, and its tests fail when `index.json` doesn't match the plugin folders, so a stale index can't be merged by accident.
 
-```bash
-node scripts/build-plugin-index.cjs
-```
+When reviewing a plugin pull request, check that it only touches one plugin's folder and `plugins/index.json`, and read every file.
 
-The script checks every manifest with the same rules Ascendara uses, and fails if a plugin is invalid, references a missing file, or is larger than 50 MB. `npm test` fails when `index.json` is out of date, so a stale index can't be merged by accident.
+Ascendara reads the list from the `development` branch, so a plugin is visible as soon as its pull request is merged. Merging a plugin doesn't trigger a new Ascendara build. GitHub and Ascendara each cache the list for about five minutes.
 
-Ascendara reads the list from the `main` branch, so a plugin added on another branch isn't visible until it's merged. GitHub and Ascendara each cache the list for about five minutes.
-
-To try the list before merging, [run Ascendara from source](/docs/developer/build-from-source). The **Browse** tab then has a **This checkout** / **GitHub main** switch, and **This checkout** reads `plugins/` from your local copy of the repository, hash checks included.
+To try the list before merging, [run Ascendara from source](/docs/developer/build-from-source). The **Browse** tab then has a **This checkout** / **GitHub** switch, and **This checkout** reads `plugins/` from your local copy of the repository, hash checks included.
 
 Files in `plugins/` are stored with their exact bytes (see `.gitattributes`), so line-ending conversion on Windows doesn't change their hashes.
