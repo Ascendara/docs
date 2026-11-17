@@ -18,6 +18,7 @@ Here's how to contribute:
    | `downloads/` | Downloading games, the game index, external sources, and debrid services |
    | `features/` | User guides for the library and other features |
    | `troubleshooting/` | Common issues, error codes, VR games, and emulators |
+   | `plugins/` | Installing, writing, and publishing plugins |
    | `developer/` | Architecture, building from source, IPC, and tools |
    | `binary-tool/` | The helper tools bundled with Ascendara |
    | `api-reference/` | The public Ascendara API |

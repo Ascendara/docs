@@ -298,6 +298,27 @@ unsubscribe();
 
 ---
 
+## Plugins (`window.electron.plugins`)
+
+Used by **Settings** → **Plugins** and by the plugin loader (`src/lib/plugins.js`). Plugins themselves use the `ascendara` object described in the [Plugin API Reference](/docs/plugins/api-reference), which wraps these calls.
+
+| Method | Description |
+|--------|-------------|
+| `list()` | Installed plugins, with `safeMode`, `appVersion`, `apiVersion`, and the permission descriptions |
+| `registry(force)` | The official plugin list, with installed versions and available updates. Cached for 5 minutes unless `force` is `true` |
+| `install(id)` | Install or update a plugin from the official list, checking each file's SHA-256 |
+| `installFolder()` | Pick a folder and install it as a sideloaded plugin. Returns its manifest, or `null` if cancelled |
+| `uninstall(id)` | Remove a plugin and its data folder, and close programs it started |
+| `setEnabled(id, enabled)` | Turn a plugin on or off |
+| `sources()` | Code and styles of enabled plugins, for the loader. Empty in safe mode |
+| `call(id, method, ...args)` | A plugin call (`files.*`, `games.directory`, `download`, `extract`, `run`, `exec`, `kill`, `openPath`), checked against the plugin's permissions |
+| `changed()` | Tell other windows to reload their plugins |
+| `openFolder()` | Open the plugins folder |
+| `onEvent(callback)` | Download progress and program exits for plugin calls |
+| `onReload(callback)` | Another window changed the plugin set |
+
+---
+
 ## Updates
 
 | Method | Description |

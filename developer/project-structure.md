@@ -9,6 +9,7 @@ ascendara/
 ├── electron/             # Electron main process
 ├── src/                  # React renderer
 ├── binaries/             # Helper tools (Python, Rust, Node.js)
+├── plugins/              # The official plugin list (see /docs/plugins/publishing)
 ├── scripts/              # Build, release, and maintenance scripts
 ├── tests/                # Python tests for build and release scripts
 ├── docs/                 # Maintainer docs (BUILD_AUTOMATION.md)
@@ -82,6 +83,8 @@ electron/
     ├── recovery.js          # Settings recovery points, version rollback
     ├── onboarding.js        # Setup completion state
     ├── themes.js            # Theme import/export
+    ├── plugins.js           # Plugin installs, updates, and plugin calls
+    ├── plugin-manifest.js   # Manifest rules, shared with scripts/build-plugin-index.cjs
     ├── translations.js      # Language downloads and translation tool
     ├── discord-rpc.js       # Discord Rich Presence
     ├── qrcode.js            # Companion QR codes
@@ -311,6 +314,8 @@ Ascendara stores user data in these locations:
 | Extra languages | `%LOCALAPPDATA%\Ascendara\languages\` | `~/Library/Application Support/ascendara/languages/` | `~/.ascendara/languages/` |
 | Game index | `%APPDATA%\ascendara\localindex\` | `~/Library/Application Support/ascendara/localindex/` | `~/.config/ascendara/localindex/` |
 | Retro library | `%APPDATA%\ascendara\retro\` | `~/Library/Application Support/ascendara/retro/` | `~/.config/ascendara/retro/` |
+| Plugins | `%APPDATA%\ascendara\plugins\` | `~/Library/Application Support/ascendara/plugins/` | `~/.config/ascendara/plugins/` |
+| Plugin data | `%APPDATA%\ascendara\plugin-data\` | `~/Library/Application Support/ascendara/plugin-data/` | `~/.config/ascendara/plugin-data/` |
 | Settings recovery points | `%APPDATA%\ascendara\recovery-points\` | `~/Library/Application Support/ascendara/recovery-points/` | `~/.config/ascendara/recovery-points/` |
 | Custom Lists | `Documents\Ascendara\CustomLists\` | `~/Documents/Ascendara/CustomLists/` | `~/Documents/Ascendara/CustomLists/` |
 
