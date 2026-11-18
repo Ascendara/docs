@@ -66,5 +66,5 @@ Shows the space used by games, free space, and total capacity for each configure
 ## Other Support Tools
 
 - **Server status**: The dot in the navigation bar shows whether Ascendara's servers are working. Click it for details on each service.
-- **Upload Logs**: If the support team gives you a 6-digit support code, enter it in **Settings** to upload your logs. The logs include download and game-handler activity, your download directories and file paths, and your Windows username. They're deleted after your support case is resolved.
+- **Upload Logs**: If you're given a 6-digit support code while getting help, enter it in **Settings** to upload your logs. The logs include download and game-handler activity, your download directories and file paths, and your Windows username. They're deleted after your support case is resolved.
 - **Report Issue**: Right-click anywhere in Ascendara and select **Report Issue**.

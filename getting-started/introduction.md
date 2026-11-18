@@ -3,7 +3,7 @@
 ## What is Ascendara?
 Ascendara is a game discovery, download, and library app created by [tago](https://tago.works/). It browses a game index built from trusted sources, downloads and installs games for you (no manual extracting or setup), and keeps everything you play in one library. Ascendara is meant as a way to try games before you buy them, and it encourages you to support the developers of games you enjoy.
 
-Ascendara became open source in May 2024 and is actively maintained by a solo developer. Everything from the website to the application source code is available at [ascendara.app](https://ascendara.app/) and on [GitHub](https://github.com/Ascendara/ascendara).
+Ascendara became open source in May 2024 and is actively maintained. Everything from the website to the application source code is available at [ascendara.app](https://ascendara.app/) and on [GitHub](https://github.com/Ascendara/ascendara).
 
 ## Supported Platforms
 - **Windows 10 and 11** (64-bit): the primary platform with full feature support.

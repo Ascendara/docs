@@ -523,7 +523,7 @@ The English language file, which the [Language Translator](/docs/binary-tool/lan
 
 `POST /site/feedback`
 
-Sends feedback to the Ascendara team. `type` is `feature`, `improvement`, `question`, or `other`. `email` is optional.
+Sends feedback to Ascendara. `type` is `feature`, `improvement`, `question`, or `other`. `email` is optional.
 
 **Rate limit:** 2 per minute
 

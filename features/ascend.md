@@ -1,10 +1,10 @@
 # Ascend
 
-Ascend is Ascendara's optional subscription. It unlocks social, cloud, and automation features while directly supporting the solo developer behind the project. Ascendara's core features (downloading, installing, and playing games) stay free with or without Ascend. New subscribers can start with a free 7-day trial.
+Ascend is an optional subscription and the main way to support Ascendara's development. In return, it unlocks a few extras like social, cloud, and automation features. Ascendara's core features (downloading, installing, and playing games) stay free with or without Ascend. New subscribers can start with a free 7-day trial.
 
-## Supporting Independent Development
+## Supporting Ascendara
 
-Ascendara is built and maintained by a solo developer. Unlike large companies with dedicated teams and corporate funding, Ascendara relies on its community to stay online and keep evolving. An Ascend subscription is the most direct way to support this work.
+Ascendara is an independent project with no corporate funding. It relies on its community to stay online and keep evolving, and an Ascend subscription is the most direct way to support it.
 
 Subscription revenue keeps the servers running, maintains the API that powers the game index and downloads, funds cloud storage for user data, and pays for continued development. Every subscription helps keep the games indexed, the community thriving, and the project moving forward.
 
