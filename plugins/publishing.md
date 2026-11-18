@@ -1,6 +1,6 @@
 # Publishing Plugins
 
-Official plugins appear for everyone under **Settings** → **Plugins** → **Browse**. They live in the [`plugins` folder of the Ascendara repository](https://github.com/Ascendara/ascendara/tree/development/plugins), and every version is reviewed by the Ascendara team before it's listed.
+Official plugins appear for everyone under **Settings** → **Plugins** → **Browse**. They live in the [`plugins` folder of the Ascendara repository](https://github.com/Ascendara/ascendara/tree/development/plugins), and every version is reviewed before it's published.
 
 ## Before you submit
 
@@ -32,7 +32,7 @@ Plugins are submitted as pull requests to the `development` branch of the [Ascen
    - which permissions it uses, and why
    - how you tested it
 6. Automated checks run on the pull request. They fail if your manifest is invalid or `index.json` doesn't match your files, so make sure you ran the script after your last change.
-7. A maintainer reviews the code and may ask for changes. Push them to the same branch.
+7. The code is reviewed, and you may be asked for changes. Push them to the same branch.
 
 Once the pull request is merged, the plugin appears in **Browse** for everyone within a few minutes.
 
@@ -46,7 +46,7 @@ After it's merged, users see an **Update** button. Users choose when to update, 
 
 ## How the official list works
 
-This section is for maintainers, and for anyone curious about how Ascendara keeps installs safe.
+This section explains how the official list is built and how Ascendara keeps installs safe.
 
 Each plugin is a folder in `plugins/`, named after its id. `plugins/index.json` lists every plugin's manifest, along with each of its files and that file's SHA-256 hash. Ascendara downloads `index.json` from GitHub, and when you install or update a plugin, it downloads each file and checks its hash. If any file doesn't match, the install stops and nothing changes, so users always get exactly the version that was reviewed.
 

@@ -2,7 +2,7 @@
 
 Plugins are community add-ons that change how Ascendara looks and works. A plugin can restyle the app, hide or add parts of the interface, add buttons to a game's page, react when games start and stop, and, with your permission, download tools such as emulators and run programs.
 
-Plugins are made by the community, not by the Ascendara team. Official plugins are reviewed before they're listed, but every plugin runs with full access to Ascendara, so only install plugins you trust.
+Plugins are made by the community. Official plugins are reviewed before they're published, but every plugin runs with full access to Ascendara, so only install plugins you trust.
 
 ## Installing a plugin
 
