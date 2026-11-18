@@ -9,6 +9,7 @@ ascendara/
 ├── electron/             # Electron main process
 ├── src/                  # React renderer
 ├── binaries/             # Helper tools (Rust, Python, Node.js)
+├── plugins/              # The official plugin list (see /docs/plugins/publishing)
 ├── scripts/              # Build, release, and maintenance scripts
 ├── tests/                # Python tests for build and release scripts
 ├── readme/               # README images and app icons (ico, icns, png)
@@ -58,6 +59,8 @@ electron/
     │   ├── renderer-network.js  # Restricted HTTP requests for the renderer
     │   ├── recovery.js      # Settings recovery points, version rollback
     │   ├── system-power.js  # Lock, sleep, shutdown after downloads
+    │   ├── plugins.js       # Plugin installs, updates, and plugin calls
+    │   ├── plugin-manifest.js   # Manifest rules, shared with scripts/build-plugin-index.cjs
     │   ├── themes.js, soundPacks.js, translations.js, qrcode.js
     │   └── discord-rpc.js, analytics.js
     ├── downloads/
@@ -93,7 +96,7 @@ electron/
         ├── index.js         # IPC, library state, launching
         ├── platforms.js     # Console definitions and launch presets
         ├── scanner.js       # ROM folder scanning
-        ├── catalogue-worker.js  # LaunchBox metadata import
+        ├── detect.js        # Console and emulator detection for Add games
         ├── saves.js         # Save backups and memory cards
         └── expanded-catalogue.json
 ```
@@ -311,6 +314,8 @@ Ascendara stores user data in these locations:
 | Extra languages | `%LOCALAPPDATA%\Ascendara\languages\` | `~/Library/Application Support/ascendara/languages/` | `~/.ascendara/languages/` |
 | Game index | `%APPDATA%\ascendara\localindex\` | `~/Library/Application Support/ascendara/localindex/` | `~/.config/ascendara/localindex/` |
 | Retro library | `%APPDATA%\ascendara\retro\` | `~/Library/Application Support/ascendara/retro/` | `~/.config/ascendara/retro/` |
+| Plugins | `%APPDATA%\ascendara\plugins\` | `~/Library/Application Support/ascendara/plugins/` | `~/.config/ascendara/plugins/` |
+| Plugin data | `%APPDATA%\ascendara\plugin-data\` | `~/Library/Application Support/ascendara/plugin-data/` | `~/.config/ascendara/plugin-data/` |
 | Settings recovery points | `%APPDATA%\ascendara\recovery-points\` | `~/Library/Application Support/ascendara/recovery-points/` | `~/.config/ascendara/recovery-points/` |
 | Custom Lists | `Documents\Ascendara\CustomLists\` | `~/Documents/Ascendara/CustomLists/` | `~/Documents/Ascendara/CustomLists/` |
 

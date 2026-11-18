@@ -25,6 +25,13 @@ Ascendara is a game discovery, download, and library app for Windows, Linux, and
 - **[Ascend](/docs/features/ascend)** - The optional subscription
 - **[All features](/docs/features/overview)**
 
+## Plugins
+
+- **[Plugins](/docs/plugins/overview)** - Install community add-ons, keep them updated, and use safe mode
+- **[Creating Your First Plugin](/docs/plugins/creating-plugins)** - Write a plugin from an empty folder
+- **[Plugin API Reference](/docs/plugins/api-reference)** - Everything a plugin can use
+- **[Publishing Plugins](/docs/plugins/publishing)** - Get your plugin into the official list
+
 ## Developer Startup Guide
 
 1. **[Contributing](/docs/getting-started/contributing)** - Learn how to contribute to Ascendara

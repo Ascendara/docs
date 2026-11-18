@@ -73,6 +73,10 @@ Download links for older versions often stop working over time, so success rates
 
 Ascendara has light and dark themes, a theme editor for custom colors, and community themes you can browse and apply. Press **Ctrl+K** (**Cmd+K** on macOS) to open the command palette and search games, settings, and commands from anywhere.
 
+## Plugins
+
+Plugins are community add-ons that change how Ascendara looks and works, from hiding parts of the interface to downloading emulators and adding tools to a game's page. Browse reviewed plugins in **Settings** → **Plugins**, or write your own. See [Plugins](/docs/plugins/overview).
+
 ## Community Trust & Safety
 
 Players rate and review the games they've played on Ascendara, and games the community has confirmed to work with all of Ascendara's features show a **Verified Game** badge. You can report broken links or incorrect details from any game's page. See [Staying Safe](/docs/getting-started/protect-yourself).
